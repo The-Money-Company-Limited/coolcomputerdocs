@@ -1,47 +1,44 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Create your first computer from the browser, the terminal, or plain SSH."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+Every path below ends the same way: a persistent Linux computer at `name.cool.computer` with `name@mail.cool.computer` as its inbox and coding agents pre-installed.
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+## From the browser
 
-## Prerequisites
+1. Go to [cool.computer](https://www.cool.computer), type a name into the address bar on the page, and create your computer.
+2. Sign in with your email and the six-digit code it sends you.
+3. Your computer boots with a starter service already published at `name.cool.computer`.
 
-Before you begin, you must have:
+## From the terminal
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+Install the `cool` CLI:
 
-## Get started
+```sh
+curl -fsSL https://cool.computer/install.sh | sh
+```
 
-<Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+Then create and enter a computer:
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+```sh
+cool login
+cool create bakery
+cool enter bakery
+```
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+`cool create --blank` skips the starter content. `cool list` shows everything you have. See [Install](https://www.cool.computer/install) for package-manager installs and Windows.
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-</Steps>
+## With SSH, no install
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+```sh
+ssh cool.computer
+```
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+OpenSSH proves your key, Cool Computers asks for your email and a six-digit code once, and the account dashboard opens in your terminal. See [Connect with SSH](https://www.cool.computer/ssh) for host-key verification.
+
+## Then reach it
+
+- Visit `name.cool.computer` — the first request wakes a sleeping computer.
+- [Email it a task](/email) at `name@mail.cool.computer`.
+- [Connect your agent](/agents) and let it do the work.
