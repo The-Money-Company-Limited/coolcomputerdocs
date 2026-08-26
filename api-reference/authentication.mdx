@@ -1,0 +1,56 @@
+---
+title: "API authentication"
+description: "Sign in with an email code, create an API key, and keep HTTP and MCP credentials separate."
+---
+
+The HTTP API uses an email-code flow for signup and login. The same flow creates the Cool Computers account when the verified email address is new.
+
+## Start once
+
+Ask the owner for the exact email address and approval before starting. This request sends a real email:
+
+```sh
+curl https://api.cool.computer/api/auth/email/start \
+  -H 'content-type: application/json' \
+  --data '{"email":"owner@example.com"}'
+```
+
+Do not repeat the request while waiting. Ask the owner for the latest six-digit code.
+
+## Complete the flow
+
+```sh
+curl https://api.cool.computer/api/auth/email/complete \
+  -H 'content-type: application/json' \
+  --data '{"email":"owner@example.com","code":"123456"}'
+```
+
+The response returns `access_token`, `refresh_token`, `organization_id`, and `session_id`. Keep credentials out of prompts, logs, and source control.
+
+## Create an API key
+
+Use the access token to create a key for repeated automation:
+
+```sh
+curl https://api.cool.computer/api/api-keys \
+  -H "authorization: Bearer $ACCESS_TOKEN" \
+  -H 'content-type: application/json' \
+  --data '{"name":"automation"}'
+```
+
+The API returns the secret once. API-key management requires an owner access token. An API key cannot create another API key.
+
+## Revoke a credential
+
+Revoke the bearer credential used for the request:
+
+```sh
+curl -X POST https://api.cool.computer/api/auth/logout \
+  -H "authorization: Bearer $TOKEN"
+```
+
+Use `GET /api/api-keys` and `DELETE /api/api-keys/{id}` with an access token to list and revoke API keys.
+
+## MCP uses a separate token
+
+An MCP client follows protected-resource metadata at `https://api.cool.computer/.well-known/oauth-protected-resource/mcp` and completes its own OAuth flow. That token authorizes only the MCP preview. It does not authorize changes through the HTTP API.

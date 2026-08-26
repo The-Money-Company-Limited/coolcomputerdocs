@@ -1,55 +1,29 @@
-# Mintlify Starter Kit
+# Cool Computers Guide
 
-Use the starter kit to get your docs deployed and ready to customize.
+This repository is the source for the Cool Computers user and developer guide.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+The product website, pricing, legal pages, and live OpenAPI contract remain in the RuntimeVM repository. The guide links to those sources instead of copying them.
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
+## Run locally
 
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
-
-## AI-assisted writing
-
-Set up your AI coding tool to work with Mintlify:
-
-```bash
-npx skills add https://mintlify.com/docs
+```sh
+cd /Users/mertdeveci/Desktop/Code/coolcomputerdocs
+npm test
+npm run dev
 ```
 
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
+Open `http://localhost:3000`.
 
-See the [AI tools guides](/ai-tools) for tool-specific setup.
+The local command omits generated endpoint pages because this Mac intercepts `*.cool.computer` certificates. Mintlify's hosted preview reads the live OpenAPI URL and includes those pages. Run `npm run dev:full` on a machine that trusts the public certificate path.
 
-## Development
+## Check a change
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
-npm i -g mint
-```
-
-Run the following command at the root of your documentation, where your `docs.json` is located:
-
-```
-mint dev
+```sh
+npm test
+npm run validate
+npm run check:links
 ```
 
-View your local preview at `http://localhost:3000`.
+Run `npm run validate:full` to include the hosted OpenAPI contract.
 
-## Publishing changes
-
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
-
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+`npm test` checks navigation, local links, product facts, starter placeholders, and a short list of writing habits that make reference text vague or repetitive. It does not try to identify who wrote the text.

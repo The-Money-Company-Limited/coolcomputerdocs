@@ -1,0 +1,39 @@
+---
+title: "Open the SSH dashboard"
+sidebarTitle: "SSH dashboard"
+description: "Open the account dashboard with OpenSSH and verify the Cool Computers host key."
+---
+
+You can open the account dashboard without installing the Cool Computers CLI:
+
+```sh
+ssh cool.computer
+```
+
+## First connection
+
+OpenSSH proves your selected public key. Cool Computers then asks for your email address and a six-digit code. After verification, later connections with that key open the dashboard directly. The SSH username is ignored.
+
+## Verify the host
+
+Compare the Ed25519 fingerprint before accepting the host key:
+
+```text
+SHA256:x/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77AwyI
+```
+
+## Choose a key
+
+Select one identity if OpenSSH has several available:
+
+```sh
+ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 cool.computer
+```
+
+Create an Ed25519 key with `ssh-keygen -t ed25519` if you do not have one.
+
+## Limits of this endpoint
+
+This SSH endpoint opens the account dashboard. It does not accept remote commands, file transfer, or forwarding. Use `cool enter name` or `cool ssh name` to work inside a computer.
+
+The `cool.computer` SSH endpoint is currently IPv4-only.

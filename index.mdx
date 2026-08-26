@@ -1,34 +1,38 @@
 ---
-title: "What is Cool Computers"
+title: "Cool Computers Guide"
 sidebarTitle: "Introduction"
-description: "A computer you can reach: a persistent Linux computer with its own address, inbox, and coding agents."
+description: "Create a computer, reach it again, and use its address, inbox, CLI, SSH dashboard, or HTTP API."
 ---
 
-Cool Computers gives you a persistent Linux computer with a name. Choose `name.cool.computer` and that name is the whole identity: the public address on the web, the `name@mail.cool.computer` inbox, and the machine your agents work inside.
+Cool Computers gives you a Linux computer with a name. If you call it `bakery`, its public address is `bakery.cool.computer` and its inbox is `bakery@mail.cool.computer`.
 
-It is your computer on the internet, not another AI app builder. Install what you need, run services, close the tab. A sleeping computer costs nothing and forgets nothing. The first request to `name.cool.computer` wakes it and reaches its service.
+Install the software you need and come back later. The computer keeps its writable disk, name, address, inbox, and configured service while it sleeps. A request to its public address can wake it and reach that service.
 
-## Reach it four ways
+## Start with what you need
 
 <CardGroup cols={2}>
-  <Card title="Browser" icon="globe" href="/quickstart">
-    `name.cool.computer` serves your published service. Sleeping computers wake on the first request.
+  <Card title="Create a computer" icon="power-off" href="/getting-started/quickstart">
+    Create one from the website or the `cool` command.
   </Card>
-  <Card title="Email" icon="envelope" href="/email">
-    Send a task to `name@mail.cool.computer`. The agent inside does the work and replies with the result.
+  <Card title="Use the CLI" icon="terminal" href="/use/cli">
+    Run commands, move files, and manage the published service.
   </Card>
-  <Card title="Any agent" icon="robot" href="/agents">
-    Point Claude Code, Codex, or any MCP client at the Cool Computers connector.
+  <Card title="Send email" icon="envelope" href="/use/email">
+    Send a task to the inbox attached to your computer.
   </Card>
-  <Card title="Terminal" icon="terminal" href="/quickstart#from-the-terminal">
-    Install the `cool` CLI, or run `ssh cool.computer` with no install at all.
+  <Card title="Use the HTTP API" icon="code" href="/api-reference/overview">
+    Create and operate computers from your own software.
   </Card>
 </CardGroup>
 
-## What persists
+## Pick an interface
 
-The computer's writable disk survives sleep and restore: code, installed packages, databases, configuration, and enabled services. Its name, address, and inbox stay with it for life. What does not persist is what never persists on any rebooted machine: running processes, RAM, and `/tmp`.
+- Use the website when you want to create a computer and see it in your account.
+- Use the `cool` CLI when you work from a terminal.
+- Run `ssh cool.computer` to open the account dashboard without installing the CLI.
+- Use HTTP when another program needs to create or operate a computer.
+- Use the MCP preview to inspect the signed-in account and list its computers.
 
-## What it costs
+## Check the current terms
 
-Cool Computers is free while in beta. Pricing will be published before that changes.
+Read the current [pricing](https://www.cool.computer/pricing), [privacy policy](https://www.cool.computer/privacy), and [terms](https://www.cool.computer/terms) on the Cool Computers website. The pricing page lists the current beta price and public quota. Authenticated limits come from `cool capabilities --json` or `GET /api/capabilities`.

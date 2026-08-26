@@ -1,0 +1,51 @@
+---
+title: "Use the CLI"
+description: "Create computers, run commands, manage files, and publish a service with the cool command."
+---
+
+Run `cool` by itself to open the terminal dashboard. Run a subcommand when you know the operation you need.
+
+## Account and computers
+
+```sh
+cool login
+cool create bakery
+cool list
+cool info bakery
+cool enter bakery
+```
+
+`cool capabilities --json` returns the limits and features applied to the signed-in account.
+
+## Run a command
+
+Use `cool exec` when you want the local process to pass arguments without shell parsing:
+
+```sh
+cool exec bakery -- npm test
+```
+
+Use `cool run` when you want to send one shell command string:
+
+```sh
+cool run bakery "uname -a"
+```
+
+Background children end with a run session. Use a configured service for a process that must stay available.
+
+## Run a service
+
+```sh
+cool service run bakery --port 3000 -- npm start
+cool service logs bakery --tail 100 --timestamps
+```
+
+The service is available at `bakery.cool.computer`. Run `cool service --help` to see status, restart, stop, and clear commands.
+
+## Work with files
+
+Run `cool files --help` for read, write, list, stat, directory, upload, and download commands. File changes remain on the writable disk when the computer sleeps.
+
+## Machine-readable output
+
+Commands that return structured records accept `--json`. Use it when a script or agent will read the result.

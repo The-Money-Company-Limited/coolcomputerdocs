@@ -1,0 +1,12 @@
+{
+  "name": "cool-computers-guide",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/check-docs.mjs",
+    "dev": "npx mint dev --disable-openapi",
+    "dev:full": "npx mint dev",
+    "validate": "npx mint validate --disable-openapi",
+    "validate:full": "npx mint validate",
+    "check:links": "npx mint broken-links"
+  }
+}

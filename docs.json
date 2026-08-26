@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Cool Computers",
+  "name": "Cool Computers Guide",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -11,45 +11,63 @@
   "navigation": {
     "pages": [
       {
-        "group": "Getting started",
+        "group": "Start here",
         "pages": [
           "index",
-          "quickstart"
+          "getting-started/quickstart",
+          "getting-started/install"
         ]
       },
       {
-        "group": "Reach your computer",
+        "group": "Your computer",
         "pages": [
-          "email",
-          "agents"
+          "computers/how-it-works",
+          "computers/persistence"
         ]
+      },
+      {
+        "group": "Use it",
+        "pages": [
+          "use/cli",
+          "use/ssh",
+          "use/email",
+          "use/agents"
+        ]
+      },
+      {
+        "group": "Build with the API",
+        "pages": [
+          "api-reference/overview",
+          "api-reference/authentication",
+          "api-reference/errors"
+        ]
+      },
+      {
+        "group": "Endpoint reference",
+        "openapi": "https://www.cool.computer/openapi.json"
       }
     ],
     "global": {
       "anchors": [
         {
-          "anchor": "cool.computer",
+          "anchor": "Cool Computers",
           "href": "https://www.cool.computer",
           "icon": "globe"
         }
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "https://www.cool.computer/contact"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Open dashboard",
+      "href": "https://www.cool.computer/app"
     }
   },
   "contextual": {
@@ -64,12 +82,5 @@
       "vscode"
     ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
-  },
-  "description": "A computer you can reach: persistent Linux computers with their own address, inbox, and coding agents."
+  "description": "Use a persistent Linux computer with its own address and inbox."
 }

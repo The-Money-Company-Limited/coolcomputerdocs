@@ -1,0 +1,42 @@
+---
+title: "API errors"
+description: "Read Cool Computers HTTP failures as application/problem+json and act on their stable codes."
+---
+
+Ordinary HTTP API failures use `application/problem+json`. Read the status and stable `code` before deciding what to do.
+
+```json
+{
+  "type": "https://www.cool.computer/docs#api-errors",
+  "title": "Unauthorized",
+  "status": 401,
+  "code": "authentication_required",
+  "detail": "unauthorized",
+  "resolution": "Authenticate with a bearer credential and retry."
+}
+```
+
+## Fields
+
+- `code` is the machine-readable reason.
+- `detail` explains this failure.
+- `resolution` tells a caller what can correct it.
+- `status` repeats the HTTP status when a response includes it.
+
+## Common responses
+
+| Status | What to do |
+| --- | --- |
+| `400` | Correct the request body, parameter, email address, or code format. |
+| `401` | Authenticate again or replace the expired credential. |
+| `403` | Use the required credential type or ask the owner for approval. |
+| `404` | Check the route and resource identifier. |
+| `409` | Refresh the resource state before deciding whether to retry. |
+| `429` | Stop and wait. Do not loop on an email-code request. |
+| `503` | Retry later without changing authentication methods. |
+
+`interactive_required` means a person must finish the named action. Give the owner the supplied URL or instruction and wait for them.
+
+## Authentication challenges
+
+A protected HTTP endpoint can return `WWW-Authenticate: Bearer` with `resource_metadata` for the requested resource. The API metadata explains bearer-header use. It does not make an MCP token valid for the HTTP API.
