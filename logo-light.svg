@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="132" height="44" viewBox="0 0 132 44" role="img" aria-labelledby="title">
+  <title id="title">Cool Computers Guide</title>
+  <defs>
+    <linearGradient id="mark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#548EFF"/>
+      <stop offset="0.62" stop-color="#1D69FF"/>
+      <stop offset="1" stop-color="#3F81FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="61" height="44" rx="6" fill="url(#mark)"/>
+  <g fill="#fff" font-family="-apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="9.5">
+    <text x="6" y="28">Cool</text>
+    <text x="6" y="38">Computers</text>
+  </g>
+  <text x="75" y="29" fill="#09090B" font-family="-apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="18">Guide</text>
+</svg>

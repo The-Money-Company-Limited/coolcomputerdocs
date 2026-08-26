@@ -3,11 +3,27 @@
   "theme": "mint",
   "name": "Cool Computers Guide",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#548EFF",
+    "light": "#6AA0FF",
+    "dark": "#1D69FF"
+  },
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg"
   },
   "favicon": "/favicon.svg",
+  "appearance": {
+    "default": "system"
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "background": {
+    "color": {
+      "light": "#F3F4F6",
+      "dark": "#0E0F11"
+    }
+  },
   "navigation": {
     "pages": [
       {
@@ -52,7 +68,11 @@
         {
           "anchor": "Cool Computers",
           "href": "https://www.cool.computer",
-          "icon": "globe"
+          "icon": "globe",
+          "color": {
+            "light": "#548EFF",
+            "dark": "#6AA0FF"
+          }
         }
       ]
     }
