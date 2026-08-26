@@ -1,4 +1,5 @@
 import assert from "node:assert/strict"
+import { createHash } from "node:crypto"
 import { readdir, readFile, stat } from "node:fs/promises"
 import { dirname, join, relative, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -81,13 +82,16 @@ assert.deepEqual(config.logo, { light: "/logo-light.png", dark: "/logo-dark.png"
 assert.equal(config.favicon, "/favicon.png")
 assert.equal(config.icons?.library, "lucide")
 
-const brandImages = await Promise.all([
-  readFile(join(root, "logo-light.png")),
-  readFile(join(root, "logo-dark.png")),
-  readFile(join(root, "favicon.png")),
-])
-for (const image of brandImages) {
-  if (image.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a") fail("branding", "brand image must be a PNG")
+const brandImages = [
+  ["logo-light.png", 848, 176, "c1266469ab084389388c37203279fba9a173c62f0c8490f1a018ef1018c057c7"],
+  ["logo-dark.png", 848, 176, "b00144f9582866176e373fb553d4abc83854b95cc0d0c4d38d7dacd1767c7334"],
+  ["favicon.png", 32, 32, "e283690f1fbcc23b34f35910f0eef008f5273b43e3537fc6895a18d62b2900b0"],
+]
+for (const [name, width, height, expectedHash] of brandImages) {
+  const image = await readFile(join(root, name))
+  if (image.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a") fail(name, "must be a PNG")
+  if (image.readUInt32BE(16) !== width || image.readUInt32BE(20) !== height) fail(name, `must be ${width}x${height}`)
+  if (createHash("sha256").update(image).digest("hex") !== expectedHash) fail(name, "does not match the approved brand asset")
 }
 
 if (failures.length) {
