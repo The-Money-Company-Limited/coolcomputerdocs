@@ -7,7 +7,7 @@ The product website, pricing, legal pages, and live OpenAPI contract remain in t
 ## Run locally
 
 ```sh
-cd /Users/mertdeveci/Desktop/Code/coolcomputerdocs
+cd coolcomputerdocs
 npm test
 npm run dev
 ```

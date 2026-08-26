@@ -5,7 +5,11 @@ import { fileURLToPath } from "node:url"
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const config = JSON.parse(await readFile(join(root, "docs.json"), "utf8"))
-const files = (await walk(root)).filter((file) => file.endsWith(".mdx"))
+const ignoredPatterns = (await readFile(join(root, ".mintignore"), "utf8"))
+  .split("\n")
+  .map((line) => line.trim())
+  .filter((line) => line && !line.startsWith("#"))
+const files = (await walk(root)).filter((file) => file.endsWith(".mdx") && !isIgnored(relative(root, file)))
 const routes = new Map(files.map((file) => [routeFor(file), file]))
 const failures = []
 
@@ -33,6 +37,9 @@ const vaguePatterns = [
 
 assert.equal(findVaguePattern("This is a robust platform."), vaguePatterns[7])
 assert.equal(findVaguePattern("Run the command once."), undefined)
+assert.equal(isIgnored("drafts/example.mdx"), true)
+assert.equal(isIgnored("example.draft.mdx"), true)
+assert.equal(isIgnored("index.mdx"), false)
 
 for (const file of files) {
   const source = await readFile(file, "utf8")
@@ -84,6 +91,15 @@ async function walk(directory) {
 function routeFor(file) {
   const route = relative(root, file).replace(/\.mdx$/, "").replaceAll("\\", "/")
   return route === "index" ? "/" : `/${route}`
+}
+
+function isIgnored(name) {
+  const path = name.replaceAll("\\", "/")
+  return ignoredPatterns.some((pattern) => {
+    if (pattern.endsWith("/")) return path.startsWith(pattern)
+    if (pattern.startsWith("*.") && !pattern.includes("/")) return path.endsWith(pattern.slice(1))
+    return path === pattern
+  })
 }
 
 function collectNavRoutes(items, found = new Set()) {
