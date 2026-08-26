@@ -36,7 +36,7 @@ const vaguePatterns = [
   /generated (with|by)|ai-assisted|written by (chatgpt|claude)/i,
 ]
 
-assert.equal(findVaguePattern("This is a robust platform."), vaguePatterns[7])
+assert.match(findVaguePattern("This is a robust platform.").source, /robust/)
 assert.equal(findVaguePattern("Run the command once."), undefined)
 assert.equal(isIgnored("drafts/example.mdx"), true)
 assert.equal(isIgnored("example.draft.mdx"), true)
@@ -44,11 +44,12 @@ assert.equal(isIgnored("index.mdx"), false)
 
 for (const file of files) {
   const source = sourceByFile.get(file)
+  const prose = withoutFencedCode(source)
   const name = relative(root, file)
   checkFrontmatter(name, source)
-  checkHeadings(name, source)
-  checkWriting(name, source)
-  checkLinks(name, routeFor(file), source)
+  checkHeadings(name, prose)
+  checkWriting(name, prose)
+  checkLinks(name, routeFor(file), prose)
   checkCommands(name, source)
 }
 
@@ -60,9 +61,9 @@ for (const route of routes.keys()) {
   if (!navRoutes.has(route)) fail(relative(root, routes.get(route)), "page is missing from navigation")
 }
 
-const visibleConfig = JSON.stringify(config)
+const visibleContent = [JSON.stringify(config), ...sourceByFile.values()].join("\n")
 for (const placeholder of ["hi@mintlify.com", "app.mintlify.com", "x.com/mintlify", "github.com/mintlify", "Starter Kit"]) {
-  if (visibleConfig.includes(placeholder)) fail("docs.json", `starter placeholder remains: ${placeholder}`)
+  if (visibleContent.includes(placeholder)) fail("published guide", `starter placeholder remains: ${placeholder}`)
 }
 
 await assertContract("use/agents", /runtime_whoami/)
@@ -103,6 +104,10 @@ function isIgnored(name) {
     if (pattern.startsWith("*.") && !pattern.includes("/")) return path.endsWith(pattern.slice(1))
     return path === pattern
   })
+}
+
+function withoutFencedCode(source) {
+  return source.replace(/^(?:```|~~~)[^\n]*\n[\s\S]*?^(?:```|~~~)\s*$/gm, "")
 }
 
 function collectNavRoutes(items, found = new Set()) {

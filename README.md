@@ -6,8 +6,9 @@ The product website, pricing, legal pages, and live OpenAPI contract remain in t
 
 ## Run locally
 
+From the repository root:
+
 ```sh
-cd coolcomputerdocs
 npm ci
 npm test
 npm run dev

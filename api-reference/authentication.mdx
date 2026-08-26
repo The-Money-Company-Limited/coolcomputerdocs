@@ -46,7 +46,7 @@ Revoke the bearer credential used for the request:
 
 ```sh
 curl -X POST https://api.cool.computer/api/auth/logout \
-  -H "authorization: Bearer $TOKEN"
+  -H "authorization: Bearer $ACCESS_TOKEN"
 ```
 
 Use `GET /api/api-keys` and `DELETE /api/api-keys/{id}` with an access token to list and revoke API keys.
