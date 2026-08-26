@@ -11,6 +11,7 @@ const ignoredPatterns = (await readFile(join(root, ".mintignore"), "utf8"))
   .filter((line) => line && !line.startsWith("#"))
 const files = (await walk(root)).filter((file) => file.endsWith(".mdx") && !isIgnored(relative(root, file)))
 const routes = new Map(files.map((file) => [routeFor(file), file]))
+const sourceByFile = new Map(await Promise.all(files.map(async (file) => [file, await readFile(file, "utf8")])))
 const failures = []
 
 const vaguePatterns = [
@@ -42,12 +43,12 @@ assert.equal(isIgnored("example.draft.mdx"), true)
 assert.equal(isIgnored("index.mdx"), false)
 
 for (const file of files) {
-  const source = await readFile(file, "utf8")
+  const source = sourceByFile.get(file)
   const name = relative(root, file)
   checkFrontmatter(name, source)
   checkHeadings(name, source)
   checkWriting(name, source)
-  checkLinks(name, source)
+  checkLinks(name, routeFor(file), source)
   checkCommands(name, source)
 }
 
@@ -68,8 +69,10 @@ await assertContract("use/agents", /runtime_whoami/)
 await assertContract("use/agents", /runtime_list_computers/)
 await assertContract("use/agents", /MCP preview is read-only/)
 await forbidContract("use/agents", /MCP can create|MCP.*run commands|MCP.*chang(?:e|ing) files/i)
+await assertContractTerms("use/agents", /\bruntime_[a-z0-9_]+\b/g, ["runtime_list_computers", "runtime_whoami"])
 await assertContract("use/ssh", /SHA256:x\/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77AwyI/)
 await assertContract("api-reference/overview", /https:\/\/www\.cool\.computer\/openapi\.json/)
+assert.deepEqual(collectOpenApiSources(config.navigation?.pages ?? []), ["https://www.cool.computer/openapi.json"])
 if (config.name !== "Cool Computers Guide") fail("docs.json", "site name must be Cool Computers Guide")
 
 if (failures.length) {
@@ -110,6 +113,15 @@ function collectNavRoutes(items, found = new Set()) {
   return found
 }
 
+function collectOpenApiSources(items, found = []) {
+  for (const item of items) {
+    if (typeof item !== "object" || !item) continue
+    if (typeof item.openapi === "string") found.push(item.openapi)
+    if (item.pages) collectOpenApiSources(item.pages, found)
+  }
+  return found
+}
+
 function checkFrontmatter(name, source) {
   const match = source.match(/^---\n([\s\S]*?)\n---\n/)
   if (!match) return fail(name, "missing YAML frontmatter")
@@ -138,15 +150,30 @@ function findVaguePattern(source) {
   return vaguePatterns.find((pattern) => pattern.test(source))
 }
 
-function checkLinks(name, source) {
+function checkLinks(name, currentRoute, source) {
   const links = [
-    ...[...source.matchAll(/\]\((\/[^)]+)\)/g)].map((match) => match[1]),
-    ...[...source.matchAll(/\bhref="(\/[^"#?]+(?:[?#][^"]*)?)"/g)].map((match) => match[1]),
+    ...[...source.matchAll(/\]\(([^)]+)\)/g)].map((match) => match[1].trim().split(/\s+/, 1)[0]),
+    ...[...source.matchAll(/\bhref="([^"]+)"/g)].map((match) => match[1]),
   ]
   for (const href of links) {
-    const route = href.split(/[?#]/, 1)[0].replace(/\/$/, "") || "/"
+    if (/^[a-z][a-z0-9+.-]*:/i.test(href) || href.startsWith("//")) continue
+    const target = new URL(href, `https://guide.local${currentRoute}`)
+    const route = target.pathname.replace(/\/$/, "") || "/"
     if (!routes.has(route)) fail(name, `local link does not resolve: ${href}`)
+    if (!target.hash || !routes.has(route)) continue
+    const targetSource = sourceByFile.get(routes.get(route)) ?? ""
+    const anchor = decodeURIComponent(target.hash.slice(1))
+    if (!headingAnchors(targetSource).has(anchor)) fail(name, `local heading does not resolve: ${href}`)
   }
+}
+
+function headingAnchors(source) {
+  return new Set([...source.matchAll(/^#{2,6}\s+(.+)$/gm)].map((match) => match[1]
+    .replace(/[`*_~]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")))
 }
 
 function checkCommands(name, source) {
@@ -159,6 +186,13 @@ function checkCommands(name, source) {
 async function assertContract(route, pattern) {
   const file = routes.get(`/${route}`)
   if (!file || !pattern.test(await readFile(file, "utf8"))) fail(route, `missing required fact ${pattern}`)
+}
+
+async function assertContractTerms(route, pattern, expected) {
+  const file = routes.get(`/${route}`)
+  const source = file ? await readFile(file, "utf8") : ""
+  const actual = [...new Set([...source.matchAll(pattern)].map((match) => match[0]))].sort()
+  if (!file || actual.join("\n") !== expected.join("\n")) fail(route, `documented terms must equal ${expected.join(", ")}`)
 }
 
 async function forbidContract(route, pattern) {

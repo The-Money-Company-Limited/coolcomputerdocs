@@ -3,10 +3,13 @@
   "private": true,
   "scripts": {
     "test": "node scripts/check-docs.mjs",
-    "dev": "npx mint dev --disable-openapi",
-    "dev:full": "npx mint dev",
-    "validate": "npx mint validate --disable-openapi",
-    "validate:full": "npx mint validate",
-    "check:links": "npx mint broken-links"
+    "dev": "mint dev --disable-openapi",
+    "dev:full": "mint dev",
+    "validate": "mint validate --disable-openapi",
+    "validate:full": "mint validate",
+    "check:links": "mint broken-links"
+  },
+  "devDependencies": {
+    "mint": "4.2.826"
   }
 }
