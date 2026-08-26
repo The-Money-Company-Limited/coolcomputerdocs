@@ -75,24 +75,19 @@ await assertContract("use/ssh", /SHA256:x\/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77
 await assertContract("api-reference/overview", /https:\/\/www\.cool\.computer\/openapi\.json/)
 assert.deepEqual(collectOpenApiSources(config.navigation?.pages ?? []), ["https://www.cool.computer/openapi.json"])
 if (config.name !== "Cool Computers Guide") fail("docs.json", "site name must be Cool Computers Guide")
-assert.deepEqual(config.colors, { primary: "#548EFF", light: "#6AA0FF", dark: "#1D69FF" })
+assert.deepEqual(config.colors, { primary: "#155DFF", light: "#6AA0FF", dark: "#1D69FF" })
 assert.deepEqual(config.background?.color, { light: "#F3F4F6", dark: "#0E0F11" })
-assert.deepEqual(config.logo, { light: "/logo-light.svg", dark: "/logo-dark.svg" })
-assert.equal(config.favicon, "/favicon.svg")
+assert.deepEqual(config.logo, { light: "/logo-light.png", dark: "/logo-dark.png" })
+assert.equal(config.favicon, "/favicon.png")
 assert.equal(config.icons?.library, "lucide")
 
-const [lightLogo, darkLogo, favicon] = await Promise.all([
-  readFile(join(root, "logo-light.svg"), "utf8"),
-  readFile(join(root, "logo-dark.svg"), "utf8"),
-  readFile(join(root, "favicon.svg"), "utf8"),
+const brandImages = await Promise.all([
+  readFile(join(root, "logo-light.png")),
+  readFile(join(root, "logo-dark.png")),
+  readFile(join(root, "favicon.png")),
 ])
-for (const color of ["#548EFF", "#1D69FF", "#3F81FF"]) {
-  if (!lightLogo.includes(color) || !darkLogo.includes(color)) fail("logo", `missing product mark color ${color}`)
-}
-if (!lightLogo.includes("#09090B")) fail("logo-light.svg", "missing light-mode wordmark color")
-if (!darkLogo.includes("#F3F3F7")) fail("logo-dark.svg", "missing dark-mode wordmark color")
-for (const color of ["#3F80FE", "#1E69FF", "#3578FA"]) {
-  if (!favicon.includes(color)) fail("favicon.svg", `missing product favicon color ${color}`)
+for (const image of brandImages) {
+  if (image.subarray(0, 8).toString("hex") !== "89504e470d0a1a0a") fail("branding", "brand image must be a PNG")
 }
 
 if (failures.length) {

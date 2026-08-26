@@ -3,15 +3,15 @@
   "theme": "mint",
   "name": "Cool Computers Guide",
   "colors": {
-    "primary": "#548EFF",
+    "primary": "#155DFF",
     "light": "#6AA0FF",
     "dark": "#1D69FF"
   },
   "logo": {
-    "light": "/logo-light.svg",
-    "dark": "/logo-dark.svg"
+    "light": "/logo-light.png",
+    "dark": "/logo-dark.png"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "appearance": {
     "default": "system"
   },
@@ -70,7 +70,7 @@
           "href": "https://www.cool.computer",
           "icon": "globe",
           "color": {
-            "light": "#548EFF",
+            "light": "#155DFF",
             "dark": "#6AA0FF"
           }
         }
