@@ -39,6 +39,7 @@ const vaguePatterns = [
 
 assert.match(findVaguePattern("This is a robust platform.").source, /robust/)
 assert.equal(findVaguePattern("Run the command once."), undefined)
+assert.equal(withoutFencedCode("  ```sh\n  robust\n  ```").includes("robust"), false)
 assert.equal(isIgnored("drafts/example.mdx"), true)
 assert.equal(isIgnored("example.draft.mdx"), true)
 assert.equal(isIgnored("index.mdx"), false)
@@ -76,11 +77,11 @@ await assertContract("use/ssh", /SHA256:x\/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77
 await assertContract("api-reference/overview", /https:\/\/www\.cool\.computer\/openapi\.json/)
 assert.deepEqual(collectOpenApiSources(config.navigation?.pages ?? []), ["https://www.cool.computer/openapi.json"])
 if (config.name !== "Cool Computers Guide") fail("docs.json", "site name must be Cool Computers Guide")
-assert.deepEqual(config.colors, { primary: "#155DFF", light: "#6AA0FF", dark: "#1D69FF" })
-assert.deepEqual(config.background?.color, { light: "#F3F4F6", dark: "#0E0F11" })
-assert.deepEqual(config.logo, { light: "/logo-light.png", dark: "/logo-dark.png" })
-assert.equal(config.favicon, "/favicon.png")
-assert.equal(config.icons?.library, "lucide")
+if (JSON.stringify(config.colors) !== JSON.stringify({ primary: "#155DFF", light: "#6AA0FF", dark: "#1D69FF" })) fail("docs.json", "use the Cool Computers accent colors")
+if (JSON.stringify(config.background?.color) !== JSON.stringify({ light: "#F3F4F6", dark: "#0E0F11" })) fail("docs.json", "use the Cool Computers page backgrounds")
+if (JSON.stringify(config.logo) !== JSON.stringify({ light: "/logo-light.png", dark: "/logo-dark.png" })) fail("docs.json", "use the approved light and dark logos")
+if (config.favicon !== "/favicon.png") fail("docs.json", "use the approved favicon")
+if (config.icons?.library !== "lucide") fail("docs.json", "use the product icon library")
 
 const brandImages = [
   ["logo-light.png", 848, 176, "c1266469ab084389388c37203279fba9a173c62f0c8490f1a018ef1018c057c7"],
@@ -125,7 +126,7 @@ function isIgnored(name) {
 }
 
 function withoutFencedCode(source) {
-  return source.replace(/^(?:```|~~~)[^\n]*\n[\s\S]*?^(?:```|~~~)\s*$/gm, "")
+  return source.replace(/^[ \t]*(?:```|~~~)[^\n]*\n[\s\S]*?^[ \t]*(?:```|~~~)\s*$/gm, "")
 }
 
 function collectNavRoutes(items, found = new Set()) {
@@ -186,7 +187,7 @@ function checkLinks(name, currentRoute, source) {
     if (!target.hash || !routes.has(route)) continue
     const targetSource = sourceByFile.get(routes.get(route)) ?? ""
     const anchor = decodeURIComponent(target.hash.slice(1))
-    if (!headingAnchors(targetSource).has(anchor)) fail(name, `local heading does not resolve: ${href}`)
+    if (!headingAnchors(withoutFencedCode(targetSource)).has(anchor)) fail(name, `local heading does not resolve: ${href}`)
   }
 }
 
