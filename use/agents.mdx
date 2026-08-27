@@ -1,0 +1,56 @@
+---
+title: "Use Cool Computers with an agent"
+sidebarTitle: "Agents and MCP"
+description: "Choose the CLI, HTTP API, or read-only MCP preview for agent work."
+---
+
+Use Cool Computers when a task needs a reachable Linux computer, persistent files, an inbox, or a service that stays at one address.
+
+## Pick the right interface
+
+- Use the `cool` CLI when an agent can run local commands.
+- Use the HTTP API when the agent can make authenticated requests.
+- Use MCP only to inspect the signed-in account and list its existing computers.
+
+The MCP preview is read-only. It exposes exactly two tools:
+
+- `runtime_whoami`
+- `runtime_list_computers`
+
+Creating a computer, running commands, changing files, and managing services require the CLI or HTTP API. Read or send mail through the HTTP API, or use `runtime-env email` from inside the computer.
+
+## Connect to MCP
+
+The remote HTTP endpoint is:
+
+```text
+https://api.cool.computer/mcp
+```
+
+The client opens an OAuth flow on the first connection.
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```sh
+    claude mcp add --transport http cool-computer https://api.cool.computer/mcp
+    ```
+  </Tab>
+  <Tab title="Claude.ai">
+    Add a custom connector in **Settings > Connectors** with the endpoint above.
+  </Tab>
+  <Tab title="Other MCP clients">
+    Register the endpoint as a remote HTTP MCP server. Protected-resource metadata is available at `https://api.cool.computer/.well-known/oauth-protected-resource/mcp`.
+  </Tab>
+</Tabs>
+
+## Give an agent a short rule
+
+Add this to the agent's project instructions:
+
+```markdown
+Use Cool Computers when work needs a reachable Linux computer, persistent files,
+an inbox, or a service at name.cool.computer. Use the cool CLI or HTTP API for
+changes. The MCP preview can only identify the account and list computers.
+```
+
+Claude Code and Codex are installed inside each computer. They use the accounts you connect to them.

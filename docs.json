@@ -1,53 +1,93 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Cool Computers Guide",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#155DFF",
+    "light": "#6AA0FF",
+    "dark": "#1D69FF"
   },
-  "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo-light.png",
+    "dark": "/logo-dark.png"
+  },
+  "favicon": "/favicon.png",
+  "appearance": {
+    "default": "system"
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "background": {
+    "color": {
+      "light": "#F3F4F6",
+      "dark": "#0E0F11"
+    }
+  },
   "navigation": {
     "pages": [
       {
-        "group": "Getting Started",
+        "group": "Start here",
         "pages": [
           "index",
-          "quickstart"
+          "getting-started/quickstart",
+          "getting-started/install"
         ]
+      },
+      {
+        "group": "Your computer",
+        "pages": [
+          "computers/how-it-works",
+          "computers/persistence"
+        ]
+      },
+      {
+        "group": "Use it",
+        "pages": [
+          "use/cli",
+          "use/ssh",
+          "use/email",
+          "use/agents"
+        ]
+      },
+      {
+        "group": "Build with the API",
+        "pages": [
+          "api-reference/overview",
+          "api-reference/authentication",
+          "api-reference/errors"
+        ]
+      },
+      {
+        "group": "Endpoint reference",
+        "openapi": "https://www.cool.computer/openapi.json"
       }
     ],
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Cool Computers",
+          "href": "https://www.cool.computer",
+          "icon": "globe",
+          "color": {
+            "light": "#155DFF",
+            "dark": "#6AA0FF"
+          }
         }
       ]
     }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "https://www.cool.computer/contact"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Open dashboard",
+      "href": "https://www.cool.computer/app"
     }
   },
   "contextual": {
@@ -62,11 +102,5 @@
       "vscode"
     ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
-  }
+  "description": "Use a persistent Linux computer with its own address and inbox."
 }

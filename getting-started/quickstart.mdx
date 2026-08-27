@@ -1,0 +1,53 @@
+---
+title: "Create your first computer"
+sidebarTitle: "Quickstart"
+description: "Create a named computer from the website or the cool CLI, then reach its public address."
+---
+
+This example creates a computer named `bakery`. Pick another available name if you prefer.
+
+## From the website
+
+1. Open [cool.computer](https://www.cool.computer).
+2. Enter a computer name.
+3. Sign in with your email address and the six-digit code sent to you.
+4. Finish creating the computer from your account.
+
+The computer appears in your dashboard. Its public address is `bakery.cool.computer`. Its inbox is `bakery@mail.cool.computer`.
+
+## From a terminal
+
+Install the CLI on macOS or Linux:
+
+```sh
+curl -fsSL https://cool.computer/install.sh | sh
+```
+
+Sign in, create the computer, and enter its terminal:
+
+```sh
+cool login
+cool create bakery
+cool enter bakery
+```
+
+`cool create bakery --blank` creates the computer without starter files. Run `cool list` to see the computers in your account.
+
+## Publish a service
+
+Run one service at port 3000:
+
+```sh
+cool service run bakery --port 3000 -- python3 -m http.server 3000
+```
+
+Open `https://bakery.cool.computer`. The same address remains attached to the computer when it sleeps and wakes.
+
+<CardGroup cols={2}>
+  <Card title="Learn the CLI" icon="terminal" href="/use/cli">
+    Find the commands used for daily work.
+  </Card>
+  <Card title="See what persists" icon="hard-drive" href="/computers/persistence">
+    Check what remains after sleep and restore.
+  </Card>
+</CardGroup>

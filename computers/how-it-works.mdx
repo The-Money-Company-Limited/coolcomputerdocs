@@ -1,0 +1,29 @@
+---
+title: "How a computer works"
+description: "Follow a Cool Computers computer from creation through sleep, wake, and deletion."
+---
+
+A computer has one name for its whole lifetime. That name ties together the machine, its public address, and its inbox.
+
+## Create
+
+Create a computer from the website, CLI, or HTTP API. A computer named `bakery` receives these addresses:
+
+- Public service: `bakery.cool.computer`
+- Inbox: `bakery@mail.cool.computer`
+
+## Work
+
+Use the browser terminal or `cool enter bakery` for an interactive shell. Use `cool exec` for one command. Files, installed packages, databases, and system configuration live on the computer's writable disk.
+
+## Publish
+
+Each computer can run one configured HTTP service at its public address. Start and inspect that service with `cool service`, the HTTP API, or `runtime-env service` from inside the computer.
+
+## Sleep and wake
+
+Idle computers can sleep. Cool Computers keeps the disk and identity. Reconnecting from the CLI wakes the computer. An external HTTP request can also wake it and continue to the configured service.
+
+## Delete
+
+Deleting a computer removes it from your account and gives up its name, address, inbox, and stored data. Delete it only when you no longer need that identity or its files.

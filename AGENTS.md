@@ -1,33 +1,39 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
-
-# Documentation project instructions
+# Cool Computers Guide instructions
 
 ## About this project
 
-- This is a documentation site built on [Mintlify](https://mintlify.com)
-- Pages are MDX files with YAML frontmatter
-- Configuration lives in `docs.json`
-- Use the Mintlify MCP server, `https://mcp.mintlify.com`, to edit content and settings via MCP
-- Use the Mintlify docs MCP server, `https://www.mintlify.com/docs/mcp`, to query information about using Mintlify via MCP
+- This repository is the one source for the Cool Computers user and developer guide.
+- The RuntimeVM repository owns the product website, legal and pricing pages, and the live OpenAPI contract.
+- `docs.json` controls navigation and Mintlify settings.
+- Every content page is an MDX file with YAML frontmatter.
 
-## Terminology
+## Product language
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+- Lead with the computer and its address.
+- Say "computer," not "sandbox," "VM," "instance," or "workspace."
+- Use a concrete name such as `bakery` in examples.
+- Write `name.cool.computer` for the public address and `name@mail.cool.computer` for the inbox.
+- Describe current behavior only. Do not announce planned tools, prices, limits, or security controls.
+- The MCP preview has two read-only tools: `runtime_whoami` and `runtime_list_computers`. Use HTTP or the CLI for changes.
 
 ## Style preferences
 
-{/* Add any project-specific style rules below */}
+- Use active voice and second person.
+- Keep one idea in each sentence.
+- Use sentence case for headings.
+- Bold for UI elements: Click **Settings**.
+- Use code formatting for file names, commands, paths, and code references.
+- Prefer exact examples over claims about importance or quality.
+- Do not use canned introductions, conclusions, vague attribution, grand claims, or editorial asides.
+- Do not add a note that content was generated or assisted by a model.
 
-- Use active voice and second person ("you")
-- Keep sentences concise — one idea per sentence
-- Use sentence case for headings
-- Bold for UI elements: Click **Settings**
-- Code formatting for file names, commands, paths, and code references
+## Source boundaries
 
-## Content boundaries
+- Link to the product website for pricing, privacy, terms, contact, and marketing pages. Do not copy those pages here.
+- Link to `https://www.cool.computer/openapi.json` for the API contract. Do not commit another copy.
+- Check RuntimeVM code or its public content before changing a factual claim.
+- Do not document internal infrastructure or unpublished work.
 
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+## Checks
+
+Run `npm test` after editing content. Run `npm run validate` before pushing a publication change.

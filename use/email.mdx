@@ -1,0 +1,44 @@
+---
+title: "Email your computer"
+sidebarTitle: "Email a task"
+description: "Send a task to the inbox attached to a computer and read the reply."
+---
+
+Every computer has an inbox at `name@mail.cool.computer`. The inbox stays with the computer while it sleeps and wakes.
+
+## Send a task
+
+Write a direct instruction from the email address on your Cool Computers account:
+
+```text
+To: bakery@mail.cool.computer
+Subject: Menu update
+
+Add today's sourdough to the menu and publish it.
+```
+
+The agent inside the computer works in `/home/runtime` and replies to the thread with its result. Reply to the same thread when you want it to continue.
+
+## Who can start a task
+
+Only mail authenticated as your verified account address can start work. Other messages can reach the inbox, but they do not run a task.
+
+## Follow a task
+
+```sh
+cool goal list bakery
+cool goal watch
+```
+
+`cool goal watch` attaches to the newest active task or waits for the next one. Use `cool goal retry <goal>` to run a failed task again.
+
+## Work with mail inside the computer
+
+```sh
+runtime-env email address
+runtime-env email inbox --json
+runtime-env email read <email-id> --json
+runtime-env email send --to you@example.com --subject "Report" --text "Done."
+```
+
+The HTTP API also supports reading and sending mail. The MCP preview and the `cool` CLI do not expose inbox operations.

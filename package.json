@@ -1,0 +1,15 @@
+{
+  "name": "cool-computers-guide",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/check-docs.mjs",
+    "dev": "mint dev --disable-openapi",
+    "dev:full": "mint dev",
+    "validate": "mint validate --disable-openapi",
+    "validate:full": "mint validate",
+    "check:links": "mint broken-links"
+  },
+  "devDependencies": {
+    "mint": "4.2.826"
+  }
+}

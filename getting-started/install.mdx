@@ -1,0 +1,72 @@
+---
+title: "Install the cool CLI"
+sidebarTitle: "Install the CLI"
+description: "Install the cool command on macOS, Linux, or Windows and manage package-based installations."
+---
+
+Pick one installation method.
+
+## macOS and Linux
+
+```sh
+curl -fsSL https://cool.computer/install.sh | sh
+```
+
+Run the installer again to update. Remove a direct installation with `rm ~/.local/bin/cool`.
+
+## Windows PowerShell
+
+```powershell
+irm https://cool.computer/install.ps1 | iex
+```
+
+## Python package managers
+
+<Tabs>
+  <Tab title="uv">
+    ```sh
+    uv tool install coolcomputer
+    uv tool upgrade coolcomputer
+    uv tool uninstall coolcomputer
+    ```
+  </Tab>
+  <Tab title="pipx">
+    ```sh
+    pipx install coolcomputer
+    pipx upgrade coolcomputer
+    pipx uninstall coolcomputer
+    ```
+  </Tab>
+  <Tab title="pip">
+    ```sh
+    python -m pip install --user coolcomputer
+    python -m pip install --user --upgrade coolcomputer
+    python -m pip uninstall coolcomputer
+    ```
+  </Tab>
+</Tabs>
+
+## Node package managers
+
+<Tabs>
+  <Tab title="npm">
+    ```sh
+    npm install --global coolcomputer
+    npm install --global coolcomputer@latest
+    npm uninstall --global coolcomputer
+    ```
+  </Tab>
+  <Tab title="pnpm">
+    ```sh
+    pnpm add --global coolcomputer
+    pnpm update --global coolcomputer
+    pnpm remove --global coolcomputer
+    ```
+  </Tab>
+</Tabs>
+
+Run the command once without a global installation:
+
+```sh
+npx --package=coolcomputer -- cool --help
+```

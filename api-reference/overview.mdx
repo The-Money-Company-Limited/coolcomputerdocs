@@ -1,0 +1,46 @@
+---
+title: "HTTP API overview"
+sidebarTitle: "API overview"
+description: "Use the Cool Computers HTTP API and its live OpenAPI 3.1 contract."
+---
+
+The HTTP API creates and operates computers from another program. It covers account inspection, computer lifecycle, command execution, files, services, visibility, outbound network policy, and computer email.
+
+## Base URL
+
+```text
+https://api.cool.computer
+```
+
+Send credentials in the `Authorization` header:
+
+```text
+Authorization: Bearer <credential>
+```
+
+## Contract
+
+The live OpenAPI 3.1 contract is the source for paths, parameters, request bodies, response bodies, and error schemas:
+
+```text
+https://www.cool.computer/openapi.json
+```
+
+The endpoint reference in this guide is generated from that URL. The guide does not keep a second copy of the schema.
+
+## Choose a credential
+
+- Use an access token from the email-code flow for owner-authorized setup.
+- Create an API key for repeated HTTP automation after the owner signs in.
+- Do not send a browser cookie or MCP OAuth token to the HTTP API.
+
+Read [API authentication](/api-reference/authentication) before sending a request that creates an account or emails a code.
+
+## First authenticated request
+
+```sh
+curl https://api.cool.computer/api/auth/whoami \
+  -H "authorization: Bearer $ACCESS_TOKEN"
+```
+
+Read [API errors](/api-reference/errors) before adding retry behavior.
