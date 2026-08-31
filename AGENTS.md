@@ -1,4 +1,4 @@
-# Cool Computers Guide instructions
+# Cool Computer Services instructions
 
 ## About this project
 
