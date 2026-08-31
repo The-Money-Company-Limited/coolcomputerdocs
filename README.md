@@ -1,4 +1,4 @@
-# Cool Computers Guide
+# Cool Computer Services
 
 This repository is the source for the Cool Computers user and developer guide.
 

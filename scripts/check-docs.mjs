@@ -76,7 +76,7 @@ await assertContractTerms("use/agents", /\bruntime_[a-z0-9_]+\b/g, ["runtime_lis
 await assertContract("use/ssh", /SHA256:x\/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77AwyI/)
 await assertContract("api-reference/overview", /https:\/\/www\.cool\.computer\/openapi\.json/)
 assert.deepEqual(collectOpenApiSources(config.navigation?.pages ?? []), ["https://www.cool.computer/openapi.json"])
-if (config.name !== "Cool Computers Guide") fail("docs.json", "site name must be Cool Computers Guide")
+if (config.name !== "Cool Computer Services") fail("docs.json", "site name must be Cool Computer Services")
 if (JSON.stringify(config.colors) !== JSON.stringify({ primary: "#155DFF", light: "#6AA0FF", dark: "#1D69FF" })) fail("docs.json", "use the Cool Computers accent colors")
 if (JSON.stringify(config.background?.color) !== JSON.stringify({ light: "#F3F4F6", dark: "#0E0F11" })) fail("docs.json", "use the Cool Computers page backgrounds")
 if (JSON.stringify(config.logo) !== JSON.stringify({ light: "/logo-light.png", dark: "/logo-dark.png" })) fail("docs.json", "use the approved light and dark logos")
