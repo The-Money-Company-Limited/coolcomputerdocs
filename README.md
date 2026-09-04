@@ -18,7 +18,7 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-The local command omits generated endpoint pages because this Mac intercepts `*.cool.computer` certificates. Mintlify's hosted preview reads the live OpenAPI URL and includes those pages. Run `npm run dev:full` on a machine that trusts the public certificate path.
+The default local command omits generated endpoint pages. Run `npm run dev:full` to include endpoint pages from the live OpenAPI URL, as Mintlify's hosted preview does.
 
 ## Check a change
 
