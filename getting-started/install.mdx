@@ -1,10 +1,10 @@
 ---
-title: "Install the cool CLI"
+title: "Install the Cool Computers CLI"
 sidebarTitle: "Install the CLI"
-description: "Install the cool command on macOS, Linux, or Windows and manage package-based installations."
+description: "Install the official native Cool Computers CLI on macOS, Linux, or Windows."
 ---
 
-Pick one installation method.
+Install the native `cool` command directly. It does not require Node.js or Python.
 
 ## macOS and Linux
 
@@ -12,61 +12,16 @@ Pick one installation method.
 curl -fsSL https://cool.computer/install.sh | sh
 ```
 
-Run the installer again to update. Remove a direct installation with `rm ~/.local/bin/cool`.
-
 ## Windows PowerShell
 
 ```powershell
-irm https://cool.computer/install.ps1 | iex
+(iwr -UseBasicParsing https://cool.computer/install.ps1).Content | iex
 ```
 
-## Python package managers
+The installer adds `cool` to the current PowerShell session and your user `PATH`. Restart terminal apps that were already open before installation.
 
-<Tabs>
-  <Tab title="uv">
-    ```sh
-    uv tool install coolcomputer
-    uv tool upgrade coolcomputer
-    uv tool uninstall coolcomputer
-    ```
-  </Tab>
-  <Tab title="pipx">
-    ```sh
-    pipx install coolcomputer
-    pipx upgrade coolcomputer
-    pipx uninstall coolcomputer
-    ```
-  </Tab>
-  <Tab title="pip">
-    ```sh
-    python -m pip install --user coolcomputer
-    python -m pip install --user --upgrade coolcomputer
-    python -m pip uninstall coolcomputer
-    ```
-  </Tab>
-</Tabs>
+## Update and remove
 
-## Node package managers
+Run the installer for your platform again to update. Follow the [CLI maintenance instructions](https://www.cool.computer/install#update-and-remove) to remove the executable and its platform-specific environment settings.
 
-<Tabs>
-  <Tab title="npm">
-    ```sh
-    npm install --global coolcomputer
-    npm install --global coolcomputer@latest
-    npm uninstall --global coolcomputer
-    ```
-  </Tab>
-  <Tab title="pnpm">
-    ```sh
-    pnpm add --global coolcomputer
-    pnpm update --global coolcomputer
-    pnpm remove --global coolcomputer
-    ```
-  </Tab>
-</Tabs>
-
-Run the command once without a global installation:
-
-```sh
-npx --package=coolcomputer -- cool --help
-```
+Continue with [the CLI guide](/use/cli) to sign in and operate your computer.

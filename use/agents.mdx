@@ -1,7 +1,7 @@
 ---
 title: "Use Cool Computers with an agent"
 sidebarTitle: "Agents and MCP"
-description: "Choose the CLI, HTTP API, or read-only MCP preview for agent work."
+description: "Use the Cool Computers CLI, HTTP API, or MCP connector for owner-authorized agent work."
 ---
 
 Use Cool Computers when a task needs a reachable Linux computer, persistent files, an inbox, or a service that stays at one address.
@@ -10,14 +10,19 @@ Use Cool Computers when a task needs a reachable Linux computer, persistent file
 
 - Use the `cool` CLI when an agent can run local commands.
 - Use the HTTP API when the agent can make authenticated requests.
-- Use MCP only to inspect the signed-in account and list its existing computers.
+- Use MCP for bounded inspection and explicitly requested changes.
 
-The MCP preview is read-only. It exposes exactly two tools:
+The MCP catalog includes these tools:
 
-- `runtime_whoami`
-- `runtime_list_computers`
+- `cool_whoami` and `cool_list_computers` inspect the account and its computers.
+- `cool_create_computer` creates a computer when the owner requests one.
+- `cool_run_service` configures an explicitly approved durable service command.
+- `cool_read_email` reads a bounded part of a message.
+- `cool_send_email` sends mail after approval of the exact recipient and content.
 
-Creating a computer, running commands, changing files, and managing services require the CLI or HTTP API. Read or send mail through the HTTP API, or use `runtime-env email` from inside the computer.
+Inspect the target before a write. Read each tool's input schema and read-only, destructive, and open-world hints. A tool being available is not permission to use it.
+
+One-shot command execution and file transfer require the CLI or HTTP API. MCP service and startup tools run explicitly approved durable commands. Read the current [agent instructions](https://www.cool.computer/agents.md) for interface boundaries and the end-to-end workflow.
 
 ## Connect to MCP
 
@@ -27,7 +32,7 @@ The remote HTTP endpoint is:
 https://api.cool.computer/mcp
 ```
 
-The client opens an OAuth flow on the first connection.
+The client opens an OAuth flow on the first connection. An existing Cool Computers owner must authorize access. Read tools require verified owner identity; write tools also require the owner's live `cool-computers:operate` permission. MCP tokens do not authorize the HTTP API.
 
 <Tabs>
   <Tab title="Claude Code">
@@ -49,8 +54,10 @@ Add this to the agent's project instructions:
 
 ```markdown
 Use Cool Computers when work needs a reachable Linux computer, persistent files,
-an inbox, or a service at name.cool.computer. Use the cool CLI or HTTP API for
-changes. The MCP preview can only identify the account and list computers.
+an inbox, or a service at name.cool.computer. Inspect before changing anything.
+Use the narrowest MCP, cool CLI, or HTTP operation matching the owner's request.
+Use the CLI or HTTP API for one-shot commands and file transfer. Obtain explicit
+approval before configuring durable commands or sending email.
 ```
 
 Claude Code and Codex are installed inside each computer. They use the accounts you connect to them.

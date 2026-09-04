@@ -14,7 +14,7 @@
 - Use a concrete name such as `bakery` in examples.
 - Write `name.cool.computer` for the public address and `name@mail.cool.computer` for the inbox.
 - Describe current behavior only. Do not announce planned tools, prices, limits, or security controls.
-- The MCP preview has two read-only tools: `runtime_whoami` and `runtime_list_computers`. Use HTTP or the CLI for changes.
+- MCP exposes bounded `cool_*` reads and explicitly requested writes. Use HTTP or the CLI for one-shot command execution and file transfer. Check the current capability catalog before naming tools.
 
 ## Style preferences
 

@@ -1,9 +1,10 @@
 ---
-title: "API authentication"
-description: "Sign in with an email code, create an API key, and keep HTTP and MCP credentials separate."
+title: "Cool Computers API authentication"
+sidebarTitle: "Authentication"
+description: "Authenticate an existing Cool Computers account, create an API key, and keep HTTP and MCP credentials separate."
 ---
 
-The HTTP API uses an email-code flow for signup and login. The same flow creates the Cool Computers account when the verified email address is new.
+The HTTP API uses an email-code flow for existing Cool Computers owners. New account creation is temporarily paused; new owners can [join the waitlist](https://www.cool.computer/#waitlist). See the [authentication reference](https://www.cool.computer/auth.md) for credential discovery, errors, and interactive sign-in requirements.
 
 ## Start once
 
@@ -53,4 +54,4 @@ Use `GET /api/api-keys` and `DELETE /api/api-keys/{id}` with an access token to 
 
 ## MCP uses a separate token
 
-An MCP client follows protected-resource metadata at `https://api.cool.computer/.well-known/oauth-protected-resource/mcp` and completes its own OAuth flow. That token authorizes only the MCP preview. It does not authorize changes through the HTTP API.
+An MCP client follows protected-resource metadata at `https://api.cool.computer/.well-known/oauth-protected-resource/mcp` and completes its own OAuth flow. That token authorizes only the MCP resource for an existing owner. Write tools also check the owner's live `cool-computers:operate` permission. The token does not authorize the HTTP API.

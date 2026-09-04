@@ -1,6 +1,8 @@
 # Cool Computer Services
 
-This repository is the source for the Cool Computers user and developer guide.
+This repository is the source for the official [Cool Computers user and developer guide](https://cool.computer/docs).
+
+[Cool Computers](https://www.cool.computer) provides persistent Linux computers with their own addresses and inboxes. Start with the [developer-resource index](https://www.cool.computer/docs.md) for the guide, native CLI, authentication, agent instructions, and live HTTP API contract.
 
 The product website, pricing, legal pages, and live OpenAPI contract remain in the RuntimeVM repository. The guide links to those sources instead of copying them.
 
@@ -16,7 +18,7 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-The local command omits generated endpoint pages because this Mac intercepts `*.cool.computer` certificates. Mintlify's hosted preview reads the live OpenAPI URL and includes those pages. Run `npm run dev:full` on a machine that trusts the public certificate path.
+The default local command omits generated endpoint pages. Run `npm run dev:full` to include endpoint pages from the live OpenAPI URL, as Mintlify's hosted preview does.
 
 ## Check a change
 
