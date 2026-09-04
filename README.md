@@ -1,6 +1,8 @@
 # Cool Computer Services
 
-This repository is the source for the Cool Computers user and developer guide.
+This repository is the source for the official [Cool Computers user and developer guide](https://cool.computer/docs).
+
+[Cool Computers](https://www.cool.computer) provides persistent Linux computers with their own addresses and inboxes. Start with the [developer-resource index](https://www.cool.computer/docs.md) for the guide, native CLI, authentication, agent instructions, and live HTTP API contract.
 
 The product website, pricing, legal pages, and live OpenAPI contract remain in the RuntimeVM repository. The guide links to those sources instead of copying them.
 

@@ -68,11 +68,19 @@ for (const placeholder of ["hi@mintlify.com", "app.mintlify.com", "x.com/mintlif
   if (visibleContent.includes(placeholder)) fail("published guide", `starter placeholder remains: ${placeholder}`)
 }
 
-await assertContract("use/agents", /runtime_whoami/)
-await assertContract("use/agents", /runtime_list_computers/)
-await assertContract("use/agents", /MCP preview is read-only/)
-await forbidContract("use/agents", /MCP can create|MCP.*run commands|MCP.*chang(?:e|ing) files/i)
-await assertContractTerms("use/agents", /\bruntime_[a-z0-9_]+\b/g, ["runtime_list_computers", "runtime_whoami"])
+await assertContractTerms("use/agents", /\bcool_[a-z0-9_]+\b/g, ["cool_create_computer", "cool_list_computers", "cool_read_email", "cool_run_service", "cool_send_email", "cool_whoami"])
+await assertContract("use/agents", /One-shot command execution and file transfer require the CLI or HTTP API/)
+await assertContract("use/agents", /explicitly approved durable commands/)
+await assertContract("api-reference/authentication", /New account creation is temporarily paused/)
+await assertContract("getting-started/quickstart", /New account creation is temporarily paused/)
+for (const [file, source] of sourceByFile) {
+  if (/\bruntime_(?:whoami|list_computers)\b|MCP preview|(?:npm|pnpm|npx|pipx?|uv)\b[^\n]*\bcoolcomputer\b/.test(source)) {
+    fail(relative(root, file), "obsolete MCP or package-install instructions remain")
+  }
+}
+for (const route of ["", "getting-started/install", "use/cli", "api-reference/overview", "api-reference/authentication"]) {
+  await assertContract(route, /^title: "[^"\n]*Cool Computers[^"\n]*"$/m)
+}
 await assertContract("use/ssh", /SHA256:x\/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77AwyI/)
 await assertContract("api-reference/overview", /https:\/\/www\.cool\.computer\/openapi\.json/)
 assert.deepEqual(collectOpenApiSources(config.navigation?.pages ?? []), ["https://www.cool.computer/openapi.json"])
@@ -217,11 +225,6 @@ async function assertContractTerms(route, pattern, expected) {
   const source = file ? await readFile(file, "utf8") : ""
   const actual = [...new Set([...source.matchAll(pattern)].map((match) => match[0]))].sort()
   if (!file || actual.join("\n") !== expected.join("\n")) fail(route, `documented terms must equal ${expected.join(", ")}`)
-}
-
-async function forbidContract(route, pattern) {
-  const file = routes.get(`/${route}`)
-  if (file && pattern.test(await readFile(file, "utf8"))) fail(route, `unsupported claim matched by ${pattern}`)
 }
 
 function fail(name, message) {
