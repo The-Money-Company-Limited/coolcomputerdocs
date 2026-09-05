@@ -8,15 +8,22 @@ description: "Create computers, run commands, manage files, and publish a servic
 
 ## Account and computers
 
+If you are not signed in, replace the email below with your existing account's address. This sends a sign-in code; enter the code when prompted. Agents must [ask the owner before sending the email](/api-reference/authentication).
+
 ```sh
-cool login
+cool login --email owner@example.com
+```
+
+Once signed in:
+
+```sh
 cool create bakery
 cool list
 cool info bakery
 cool enter bakery
 ```
 
-`cool capabilities --json` returns the limits and features applied to the signed-in account.
+Run `exit` to leave the computer's terminal before running more local `cool` commands. `cool capabilities --json` returns the limits and features applied to the signed-in account.
 
 ## Run a command
 

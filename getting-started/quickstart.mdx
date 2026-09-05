@@ -24,19 +24,26 @@ Install the CLI on macOS or Linux:
 curl -fsSL https://cool.computer/install.sh | sh
 ```
 
-Sign in, create the computer, and enter its terminal:
+If you are already signed in, skip this step. Otherwise, replace the email with your existing account's address. This sends a sign-in code; enter the code when prompted. Agents must [ask the owner before sending the email](/api-reference/authentication).
 
 ```sh
-cool login
+cool login --email owner@example.com
+```
+
+After sign-in completes, create the computer and enter its terminal:
+
+```sh
 cool create bakery
 cool enter bakery
 ```
+
+Run `exit` to leave the computer's terminal before running more local `cool` commands.
 
 `cool create bakery --blank` creates the computer without starter files. Run `cool list` to see the computers in your account.
 
 ## Publish a service
 
-Run one service at port 3000:
+From your local terminal, run one service at port 3000:
 
 ```sh
 cool service run bakery --port 3000 -- python3 -m http.server 3000
