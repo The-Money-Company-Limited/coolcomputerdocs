@@ -4,37 +4,32 @@ sidebarTitle: "Introduction"
 description: "The official Cool Computers guide to the CLI, HTTP API, MCP connector, public addresses, and computer inboxes."
 ---
 
-Cool Computers gives you a Linux computer with a name. If you call it `bakery`, its public address is `bakery.cool.computer` and its inbox is `bakery@mail.cool.computer`.
+Cool Computers gives you a persistent Linux computer with a name. A computer named `bakery` has the public address `bakery.cool.computer` and the inbox `bakery@mail.cool.computer`.
 
-Install the software you need and come back later. The computer keeps its writable disk, name, address, inbox, and configured service while it sleeps. A request to its public address can wake it and reach that service.
+Its writable disk, name, address, inbox, and configured service remain while it sleeps. A request to its public address can wake it and reach the service.
 
-The [source for this official guide](https://github.com/The-Money-Company-Limited/coolcomputerdocs) is public.
-
-## Start with what you need
+## Start here
 
 <CardGroup cols={2}>
-  <Card title="Create a computer" icon="power-off" href="/getting-started/quickstart">
-    Create one from the website or the `cool` command.
+  <Card title="Create your first computer" icon="power-off" href="/getting-started/quickstart">
+    Start from the website or a terminal.
   </Card>
-  <Card title="Use the CLI" icon="terminal" href="/use/cli">
-    Run commands, move files, and manage the published service.
+  <Card title="Install the CLI" icon="terminal" href="/getting-started/install">
+    Add the native `cool` command on macOS, Linux, or Windows.
   </Card>
-  <Card title="Send email" icon="envelope" href="/use/email">
-    Send a task to the inbox attached to your computer.
+  <Card title="Connect MCP" icon="plug" href="/use/mcp">
+    Connect Codex, Claude, Grok, Cursor, or another MCP client.
   </Card>
   <Card title="Use the HTTP API" icon="code" href="/api-reference/overview">
-    Create and operate computers from your own software.
+    Operate computers from your own software.
   </Card>
 </CardGroup>
 
-## Pick an interface
+## Other ways to connect
 
-- Use the website when you want to create a computer and see it in your account.
-- Use the `cool` CLI when you work from a terminal.
-- Run `ssh cool.computer` to open the account dashboard without installing the CLI.
-- Use HTTP when another program needs to create or operate a computer.
-- Use the [MCP connector](/use/agents) for bounded inspection and explicitly requested changes.
+- Run `ssh cool.computer` to open your account without installing the CLI.
+- [Email a task](/use/email) to the inbox attached to a computer.
 
-## Check the current terms
+## Current terms
 
-Read the current [pricing](https://www.cool.computer/pricing), [privacy policy](https://www.cool.computer/privacy), and [terms](https://www.cool.computer/terms) on the Cool Computers website. The pricing page lists current prices and public limits. Authenticated limits come from `cool capabilities --json` or `GET /api/capabilities`.
+Read the current [pricing](https://www.cool.computer/pricing), [privacy policy](https://www.cool.computer/privacy), and [terms](https://www.cool.computer/terms). Signed-in limits come from `cool capabilities --json` or `GET /api/capabilities`.

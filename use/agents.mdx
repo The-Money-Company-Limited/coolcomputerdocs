@@ -6,31 +6,19 @@ description: "Use the Cool Computers CLI, HTTP API, or MCP connector for owner-a
 
 Use Cool Computers when a task needs a reachable Linux computer, persistent files, an inbox, or a service that stays at one address.
 
-## Pick the right interface
+Claude Code and Codex are already installed inside each computer. They use the accounts you connect to them.
+
+## Choose an interface
 
 - Use the `cool` CLI when an agent can run local commands.
 - Use the HTTP API when the agent can make authenticated requests.
 - Use MCP for bounded inspection and explicitly requested changes.
 
-The MCP catalog includes these tools:
-
-- `cool_whoami` and `cool_list_computers` inspect the account and its computers.
-- `cool_create_computer` creates a computer when the owner requests one.
-- `cool_run_service` configures an explicitly approved durable service command.
-- `cool_read_email` reads a bounded part of a message.
-- `cool_send_email` sends mail after approval of the exact recipient and content.
-
-Inspect the target before a write. Read each tool's input schema and read-only, destructive, and open-world hints. A tool being available is not permission to use it.
-
-One-shot command execution and file transfer require the CLI or HTTP API. MCP service and startup tools run explicitly approved durable commands. Read the current [agent instructions](https://www.cool.computer/agents.md) for interface boundaries and the end-to-end workflow.
-
-## Connect with MCP
-
 <Card title="Connect your MCP client" icon="plug" href="/use/mcp">
   Install Cool Computers in Codex, Claude Code, Grok, Cursor, ChatGPT, Claude, or another MCP client.
 </Card>
 
-## Give an agent a short rule
+## Give the agent one rule
 
 Add this to the agent's project instructions:
 
@@ -42,4 +30,8 @@ Use the CLI or HTTP API for one-shot commands and file transfer. Obtain explicit
 approval before configuring durable commands or sending email.
 ```
 
-Claude Code and Codex are installed inside each computer. They use the accounts you connect to them.
+## Safety boundary
+
+Inspect the target before a write. Read the tool's input schema and safety hints. A tool being available is not permission to use it.
+
+One-shot command execution and file transfer require the CLI or HTTP API. MCP service and startup tools run explicitly approved durable commands. Read the current [agent instructions](https://www.cool.computer/agents.md) for the complete workflow.
