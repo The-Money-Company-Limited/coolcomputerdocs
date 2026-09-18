@@ -1,59 +1,62 @@
 ---
 title: "Create your first computer"
 sidebarTitle: "Quickstart"
-description: "Create a named computer from the website or the cool CLI, then reach its public address."
+description: "Create a named computer from the website or the cool CLI."
 ---
 
 This example creates a computer named `bakery`. Pick another available name if you prefer.
 
 You need an existing Cool Computers account. New account creation is temporarily paused; new owners can [join the waitlist](https://www.cool.computer/#waitlist).
 
-## From the website
+## Create the computer
 
-1. Open the [Cool Computers dashboard](https://www.cool.computer/app).
-2. Sign in to your existing account.
-3. Create a computer with an available name.
+<Tabs>
+  <Tab title="Website">
+    1. Open the [Cool Computers dashboard](https://www.cool.computer/app).
+    2. Sign in to your existing account.
+    3. Create a computer named `bakery`.
 
-The computer appears in your dashboard. Its public address is `bakery.cool.computer`. Its inbox is `bakery@mail.cool.computer`.
+    The computer appears in your dashboard.
+  </Tab>
+  <Tab title="CLI">
+    Install the CLI.
 
-## From a terminal
+    macOS and Linux:
 
-Install the CLI on macOS or Linux:
+    ```sh
+    curl -fsSL https://cool.computer/install.sh | sh
+    ```
 
-```sh
-curl -fsSL https://cool.computer/install.sh | sh
-```
+    Windows PowerShell:
 
-If you are already signed in, skip this step. Otherwise, replace the email with your existing account's address. This sends a sign-in code; enter the code when prompted. Agents must [ask the owner before sending the email](/api-reference/authentication).
+    ```powershell
+    (iwr -UseBasicParsing https://cool.computer/install.ps1).Content | iex
+    ```
 
-```sh
-cool login --email owner@example.com
-```
+    Sign in with your existing account. This sends a code to the email address you provide. Agents must [ask the owner before sending it](/api-reference/authentication).
 
-After sign-in completes, create the computer and enter its terminal:
+    ```sh
+    cool login --email owner@example.com
+    ```
 
-```sh
-cool create bakery
-cool enter bakery
-```
+    Create the computer and enter its terminal:
 
-Run `exit` to leave the computer's terminal before running more local `cool` commands.
+    ```sh
+    cool create bakery
+    cool enter bakery
+    ```
 
-`cool create bakery --blank` creates the computer without starter files. Run `cool list` to see the computers in your account.
+    Run `exit` to return to your local terminal.
+  </Tab>
+</Tabs>
 
-## Publish a service
+Your computer keeps the public address `bakery.cool.computer` and inbox `bakery@mail.cool.computer` while it sleeps and wakes.
 
-From your local terminal, run one service at port 3000:
-
-```sh
-cool service run bakery --port 3000 -- python3 -m http.server 3000
-```
-
-Open `https://bakery.cool.computer`. The same address remains attached to the computer when it sleeps and wakes.
+## Next steps
 
 <CardGroup cols={2}>
   <Card title="Learn the CLI" icon="terminal" href="/use/cli">
-    Find the commands used for daily work.
+    Run commands, move files, and publish a service.
   </Card>
   <Card title="See what persists" icon="hard-drive" href="/computers/persistence">
     Check what remains after sleep and restore.

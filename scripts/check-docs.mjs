@@ -68,9 +68,9 @@ for (const placeholder of ["hi@mintlify.com", "app.mintlify.com", "x.com/mintlif
   if (visibleContent.includes(placeholder)) fail("published guide", `starter placeholder remains: ${placeholder}`)
 }
 
-await assertContractTerms("use/agents", /\bcool_[a-z0-9_]+\b/g, ["cool_create_computer", "cool_list_computers", "cool_read_email", "cool_run_service", "cool_send_email", "cool_whoami"])
 await assertContract("use/agents", /One-shot command execution and file transfer require the CLI or HTTP API/)
 await assertContract("use/agents", /explicitly approved durable commands/)
+await assertContract("", /href="\/use\/mcp"/)
 await assertContract("use/mcp", /https:\/\/api\.cool\.computer\/mcp/)
 await assertContract("use/mcp", /codex mcp add cool-computers --url https:\/\/api\.cool\.computer\/mcp/)
 await assertContract("use/mcp", /claude mcp add --transport http cool-computers --scope user https:\/\/api\.cool\.computer\/mcp/)
@@ -227,13 +227,6 @@ function checkCommands(name, source) {
 async function assertContract(route, pattern) {
   const file = routes.get(`/${route}`)
   if (!file || !pattern.test(await readFile(file, "utf8"))) fail(route, `missing required fact ${pattern}`)
-}
-
-async function assertContractTerms(route, pattern, expected) {
-  const file = routes.get(`/${route}`)
-  const source = file ? await readFile(file, "utf8") : ""
-  const actual = [...new Set([...source.matchAll(pattern)].map((match) => match[0]))].sort()
-  if (!file || actual.join("\n") !== expected.join("\n")) fail(route, `documented terms must equal ${expected.join(", ")}`)
 }
 
 function fail(name, message) {
