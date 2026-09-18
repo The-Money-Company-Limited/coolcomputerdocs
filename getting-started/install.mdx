@@ -20,8 +20,50 @@ curl -fsSL https://cool.computer/install.sh | sh
 
 The installer adds `cool` to the current PowerShell session and your user `PATH`. Restart terminal apps that were already open before installation.
 
-## Update and remove
+## Update
 
-Run the installer for your platform again to update. Follow the [CLI maintenance instructions](https://www.cool.computer/install#update-and-remove) to remove the executable and its platform-specific environment settings.
+<Tabs>
+  <Tab title="macOS and Linux">
+    ```sh
+    curl -fsSL https://cool.computer/install.sh | sh
+    ```
+  </Tab>
+  <Tab title="Windows PowerShell">
+    ```powershell
+    (iwr -UseBasicParsing https://cool.computer/install.ps1).Content | iex
+    ```
+  </Tab>
+</Tabs>
 
-Continue with [the CLI guide](/use/cli) to sign in and operate your computer.
+## Remove
+
+<Tabs>
+  <Tab title="macOS and Linux">
+    ```sh
+    rm -f ~/.local/bin/cool
+    ```
+  </Tab>
+  <Tab title="Windows PowerShell">
+    ```powershell
+    $installDir = "$env:LOCALAPPDATA\Programs\coolcomputer"
+    Remove-Item -LiteralPath "$installDir\cool.exe" -Force
+    $environmentKey = [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey(
+      "Environment",
+      $true
+    )
+    $pathKind = $environmentKey.GetValueKind("Path")
+    $userPath = [string]$environmentKey.GetValue(
+      "Path",
+      "",
+      [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames
+    )
+    $cleanPath = (($userPath -split ";") | Where-Object {
+      [Environment]::ExpandEnvironmentVariables($_) -ne $installDir
+    }) -join ";"
+    $environmentKey.SetValue("Path", $cleanPath, $pathKind)
+    $environmentKey.Dispose()
+    ```
+
+    Restart terminal apps that were open before removal.
+  </Tab>
+</Tabs>

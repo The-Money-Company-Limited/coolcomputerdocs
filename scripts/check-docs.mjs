@@ -76,6 +76,9 @@ await assertContract("use/mcp", /codex mcp add cool-computers --url https:\/\/ap
 await assertContract("use/mcp", /claude mcp add --transport http cool-computers --scope user https:\/\/api\.cool\.computer\/mcp/)
 await assertContract("use/mcp", /grok mcp add --transport http cool-computers https:\/\/api\.cool\.computer\/mcp/)
 await assertContract("use/mcp", /documentation MCP server, which only searches this guide/)
+await assertContract("getting-started/install", /rm -f ~\/\.local\/bin\/cool/)
+await assertContract("getting-started/install", /Remove-Item -LiteralPath "\$installDir\\cool\.exe" -Force/)
+await assertContract("getting-started/install", /RegistryValueOptions\]::DoNotExpandEnvironmentNames/)
 await assertContract("api-reference/authentication", /New account creation is temporarily paused/)
 await assertContract("getting-started/quickstart", /New account creation is temporarily paused/)
 for (const [file, source] of sourceByFile) {
