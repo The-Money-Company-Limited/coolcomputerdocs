@@ -47,6 +47,7 @@
           "use/cli",
           "use/ssh",
           "use/email",
+          "use/mcp",
           "use/agents"
         ]
       },

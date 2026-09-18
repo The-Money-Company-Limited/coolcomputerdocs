@@ -1,0 +1,121 @@
+---
+title: "Connect Cool Computers with MCP"
+sidebarTitle: "Connect MCP"
+description: "Connect Codex, Claude Code, Grok, Cursor, ChatGPT, Claude, or another MCP client to Cool Computers."
+---
+
+## Setup
+
+Use this Streamable HTTP endpoint:
+
+```text
+https://api.cool.computer/mcp
+```
+
+This endpoint controls your computers. It is separate from the documentation MCP server, which only searches this guide.
+
+Your client opens a browser so an existing Cool Computers owner can authorize access. Read tools require verified owner identity. Write tools also require the owner's live `cool-computers:operate` permission. MCP tokens do not authorize the HTTP API.
+
+## Coding agents
+
+### Codex
+
+Run:
+
+```sh
+codex mcp add cool-computers --url https://api.cool.computer/mcp
+codex mcp login cool-computers
+```
+
+Complete the browser sign-in, then run `codex mcp list` to confirm that `cool-computers` is enabled. Codex CLI, the Codex IDE extension, and the ChatGPT desktop app share this configuration.
+
+### Claude Code
+
+Run:
+
+```sh
+claude mcp add --transport http cool-computers --scope user https://api.cool.computer/mcp
+claude mcp login cool-computers
+```
+
+Complete the browser sign-in, then run `claude mcp get cool-computers` to confirm that the server is connected. The user scope makes the connection available in every project.
+
+### Grok CLI
+
+Run:
+
+```sh
+grok mcp add --transport http cool-computers https://api.cool.computer/mcp
+```
+
+OAuth opens automatically on first use. You can also start `grok`, enter `/mcps`, select `cool-computers`, and press `i` to sign in. Run `grok mcp list` to confirm the connection, or `grok mcp doctor cool-computers` if it fails.
+
+### Cursor
+
+<Card title="Add Cool Computers to Cursor" icon="download" href="cursor://anysphere.cursor-deeplink/mcp/install?name=cool-computers&config=eyJ1cmwiOiJodHRwczovL2FwaS5jb29sLmNvbXB1dGVyL21jcCJ9">
+  Open Cursor, confirm the server, and complete OAuth.
+</Card>
+
+<Accordion title="Configure Cursor manually">
+  Add this to `~/.cursor/mcp.json`:
+
+  ```json
+  {
+    "mcpServers": {
+      "cool-computers": {
+        "url": "https://api.cool.computer/mcp"
+      }
+    }
+  }
+  ```
+
+  Restart Cursor, then authenticate from **Customize > MCPs**.
+</Accordion>
+
+## Chat apps
+
+### ChatGPT desktop
+
+1. Open **Settings > MCP servers > Add server**.
+2. Name the server `cool-computers`.
+3. Choose **Streamable HTTP** and enter the endpoint above.
+4. Save, restart, and click **Authenticate**.
+
+The desktop app shares this connection with Codex CLI and the Codex IDE extension. ChatGPT on the web only uses MCP tools from installed plugins and does not read local MCP configuration. Cool Computers does not yet have a public ChatGPT plugin listing.
+
+### Claude
+
+On a Pro or Max plan:
+
+1. Open **Customize > Connectors**.
+2. Click **+**, then **Add custom connector**.
+3. Enter the endpoint above and click **Add**.
+4. Click **Connect** to authenticate.
+
+On Team and Enterprise plans, an Owner must first add the endpoint from **Organization settings > Connectors > Add > Custom > Web**. Each member then connects their own account from **Customize > Connectors**.
+
+### Grok
+
+1. Open [Grok Connectors](https://grok.com/connectors).
+2. Click **New Connector**, then select **Custom**.
+3. Enter the endpoint above and complete authentication.
+
+## Other MCP clients
+
+Register the endpoint as a remote Streamable HTTP MCP server. Protected-resource metadata is available at `https://api.cool.computer/.well-known/oauth-protected-resource/mcp`.
+
+## Verify the connection
+
+Ask your client:
+
+```text
+List my Cool Computers and summarize their current state. Do not make changes.
+```
+
+The client should use the read-only `cool_list_computers` tool and return your computer list without changing anything.
+
+## Troubleshooting
+
+- **Authentication did not open:** Run the client-specific login command above or open the client's MCP settings and choose **Authenticate**.
+- **The server is not connected:** Use `codex mcp list`, `claude mcp get cool-computers`, or `grok mcp doctor cool-computers` to see the client error.
+- **You connected the documentation server:** Remove that connection and add `https://api.cool.computer/mcp`. The documentation MCP server cannot access your computers.

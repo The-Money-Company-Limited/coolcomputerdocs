@@ -71,6 +71,11 @@ for (const placeholder of ["hi@mintlify.com", "app.mintlify.com", "x.com/mintlif
 await assertContractTerms("use/agents", /\bcool_[a-z0-9_]+\b/g, ["cool_create_computer", "cool_list_computers", "cool_read_email", "cool_run_service", "cool_send_email", "cool_whoami"])
 await assertContract("use/agents", /One-shot command execution and file transfer require the CLI or HTTP API/)
 await assertContract("use/agents", /explicitly approved durable commands/)
+await assertContract("use/mcp", /https:\/\/api\.cool\.computer\/mcp/)
+await assertContract("use/mcp", /codex mcp add cool-computers --url https:\/\/api\.cool\.computer\/mcp/)
+await assertContract("use/mcp", /claude mcp add --transport http cool-computers --scope user https:\/\/api\.cool\.computer\/mcp/)
+await assertContract("use/mcp", /grok mcp add --transport http cool-computers https:\/\/api\.cool\.computer\/mcp/)
+await assertContract("use/mcp", /documentation MCP server, which only searches this guide/)
 await assertContract("api-reference/authentication", /New account creation is temporarily paused/)
 await assertContract("getting-started/quickstart", /New account creation is temporarily paused/)
 for (const [file, source] of sourceByFile) {

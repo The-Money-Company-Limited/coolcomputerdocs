@@ -1,6 +1,6 @@
 ---
 title: "Use Cool Computers with an agent"
-sidebarTitle: "Agents and MCP"
+sidebarTitle: "Agent workflow"
 description: "Use the Cool Computers CLI, HTTP API, or MCP connector for owner-authorized agent work."
 ---
 
@@ -24,29 +24,11 @@ Inspect the target before a write. Read each tool's input schema and read-only, 
 
 One-shot command execution and file transfer require the CLI or HTTP API. MCP service and startup tools run explicitly approved durable commands. Read the current [agent instructions](https://www.cool.computer/agents.md) for interface boundaries and the end-to-end workflow.
 
-## Connect to MCP
+## Connect with MCP
 
-The remote HTTP endpoint is:
-
-```text
-https://api.cool.computer/mcp
-```
-
-The client opens an OAuth flow on the first connection. An existing Cool Computers owner must authorize access. Read tools require verified owner identity; write tools also require the owner's live `cool-computers:operate` permission. MCP tokens do not authorize the HTTP API.
-
-<Tabs>
-  <Tab title="Claude Code">
-    ```sh
-    claude mcp add --transport http cool-computer https://api.cool.computer/mcp
-    ```
-  </Tab>
-  <Tab title="Claude.ai">
-    Add a custom connector in **Settings > Connectors** with the endpoint above.
-  </Tab>
-  <Tab title="Other MCP clients">
-    Register the endpoint as a remote HTTP MCP server. Protected-resource metadata is available at `https://api.cool.computer/.well-known/oauth-protected-resource/mcp`.
-  </Tab>
-</Tabs>
+<Card title="Connect your MCP client" icon="plug" href="/use/mcp">
+  Install Cool Computers in Codex, Claude Code, Grok, Cursor, ChatGPT, Claude, or another MCP client.
+</Card>
 
 ## Give an agent a short rule
 
