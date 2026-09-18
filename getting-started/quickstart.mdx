@@ -4,7 +4,7 @@ sidebarTitle: "Quickstart"
 description: "Create a named computer from the website or the cool CLI."
 ---
 
-This example creates a computer named `bakery`. Pick another available name if you prefer.
+Create a computer named `bakery`. Pick another available name if you prefer.
 
 You need an existing Cool Computers account. New account creation is temporarily paused; new owners can [join the waitlist](https://www.cool.computer/#waitlist).
 
@@ -33,7 +33,7 @@ You need an existing Cool Computers account. New account creation is temporarily
     (iwr -UseBasicParsing https://cool.computer/install.ps1).Content | iex
     ```
 
-    Sign in with your existing account. This sends a code to the email address you provide. Agents must [ask the owner before sending it](/api-reference/authentication).
+    Sign in with your existing account. `cool login` sends a code to the email address you provide. Agents must [ask the owner before sending it](/api-reference/authentication).
 
     ```sh
     cool login --email owner@example.com

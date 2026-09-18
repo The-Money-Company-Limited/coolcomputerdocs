@@ -8,7 +8,7 @@ The HTTP API uses an email-code flow for existing Cool Computers owners. New acc
 
 ## 1. Send a code
 
-Ask the owner for the exact email address and approval before starting. This request sends a real email:
+Ask the owner for the exact email address and approval before starting. The next request emails a sign-in code to that address:
 
 ```sh
 curl https://api.cool.computer/api/auth/email/start \

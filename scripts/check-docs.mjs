@@ -23,6 +23,11 @@ const vaguePatterns = [
   /\bhighlights? the importance\b/i,
   /\breflects? broader\b/i,
   /\bevolving landscape\b/i,
+  /^(additionally|furthermore|moreover|notably),/im,
+  /\bplays? (an? |the )?(key|important|significant) role\b/i,
+  /\bvaluable insights?\b/i,
+  /\b(rich|intricate) tapestry\b/i,
+  /\bboasts? (an? |the )\b/i,
   /\b(pivotal|crucial|vital|groundbreaking|cutting-edge|seamless|robust|comprehensive|vibrant|profound)\b/i,
   /\bdelve\b/i,
   /\bunlock\b/i,
@@ -32,12 +37,15 @@ const vaguePatterns = [
   /\bin today(?:'s|s)\b/i,
   /\bit(?:'s| is) important to note\b/i,
   /\bat its core\b/i,
+  /\b(in conclusion|in summary)\b/i,
   /\b(experts say|many believe)\b/i,
   /^#{1,6}\s+(why it matters|key takeaways|looking ahead|challenges and future)\s*$/im,
   /generated (with|by)|ai-assisted|written by (chatgpt|claude)/i,
 ]
 
 assert.match(findVaguePattern("This is a robust platform.").source, /robust/)
+assert.match(findVaguePattern("Additionally, it has an API.").source, /additionally/)
+assert.match(findVaguePattern("It plays a key role.").source, /plays/)
 assert.equal(findVaguePattern("Run the command once."), undefined)
 assert.equal(withoutFencedCode("  ```sh\n  robust\n  ```").includes("robust"), false)
 assert.equal(isIgnored("drafts/example.mdx"), true)
@@ -75,7 +83,7 @@ await assertContract("use/mcp", /https:\/\/api\.cool\.computer\/mcp/)
 await assertContract("use/mcp", /codex mcp add cool-computers --url https:\/\/api\.cool\.computer\/mcp/)
 await assertContract("use/mcp", /claude mcp add --transport http cool-computers --scope user https:\/\/api\.cool\.computer\/mcp/)
 await assertContract("use/mcp", /grok mcp add --transport http cool-computers https:\/\/api\.cool\.computer\/mcp/)
-await assertContract("use/mcp", /documentation MCP server, which only searches this guide/)
+await assertContract("use/mcp", /The documentation MCP server only searches this guide/)
 await assertContract("getting-started/install", /rm -f ~\/\.local\/bin\/cool/)
 await assertContract("getting-started/install", /Remove-Item -LiteralPath "\$installDir\\cool\.exe" -Force/)
 await assertContract("getting-started/install", /RegistryValueOptions\]::DoNotExpandEnvironmentNames/)
