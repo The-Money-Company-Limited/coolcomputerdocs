@@ -23,8 +23,11 @@
 - Use sentence case for headings.
 - Bold for UI elements: Click **Settings**.
 - Use code formatting for file names, commands, paths, and code references.
+- Name the command, endpoint, or object instead of relying on vague uses of "this" or "it."
+- Use plain verbs such as "is," "are," and "has" when they are accurate. Do not inflate them into "serves as," "offers," or "features."
 - Prefer exact examples over claims about importance or quality.
-- Do not use canned introductions, conclusions, vague attribution, grand claims, or editorial asides.
+- Do not use canned transitions or conclusions, negative parallelism, vague attribution, grand claims, or editorial asides.
+- Let the task determine the number of steps or examples. Do not force a three-part list or add a closing summary that repeats the page.
 - Do not add a note that content was generated or assisted by a model.
 
 ## Source boundaries
