@@ -87,11 +87,19 @@ await assertContract("use/mcp", /The documentation MCP server only searches this
 await assertContract("getting-started/install", /rm -f ~\/\.local\/bin\/cool/)
 await assertContract("getting-started/install", /Remove-Item -LiteralPath "\$installDir\\cool\.exe" -Force/)
 await assertContract("getting-started/install", /RegistryValueOptions\]::DoNotExpandEnvironmentNames/)
-await assertContract("api-reference/authentication", /New account creation is temporarily paused/)
-await assertContract("getting-started/quickstart", /New account creation is temporarily paused/)
+await assertContract("api-reference/authentication", /same email-code flow for new and existing/)
+await assertContract("getting-started/quickstart", /creation opens the computer's shell/)
 for (const [file, source] of sourceByFile) {
   if (/\bruntime_(?:whoami|list_computers)\b|MCP preview|(?:npm|pnpm|npx|pipx?|uv)\b[^\n]*\bcoolcomputer\b/.test(source)) {
     fail(relative(root, file), "obsolete MCP or package-install instructions remain")
+  }
+  const prose = withoutFencedCode(source)
+  if (
+    /signup is paused|account creation is temporarily paused|join[^.\n]*wait[- ]?list/i.test(prose)
+    || /cold storage|computers?[^.!?\n]*\b(?:sleep|wake)s?\b|\b(?:sleep|wake)s?\b[^.!?\n]*computers?/i.test(prose)
+    || /\bcool goal\b/.test(source)
+  ) {
+    fail(relative(root, file), "retired signup, lifecycle, or goal instructions remain")
   }
 }
 for (const route of ["", "getting-started/install", "use/cli", "api-reference/overview", "api-reference/authentication"]) {
@@ -226,7 +234,7 @@ function headingAnchors(source) {
 
 function checkCommands(name, source) {
   if (/^cool login\s*$/m.test(source)) fail(name, "login examples require --email")
-  const known = new Set(["--help", "api-keys", "capabilities", "create", "delete", "enter", "exec", "files", "goal", "info", "list", "login", "logout", "network", "run", "service", "signup", "ssh", "start", "stop", "whoami"])
+  const known = new Set(["--help", "api-keys", "capabilities", "chat", "create", "delete", "enter", "exec", "files", "info", "list", "login", "logout", "network", "run", "service", "signup", "ssh", "whoami"])
   for (const match of source.matchAll(/^cool\s+(\S+)/gm)) {
     if (!known.has(match[1])) fail(name, `unknown cool command in example: ${match[1]}`)
   }

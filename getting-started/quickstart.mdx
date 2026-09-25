@@ -6,14 +6,14 @@ description: "Create a named computer from the website or the cool CLI."
 
 Create a computer named `bakery`. Pick another available name if you prefer.
 
-You need an existing Cool Computers account. New account creation is temporarily paused; new owners can [join the waitlist](https://www.cool.computer/#waitlist).
+Sign up or sign in with your email address. New and existing accounts use an email verification code.
 
 ## Create the computer
 
 <Tabs>
   <Tab title="Website">
     1. Open the [Cool Computers dashboard](https://www.cool.computer/app).
-    2. Sign in to your existing account.
+    2. Sign up or sign in with your email address.
     3. Create a computer named `bakery`.
 
     The computer appears in your dashboard.
@@ -33,7 +33,7 @@ You need an existing Cool Computers account. New account creation is temporarily
     (iwr -UseBasicParsing https://cool.computer/install.ps1).Content | iex
     ```
 
-    Sign in with your existing account. `cool login` sends a code to the email address you provide. Agents must [ask the owner before sending it](/api-reference/authentication).
+    `cool login` sends a code to the email address you provide and signs you up or in. Agents must [ask the owner before sending it](/api-reference/authentication).
 
     ```sh
     cool login --email owner@example.com
@@ -43,14 +43,13 @@ You need an existing Cool Computers account. New account creation is temporarily
 
     ```sh
     cool create bakery
-    cool enter bakery
     ```
 
-    Run `exit` to return to your local terminal.
+    In an interactive terminal, creation opens the computer's shell. Run `exit` to return to your local terminal. Use `cool enter bakery` to reconnect later. With `--json` or redirected input or output, creation returns without entering the computer.
   </Tab>
 </Tabs>
 
-Your computer keeps the public address `bakery.cool.computer` and inbox `bakery@mail.cool.computer` while it sleeps and wakes.
+Your computer keeps the public address `bakery.cool.computer` and inbox `bakery@mail.cool.computer` until you delete it.
 
 ## Next steps
 
@@ -59,6 +58,6 @@ Your computer keeps the public address `bakery.cool.computer` and inbox `bakery@
     Run commands, move files, and publish a service.
   </Card>
   <Card title="See what persists" icon="hard-drive" href="/computers/persistence">
-    Check what remains after sleep and restore.
+    Check what stays when you disconnect.
   </Card>
 </CardGroup>
