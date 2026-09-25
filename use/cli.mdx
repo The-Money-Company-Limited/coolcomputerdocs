@@ -44,7 +44,13 @@ Use `cool run` when you want to send one shell command string:
 cool run bakery "uname -a"
 ```
 
-Executions continue after a client disconnect or timeout, and wait for background children to finish. Use `cool exec --attach` with the returned execution ID to reconnect. Use a configured service for a process that must stay available at the computer's public address.
+Executions continue after a client disconnect or timeout, and wait for background children to finish. Before running, `cool exec` prints its execution ID and an exact reattach command to stderr. Copy that command to reconnect:
+
+```sh
+cool exec --attach <execution-id>
+```
+
+Use the ID printed by your command in place of `<execution-id>`. `cool run` also returns an execution ID when its wait times out. Use a configured service for a process that must stay available at the computer's public address.
 
 ## Run a service
 

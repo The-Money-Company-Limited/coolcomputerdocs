@@ -93,7 +93,12 @@ for (const [file, source] of sourceByFile) {
   if (/\bruntime_(?:whoami|list_computers)\b|MCP preview|(?:npm|pnpm|npx|pipx?|uv)\b[^\n]*\bcoolcomputer\b/.test(source)) {
     fail(relative(root, file), "obsolete MCP or package-install instructions remain")
   }
-  if (/signup is paused|account creation is temporarily paused|cold storage|\b(?:sleep|sleeps|wake|wakes)\b|cool goal\b/i.test(source)) {
+  const prose = withoutFencedCode(source)
+  if (
+    /signup is paused|account creation is temporarily paused|join[^.\n]*wait[- ]?list/i.test(prose)
+    || /cold storage|computers?[^.!?\n]*\b(?:sleep|wake)s?\b|\b(?:sleep|wake)s?\b[^.!?\n]*computers?/i.test(prose)
+    || /\bcool goal\b/.test(source)
+  ) {
     fail(relative(root, file), "retired signup, lifecycle, or goal instructions remain")
   }
 }
