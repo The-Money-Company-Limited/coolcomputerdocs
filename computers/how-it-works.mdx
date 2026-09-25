@@ -1,6 +1,6 @@
 ---
 title: "How a computer works"
-description: "Follow a Cool Computers computer from creation through sleep, wake, and deletion."
+description: "Follow a Cool Computers computer from creation through running a service and deletion."
 ---
 
 A computer has one name for its whole lifetime. That name ties together the machine, its public address, and its inbox.
@@ -20,9 +20,9 @@ Use the browser terminal or `cool enter bakery` for an interactive shell. Use `c
 
 Each computer can run one configured HTTP service at its public address. Start and inspect that service with `cool service`, the HTTP API, or `runtime-env service` from inside the computer.
 
-## Sleep and wake
+## Keep working
 
-Idle computers can sleep. Cool Computers keeps the disk and identity. Reconnecting from the CLI wakes the computer. An external HTTP request can also wake it and continue to the configured service.
+Your computer stays running until you delete it. Leaving the terminal or closing the browser keeps the computer available. Background services and timers can continue while you are away. Requests to the public address reach the exposed HTTP port.
 
 ## Delete
 

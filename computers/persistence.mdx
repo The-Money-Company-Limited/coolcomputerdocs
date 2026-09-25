@@ -1,11 +1,9 @@
 ---
 title: "What persists"
-description: "See what remains while a computer sleeps or waits in cold storage."
+description: "See what stays on your computer when you leave the terminal or close the browser."
 ---
 
-Sleep changes whether a computer is running. It does not create a different computer.
-
-An idle computer can move from memory to cold storage. Cold storage keeps the same writable disk and identity. Waking restores them before work continues.
+Your computer stays running until you delete it. Closing a browser tab or leaving a terminal keeps its disk and identity in place.
 
 ## Writable disk
 
@@ -17,8 +15,8 @@ The computer keeps its name, `name.cool.computer` address, and `name@mail.cool.c
 
 ## Configured service
 
-The configured service returns when the computer wakes. A request to the public address can trigger the wake and reach the service.
+The configured service keeps running after you disconnect. Requests to the public address reach its exposed HTTP port. If the process exits, inspect its logs and restart it with `cool service restart bakery`.
 
-## Deletion is different
+## Deletion
 
-Sleep and cold storage preserve the computer. Deletion removes it. Read the current [privacy policy](https://www.cool.computer/privacy) for the published deletion and retention terms.
+Deleting a computer removes its identity and stored data. Back up files you need before deleting it. Read the current [privacy policy](https://www.cool.computer/privacy) for the published deletion and retention terms.

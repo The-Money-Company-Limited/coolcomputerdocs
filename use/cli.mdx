@@ -8,7 +8,7 @@ description: "Create computers, run commands, manage files, and publish a servic
 
 ## Account and computers
 
-If you are not signed in, replace the email below with your existing account's address. `cool login` sends a sign-in code. Enter the code when prompted. Agents must [ask the owner before sending the email](/api-reference/authentication).
+Replace the email below with your address. `cool login` sends a code and signs you up or in. Enter the code when prompted. Agents must [ask the owner before sending the email](/api-reference/authentication).
 
 ```sh
 cool login --email owner@example.com
@@ -18,12 +18,17 @@ Once signed in:
 
 ```sh
 cool create bakery
+```
+
+Interactive creation opens the computer's terminal. Run `exit` before running more commands locally:
+
+```sh
 cool list
 cool info bakery
 cool enter bakery
 ```
 
-Run `exit` to leave the computer's terminal before running more local `cool` commands. `cool capabilities --json` returns the limits and features applied to the signed-in account.
+Run `exit` to leave the computer's terminal. Creation with `--json` or redirected input or output returns without entering it. `cool capabilities --json` returns the limits and features applied to the signed-in account.
 
 ## Run a command
 
@@ -39,7 +44,7 @@ Use `cool run` when you want to send one shell command string:
 cool run bakery "uname -a"
 ```
 
-Background children end with a run session. Use a configured service for a process that must stay available.
+Executions continue after a client disconnect or timeout, and wait for background children to finish. Use `cool exec --attach` with the returned execution ID to reconnect. Use a configured service for a process that must stay available at the computer's public address.
 
 ## Run a service
 
@@ -52,7 +57,7 @@ The service is available at `bakery.cool.computer`. Run `cool service --help` to
 
 ## Work with files
 
-Run `cool files --help` for read, write, list, stat, directory, upload, and download commands. File changes remain on the writable disk when the computer sleeps.
+Run `cool files --help` for read, write, list, stat, directory, upload, and download commands. File changes remain on the writable disk when you disconnect.
 
 ## Machine-readable output
 
