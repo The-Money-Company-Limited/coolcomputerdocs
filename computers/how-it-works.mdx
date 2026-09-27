@@ -20,6 +20,8 @@ Use the browser terminal or `cool enter bakery` for an interactive shell. Use `c
 
 Each computer can run one configured HTTP service at its public address. Start and inspect that service with `cool service`, the HTTP API, or `runtime-env service` from inside the computer.
 
+The public address waits up to 60 seconds for your service to send response headers, then returns `504`, before any Cloudflare `524` timeout. Answer within 60 seconds and do longer work in the background. Once headers arrive, streamed responses and WebSocket connections have no time limit.
+
 ## Keep working
 
 Your computer stays running until you delete it. Leaving the terminal or closing the browser keeps the computer available. Background services and timers can continue while you are away. Requests to the public address reach the exposed HTTP port.
