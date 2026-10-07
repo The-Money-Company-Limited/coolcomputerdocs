@@ -104,6 +104,8 @@ On Team and Enterprise plans, an Owner must first add the endpoint from **Organi
 
 Register the endpoint as a remote Streamable HTTP MCP server. Protected-resource metadata is available at `https://api.cool.computer/.well-known/oauth-protected-resource/mcp`.
 
+If your client cannot complete OAuth, configure its authorization header as `Authorization: Bearer <api_key>` using a Cool Computers API key. Tool calls run on the key's account, and revoking the key removes its MCP access. See [API authentication](/api-reference/authentication) for creating and revoking keys. Keep the secret out of shared configuration and source control.
+
 ## Verify the connection
 
 Ask your client:
