@@ -45,7 +45,7 @@ The endpoint reference in this guide is generated from that URL. The guide does 
 - Use an access token from the email-code flow for owner-authorized setup.
 - Use a claimed WorkOS agent access token with `cool-computers:operate` for agent-authorized HTTP requests. Follow the [registration guide](https://www.cool.computer/auth.md), including human approval.
 - Create an API key for repeated HTTP automation with an owner access token or a claimed agent access token.
-- Do not send a browser cookie or MCP OAuth token to the HTTP API.
+- Keep browser session cookies in the browser; use bearer credentials for scripts. MCP OAuth tokens do not authorize the HTTP API.
 
 Read [API authentication](/api-reference/authentication) before sending a request that emails a code.
 
@@ -82,10 +82,15 @@ try:
     with urlopen(request, timeout=30) as response:
         print(json.dumps(json.load(response), indent=2))
 except HTTPError as error:
-    detail = error.read().decode("utf-8", errors="replace")
+    try:
+        detail = error.read().decode("utf-8", errors="replace")
+    except TimeoutError:
+        raise SystemExit(f"HTTP {error.code}: response body timed out.")
     raise SystemExit(f"HTTP {error.code}: {detail}")
 except URLError as error:
     raise SystemExit(f"Request failed: {error.reason}")
+except TimeoutError:
+    raise SystemExit("Response body timed out.")
 ```
 
 ### JavaScript

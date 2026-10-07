@@ -37,7 +37,7 @@ Ordinary HTTP API failures use `application/problem+json`. Read the status and s
 
 `interactive_required` means a person must finish the named action. Give the owner the supplied URL or instruction and wait for them.
 
-`access_token_required` means the operation requires an access token. Use an owner access token from email sign-in to create, list, or revoke keys. A claimed WorkOS agent access token can create a key, but cannot list or revoke keys. An API key cannot manage keys through `/api/api-keys`.
+`access_token_required` means the bearer credential is the wrong type for the operation. Use an owner access token from email sign-in to create, list, or revoke keys. A claimed WorkOS agent access token can create a key, but cannot list or revoke keys. An API key cannot manage keys through `/api/api-keys`. Signed-in owners can also manage keys in Settings using their browser session.
 
 ## Authentication challenges
 

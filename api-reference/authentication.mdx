@@ -17,6 +17,8 @@ For the complete agent-led setup, follow the [agent runbook](https://www.cool.co
 | Cool Computers API key | Repeated automation on the key's account. | Accepted as a bearer credential. | Cannot create, list, or revoke keys through `/api/api-keys`. |
 | MCP OAuth token | Does not authorize the HTTP API. | Authorizes the MCP resource for an existing owner. | Cannot manage keys. |
 
+Signed-in owners can also create, list, and revoke keys in Settings using their browser session. Keep session cookies in the browser; use bearer credentials for scripts.
+
 A claimed agent's first authenticated HTTP request creates the owner's personal Cool Computers account when needed. Follow the registration guide for the required audience, claim ceremony, and token renewal.
 
 ## 1. Send a code
@@ -52,7 +54,7 @@ curl https://api.cool.computer/api/api-keys \
   --data '{"name":"automation"}'
 ```
 
-The API returns the secret once. Do not automatically retry key creation after a timeout; the first request may already have created a key whose secret you did not receive. A claimed WorkOS agent access token can also create a key through this endpoint. Listing and revoking keys require an owner access token from email sign-in. An API key cannot create, list, or revoke keys through `/api/api-keys`.
+The API returns the secret once. Do not automatically retry key creation after a timeout; the first request may already have created a key whose secret you did not receive. A claimed WorkOS agent access token can also create a key through this endpoint. For bearer-authenticated requests, listing and revoking keys require an owner access token from email sign-in. An API key cannot create, list, or revoke keys through `/api/api-keys`.
 
 ## Revoke access
 
