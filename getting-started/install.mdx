@@ -4,9 +4,19 @@ sidebarTitle: "Install the CLI"
 description: "Install the official native Cool Computers CLI on macOS, Linux, or Windows."
 ---
 
-Install the native `cool` command directly. It does not require Node.js or Python.
+Install the native `cool` command with Homebrew or a standalone installer. It does not require Node.js or Python.
 
-## macOS and Linux
+## Homebrew
+
+With [Homebrew](https://brew.sh) installed, run:
+
+```sh
+brew install the-money-company-limited/tap/cool
+```
+
+The official tap installs the native binary for macOS on Apple Silicon or Intel, or Linux on ARM64 or x64.
+
+## Standalone macOS and Linux
 
 ```sh
 curl -fsSL https://cool.computer/install.sh | sh
@@ -20,7 +30,31 @@ curl -fsSL https://cool.computer/install.sh | sh
 
 The installer adds `cool` to the current PowerShell session and your user `PATH`. Restart terminal apps that were already open before installation.
 
+## Agent instructions
+
+The standalone installers add CLI instructions to supported coding agents whose configuration directories already exist. Homebrew leaves those files unchanged. To add or refresh the instructions yourself:
+
+```sh
+cool agents install
+```
+
+To remove the CLI instructions:
+
+```sh
+cool agents remove
+```
+
 ## Update
+
+For Homebrew installations:
+
+```sh
+brew upgrade the-money-company-limited/tap/cool
+```
+
+`cool update` also directs Homebrew installations to this command.
+
+For standalone installations, run `cool update` or rerun the installer:
 
 <Tabs>
   <Tab title="macOS and Linux">
@@ -36,6 +70,16 @@ The installer adds `cool` to the current PowerShell session and your user `PATH`
 </Tabs>
 
 ## Remove
+
+Before removing the CLI, run `cool agents remove` to remove instructions added by the standalone installer or by `cool agents install`.
+
+For Homebrew installations:
+
+```sh
+brew uninstall cool
+```
+
+For standalone installations:
 
 <Tabs>
   <Tab title="macOS and Linux">
