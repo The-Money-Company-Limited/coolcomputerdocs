@@ -234,7 +234,7 @@ function headingAnchors(source) {
 
 function checkCommands(name, source) {
   if (/^cool login\s*$/m.test(source)) fail(name, "login examples require --email")
-  const known = new Set(["--help", "api-keys", "capabilities", "chat", "create", "delete", "enter", "exec", "files", "info", "list", "login", "logout", "network", "run", "service", "signup", "ssh", "whoami"])
+  const known = new Set(["--help", "agents", "api-keys", "capabilities", "chat", "create", "delete", "enter", "exec", "files", "info", "list", "login", "logout", "network", "run", "service", "signup", "ssh", "update", "whoami"])
   for (const match of source.matchAll(/^cool\s+(\S+)/gm)) {
     if (!known.has(match[1])) fail(name, `unknown cool command in example: ${match[1]}`)
   }
