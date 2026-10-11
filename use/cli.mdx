@@ -30,6 +30,22 @@ cool enter bakery
 
 Run `exit` to leave the computer's terminal. Creation with `--json` or redirected input or output returns without entering it. `cool capabilities --json` returns the limits and features applied to the signed-in account.
 
+## Publish a site
+
+Publish files when you want to show something. It is instant and needs no Linux:
+
+```sh
+cool publish ./site --name bakery
+cool publish ./site --computer bakery
+cool publish notes.html --name mynotes --visibility private
+```
+
+Without `--computer`, `cool publish` creates a new computer; with it, it publishes a new release to that computer. A single `.html` file is published as `index.html`. `cool releases bakery` lists the releases, and `cool releases promote bakery 2` makes an earlier one live again.
+
+A `cool.json` at the site's root sets `spa`, `functions` (a bundled module that answers `/api/` at the edge) with the `secrets` set its environment comes from, or `run` and `port` to start a server, which gives the computer Linux on first use.
+
+Without signing in, `cool publish` creates a computer that expires in 24 hours. Keep it with `cool claim <claim-link>`, or publish to it again with `--claim <claim-link>`.
+
 ## Run a command
 
 Use `cool exec` when you want the local process to pass arguments without shell parsing:
@@ -59,7 +75,7 @@ cool service run bakery --port 3000 -- npm start
 cool service logs bakery --tail 100 --timestamps
 ```
 
-The service is available at `bakery.cool.computer`. Run `cool service --help` to see status, restart, stop, and clear commands.
+The service is available at `bakery.cool.computer`. On a computer you published files to, a file in `/home/runtime/app` still answers its own path, and the service answers every path without one: delete a published `index.html` for the service to answer `/`. Run `cool service --help` to see status, restart, stop, and clear commands.
 
 ## Work with files
 
