@@ -21,7 +21,17 @@ The agent inside the computer works in `/home/runtime` and replies to the thread
 
 ## Who can start a task
 
-Only mail authenticated as your verified account address can start work. Other messages can reach the inbox, but they do not run a task.
+Only mail from your verified account address can start work, and only when it carries a DKIM signature from that address's own domain. Other messages reach the inbox but don't run a task. Each email's `intake_outcome` and `intake_detail`, in `runtime-env email inbox --json` and the HTTP API, say why and what to do next.
+
+### Turn on DKIM for your own domain
+
+New Google Workspace and Microsoft 365 domains don't sign mail with their own domain until an admin turns it on: Google signs as `*.gappssmtp.com` and Microsoft as `*.onmicrosoft.com`. Your email then doesn't start a task (`rejected_owner_domain_unsigned`), and Cool Computers replies with these steps, at most once an hour per computer.
+
+To check, send a test email to another mailbox and open the received copy's original headers (in Gmail, **More** → **Show original**). Its `Authentication-Results` must show `dkim=pass`, and the `d=` of the matching `DKIM-Signature` must be your own domain; `d=…gappssmtp.com` or `d=…onmicrosoft.com` means domain signing is off.
+
+- **Google Workspace:** admin.google.com → **Apps** → **Google Workspace** → **Gmail** → **Authenticate email** → select your domain → **Generate new record** → add the TXT record it shows at `google._domainkey.<domain>` at your DNS provider → back in the console, click **Start authentication**. On a domain whose Gmail was turned on in the last 72 hours, **Generate new record** may not work yet; try again later. After **Start authentication**, signing can take up to 48 hours.
+- **Microsoft 365:** security.microsoft.com → **Email & collaboration** → **Policies & rules** → **Threat policies** → **Email authentication settings** → **DKIM** → select your domain. If no keys exist yet, click **Create DKIM keys**. Add the two CNAME records it shows at your DNS provider, then turn on **Sign messages for this domain with DKIM signatures**.
+- **Other providers:** turn on DKIM signing for your domain in your email provider's settings.
 
 ## Follow a task
 
