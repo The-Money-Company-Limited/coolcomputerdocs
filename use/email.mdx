@@ -21,7 +21,17 @@ The agent inside the computer works in `/home/runtime` and replies to the thread
 
 ## Who can start a task
 
-Only mail authenticated as your verified account address can start work. Other messages can reach the inbox, but they do not run a task.
+Only mail from your verified account address can start work, and only when it carries a DKIM signature from that address's own domain. Other messages reach the inbox but don't run a task. Each email's `intake_outcome` and `intake_detail`, in `runtime-env email inbox --json` and the HTTP API, say why and what to do next.
+
+### Turn on DKIM for your own domain
+
+New Google Workspace and Microsoft 365 domains don't sign mail with their own domain until an admin turns it on: Google signs as `*.gappssmtp.com` and Microsoft as `*.onmicrosoft.com`. Your email then doesn't start a task (`rejected_owner_domain_unsigned`), and Cool Computers replies once, at most once an hour per computer, with these steps.
+
+To check, open a sent email's original headers (in Gmail, More → Show original) and read the `d=` of its `DKIM-Signature`. It must be your own domain; `d=…gappssmtp.com` or `d=…onmicrosoft.com` means domain signing is off.
+
+- **Google Workspace:** admin.google.com → Apps → Google Workspace → Gmail → Authenticate email → select your domain → Generate new record → add the TXT record it shows at `google._domainkey.<domain>` at your DNS provider → back in the console, click Start authentication. It can take up to 48 hours.
+- **Microsoft 365:** security.microsoft.com → Email & collaboration → Policies & rules → Threat policies → Email authentication settings → DKIM → select your domain → add the two CNAME records shown → Enable.
+- **Other providers:** turn on DKIM signing for your domain in your email provider's settings.
 
 ## Follow a task
 
