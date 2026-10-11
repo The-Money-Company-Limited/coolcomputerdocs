@@ -25,9 +25,9 @@ Only mail from your verified account address can start work, and only when it ca
 
 ### Turn on DKIM for your own domain
 
-New Google Workspace and Microsoft 365 domains don't sign mail with their own domain until an admin turns it on: Google signs as `*.gappssmtp.com` and Microsoft as `*.onmicrosoft.com`. Your email then doesn't start a task (`rejected_owner_domain_unsigned`), and Cool Computers replies once, at most once an hour per computer, with these steps.
+New Google Workspace and Microsoft 365 domains don't sign mail with their own domain until an admin turns it on: Google signs as `*.gappssmtp.com` and Microsoft as `*.onmicrosoft.com`. Your email then doesn't start a task (`rejected_owner_domain_unsigned`), and Cool Computers replies with these steps, at most once an hour per computer.
 
-To check, open a sent email's original headers (in Gmail, More → Show original) and read the `d=` of its `DKIM-Signature`. It must be your own domain; `d=…gappssmtp.com` or `d=…onmicrosoft.com` means domain signing is off.
+To check, send a test email to another mailbox, open the received copy's original headers (in Gmail, More → Show original) and read the `d=` of its `DKIM-Signature`; the copy in your Sent folder carries no signature, which is added on delivery. It must be your own domain; `d=…gappssmtp.com` or `d=…onmicrosoft.com` means domain signing is off.
 
 - **Google Workspace:** admin.google.com → Apps → Google Workspace → Gmail → Authenticate email → select your domain → Generate new record → add the TXT record it shows at `google._domainkey.<domain>` at your DNS provider → back in the console, click Start authentication. It can take up to 48 hours.
 - **Microsoft 365:** security.microsoft.com → Email & collaboration → Policies & rules → Threat policies → Email authentication settings → DKIM → select your domain → add the two CNAME records shown → Enable.

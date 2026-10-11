@@ -75,7 +75,7 @@ cool service run bakery --port 3000 -- npm start
 cool service logs bakery --tail 100 --timestamps
 ```
 
-The service is available at `bakery.cool.computer`. On a computer you published files to, a file in `/home/runtime/app` still answers its own path, and the service answers every path without one: delete a published `index.html` for the service to answer `/`. Run `cool service --help` to see status, restart, stop, and clear commands.
+The service is available at `bakery.cool.computer`. On a computer you published files to, the service answers the paths nothing published answers: the site's functions keep `/api/`, and a file in `/home/runtime/app` keeps its path and its clean URL (`about.html` answers `/about`, `index.html` its directory), so delete a published `index.html` for the service to answer `/`. Run `cool service --help` to see status, restart, stop, and clear commands.
 
 ## Work with files
 
