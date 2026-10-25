@@ -29,6 +29,16 @@ codex mcp login cool-computers
 
 Complete the browser sign-in, then run `codex mcp list` to confirm that `cool-computers` is enabled. Codex CLI, the Codex IDE extension, and the ChatGPT desktop app share this configuration.
 
+Then add `required = true` to the server in `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.cool-computers]
+url = "https://api.cool.computer/mcp"
+required = true
+```
+
+Codex leaves out a server that is still connecting when a task starts, so without this it sometimes runs a task without the Cool Computers tools. With `required = true` it waits for them, and stops with an error if it cannot connect.
+
 ### Claude Code
 
 Run:
