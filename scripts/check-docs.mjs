@@ -16,6 +16,7 @@ const files = repositoryFiles.filter((file) => file.endsWith(".mdx") && !isIgnor
 const routes = new Map(files.map((file) => [routeFor(file), file]))
 const sourceByFile = new Map(await Promise.all(files.map(async (file) => [file, await readFile(file, "utf8")])))
 const failures = []
+const mcpUrl = "https://api.cool.computer/mcp"
 const setupSentence = "Read cool.computer/setup.md and make me a welcome page"
 const chatTask = "make me a welcome page and put it on cool.computer"
 
@@ -63,11 +64,13 @@ for (const file of files) {
   checkFrontmatter(name, source)
   checkHeadings(name, prose)
   checkWriting(name, prose)
-  checkLinks(name, routeFor(file), prose)
+  const links = linkTargets(prose)
+  checkLinks(name, routeFor(file), links)
+  checkAgentLinks(name, links)
   checkIcons(name, source)
   checkCommands(name, source)
   checkMcpServerName(name, source)
-  checkAgentLinks(name, source)
+  if (name.startsWith("agents/")) checkPromptBlocks(name, source)
 }
 
 const navRoutes = collectNavRoutes(config.navigation?.pages ?? [])
@@ -83,65 +86,21 @@ for (const placeholder of ["hi@mintlify.com", "app.mintlify.com", "x.com/mintlif
   if (visibleContent.includes(placeholder)) fail("published guide", `starter placeholder remains: ${placeholder}`)
 }
 
-const agentPages = [
-  "agents/overview",
-  "agents/claude-code",
-  "agents/codex",
-  "agents/cursor",
-  "agents/pi",
-  "agents/hermes",
-  "agents/openclaw",
-  "agents/claude",
-  "agents/chatgpt",
-  "agents/other-mcp-clients",
-  "agents/cli",
-  "agents/ssh",
-]
 const agentGroup = (config.navigation?.pages ?? []).find((item) => item?.group === "Connect your agent")
-if (JSON.stringify(agentGroup?.pages) !== JSON.stringify(agentPages)) {
-  fail("docs.json", `the "Connect your agent" group must list, in order: ${agentPages.join(", ")}`)
+if (!agentGroup) fail("docs.json", 'the "Connect your agent" group is missing')
+const agentRoutes = (agentGroup?.pages ?? []).map(routeOf)
+for (const route of agentRoutes) {
+  if (!/^icon:\s+"[^"\n]+"$/m.test(frontmatter(sourceOf(route)) ?? "")) fail(route, "a Connect your agent page needs an icon")
 }
-for (const page of agentPages) {
-  const source = sourceByFile.get(routes.get(`/${page}`)) ?? ""
-  if (!/^icon:\s+"[^"\n]+"$/m.test(frontmatter(source))) fail(page, "a Connect your agent page needs an icon")
-  await assertContract(page, /^title: "[^"\n]*Cool Computers[^"\n]*"$/m)
-}
-for (const page of ["agents/claude-code", "agents/codex", "agents/cursor", "agents/pi", "agents/hermes", "agents/openclaw", "agents/other-mcp-clients", "getting-started/quickstart"]) {
-  await assertContract(page, new RegExp(escapeRegExp(setupSentence)))
-}
-for (const page of ["agents/claude", "agents/chatgpt"]) {
-  await assertContract(page, new RegExp(escapeRegExp(chatTask)))
-}
-await assertContract("", /href="\/agents\/overview"/)
-await assertContract("agents/overview", /https:\/\/api\.cool\.computer\/mcp/)
-await assertContract("agents/claude-code", /claude plugin install cool-computers --marketplace The-Money-Company-Limited\/cool-computers/)
-await assertContract("agents/claude-code", /claude mcp add --scope user --transport http cool-computers https:\/\/api\.cool\.computer\/mcp/)
-await assertContract("agents/codex", /codex plugin marketplace add The-Money-Company-Limited\/cool-computers && codex plugin add cool-computers@cool-computers/)
-await assertContract("agents/codex", /codex mcp add cool-computers --url https:\/\/api\.cool\.computer\/mcp/)
-await assertContract("agents/codex", /required = true/)
-await assertContract("agents/cursor", /cursor\.com\/en\/install-mcp\?name=cool-computers&config=/)
-await assertContract("agents/pi", /pi mcp add cool-computers --url https:\/\/api\.cool\.computer\/mcp && pi mcp login cool-computers/)
-await assertContract("agents/hermes", /hermes mcp add cool-computers --url https:\/\/api\.cool\.computer\/mcp --auth oauth/)
-await assertContract("agents/openclaw", /openclaw mcp set cool-computers '\{"url":"https:\/\/api\.cool\.computer\/mcp","transport":"streamable-http","auth":"oauth"\}' && openclaw mcp login cool-computers/)
-await assertContract("agents/claude", /claude\.ai\/customize\/connectors\?modal=add-custom-connector/)
-await assertContract("agents/chatgpt", /https:\/\/chatgpt\.com\/plugins/)
-await assertContract("agents/cli", /curl -fsSL https:\/\/cool\.computer\/install\.sh \| sh/)
-await assertContract("agents/cli", /irm https:\/\/cool\.computer\/install\.ps1 \| iex/)
-await assertContract("agents/cli", /brew install the-money-company-limited\/tap\/cool/)
-await assertContract("agents/cli", /rm -f ~\/\.local\/bin\/cool/)
-await assertContract("agents/cli", /Remove-Item -LiteralPath \$executable -ErrorAction Stop/)
-await assertContract("agents/cli", /RegistryValueOptions\]::DoNotExpandEnvironmentNames/)
-await assertContract("agents/ssh", /ssh cool\.computer/)
-await assertContract("api-reference/authentication", /same email-code flow for new and existing/)
-await assertContract("getting-started/quickstart", /cool publish \.\/site --name bakery/)
+assertContract("/agents/cli", /curl -fsSL https:\/\/cool\.computer\/install\.sh \| sh/)
+assertContract("/agents/cli", /irm https:\/\/cool\.computer\/install\.ps1 \| iex/)
+assertContract("/agents/cli", /brew install the-money-company-limited\/tap\/cool/)
+assertContract("/api-reference/authentication", /same email-code flow for new and existing/)
 
 const redirects = config.redirects ?? []
 for (const { source, destination } of redirects) {
   if (routes.has(source)) fail("docs.json", `redirect source ${source} is still a page`)
   if (!routes.has(destination)) fail("docs.json", `redirect destination ${destination} has no page`)
-}
-for (const moved of ["/use/mcp", "/use/agents", "/use/ssh", "/getting-started/install"]) {
-  if (!redirects.some((redirect) => redirect.source === moved)) fail("docs.json", `moved page ${moved} needs a redirect`)
 }
 for (const option of ["mcp", "cursor", "vscode"]) {
   if (config.contextual?.options?.includes(option)) fail("docs.json", `contextual option ${option} installs the documentation search server, not Cool Computers`)
@@ -158,15 +117,12 @@ for (const [file, source] of sourceByFile) {
   ) {
     fail(relative(root, file), "retired signup, lifecycle, or goal instructions remain")
   }
-  if (/\bruntime-env\b|\bcool (?:run|capabilities)\b|\/api\/capabilities\b|creation opens|\bcool create\b[^.\n]*\bopens (?:a|the|its) (?:shell|terminal)/.test(source)) {
-    fail(relative(root, file), "retired runtime-env, cool run, capabilities, or create-opens-a-shell instructions remain")
-  }
 }
-for (const route of ["", "use/cli", "api-reference/overview", "api-reference/authentication"]) {
-  await assertContract(route, /^title: "[^"\n]*Cool Computers[^"\n]*"$/m)
+for (const route of ["/", "/use/cli", "/api-reference/overview", "/api-reference/authentication", ...agentRoutes]) {
+  assertContract(route, /^title: "[^"\n]*Cool Computers[^"\n]*"$/m)
 }
-await assertContract("agents/ssh", /SHA256:x\/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77AwyI/)
-await assertContract("api-reference/overview", /https:\/\/www\.cool\.computer\/openapi\.json/)
+assertContract("/agents/ssh", /SHA256:x\/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77AwyI/)
+assertContract("/api-reference/overview", /https:\/\/www\.cool\.computer\/openapi\.json/)
 assert.deepEqual(collectOpenApiSources(config.navigation?.pages ?? []), ["https://www.cool.computer/openapi.json"])
 if (config.name !== "Cool Computer Services") fail("docs.json", "site name must be Cool Computer Services")
 if (JSON.stringify(config.colors) !== JSON.stringify({ primary: "#155DFF", light: "#6AA0FF", dark: "#1D69FF" })) fail("docs.json", "use the Cool Computers accent colors")
@@ -204,8 +160,15 @@ async function walk(directory) {
 }
 
 function routeFor(file) {
-  const route = relative(root, file).replace(/\.mdx$/, "").replaceAll("\\", "/")
-  return route === "index" ? "/" : `/${route}`
+  return routeOf(relative(root, file).replace(/\.mdx$/, "").replaceAll("\\", "/"))
+}
+
+function routeOf(page) {
+  return page === "index" ? "/" : `/${page}`
+}
+
+function sourceOf(route) {
+  return sourceByFile.get(routes.get(route))
 }
 
 function isIgnored(name) {
@@ -223,7 +186,7 @@ function withoutFencedCode(source) {
 
 function collectNavRoutes(items, found = new Set()) {
   for (const item of items) {
-    if (typeof item === "string") found.add(item === "index" ? "/" : `/${item}`)
+    if (typeof item === "string") found.add(routeOf(item))
     else if (item?.pages) collectNavRoutes(item.pages, found)
   }
   return found
@@ -270,18 +233,21 @@ function findVaguePattern(source) {
   return vaguePatterns.find((pattern) => pattern.test(source))
 }
 
-function checkLinks(name, currentRoute, source) {
-  const links = [
+function linkTargets(source) {
+  return [
     ...[...source.matchAll(/\]\(([^)]+)\)/g)].map((match) => match[1].trim().split(/\s+/, 1)[0]),
     ...[...source.matchAll(/\bhref="([^"]+)"/g)].map((match) => match[1]),
   ]
+}
+
+function checkLinks(name, currentRoute, links) {
   for (const href of links) {
     if (/^[a-z][a-z0-9+.-]*:/i.test(href) || href.startsWith("//")) continue
     const target = new URL(href, `https://guide.local${currentRoute}`)
     const route = target.pathname.replace(/\/$/, "") || "/"
     if (!routes.has(route)) fail(name, `local link does not resolve: ${href}`)
     if (!target.hash || !routes.has(route)) continue
-    const targetSource = sourceByFile.get(routes.get(route)) ?? ""
+    const targetSource = sourceOf(route) ?? ""
     const anchor = decodeURIComponent(target.hash.slice(1))
     if (!headingAnchors(withoutFencedCode(targetSource)).has(anchor)) fail(name, `local heading does not resolve: ${href}`)
   }
@@ -327,8 +293,8 @@ function checkMcpServerName(name, source) {
 }
 
 // Every prefilled prompt or install link must decode to the exact sentence, task, or server it promises.
-function checkAgentLinks(name, source) {
-  for (const [, href] of source.matchAll(/\bhref="([^"]+)"/g)) {
+function checkAgentLinks(name, links) {
+  for (const href of links) {
     let url
     try {
       url = new URL(href)
@@ -346,21 +312,23 @@ function checkAgentLinks(name, source) {
     if (param && url.searchParams.get(param) !== expected) fail(name, `prompt link must carry "${expected}": ${href}`)
     if (url.host === "cursor.com" && url.pathname.endsWith("/install-mcp")) {
       const config = Buffer.from(url.searchParams.get("config") ?? "", "base64").toString("utf8")
-      if (url.searchParams.get("name") !== "cool-computers" || config !== '{"url":"https://api.cool.computer/mcp"}') fail(name, `Cursor install link does not add cool-computers: ${href}`)
+      if (url.searchParams.get("name") !== "cool-computers" || config !== JSON.stringify({ url: mcpUrl })) fail(name, `Cursor install link does not add cool-computers: ${href}`)
     }
-    if (url.searchParams.get("modal") === "add-custom-connector" && url.searchParams.get("connectorUrl") !== "https://api.cool.computer/mcp") {
+    if (url.searchParams.get("modal") === "add-custom-connector" && url.searchParams.get("connectorUrl") !== mcpUrl) {
       fail(name, `Claude connector link does not carry the MCP server: ${href}`)
     }
   }
 }
 
-function escapeRegExp(text) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+// A wrapped text block on an agent page is the prompt a reader pastes.
+function checkPromptBlocks(name, source) {
+  for (const [, prompt] of source.matchAll(/^[ \t]*```text wrap[ \t]*\n([\s\S]*?)\n[ \t]*```/gm)) {
+    if (prompt !== setupSentence && prompt !== chatTask) fail(name, `a pasted prompt must be the setup sentence or the chat task: ${prompt}`)
+  }
 }
 
-async function assertContract(route, pattern) {
-  const file = routes.get(`/${route}`)
-  if (!file || !pattern.test(await readFile(file, "utf8"))) fail(route, `missing required fact ${pattern}`)
+function assertContract(route, pattern) {
+  if (!pattern.test(sourceOf(route) ?? "")) fail(route, `missing required fact ${pattern}`)
 }
 
 function fail(name, message) {

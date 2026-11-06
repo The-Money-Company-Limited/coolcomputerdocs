@@ -1,9 +1,11 @@
 ---
 title: "Use Cool Computers with OpenClaw"
 sidebarTitle: "OpenClaw"
-description: "Send one sentence to OpenClaw, or add the Cool Computers MCP server."
+description: "Send 'Read cool.computer/setup.md and make me a welcome page' to OpenClaw, or add the Cool Computers MCP server."
 icon: "/images/agents/openclaw.svg"
 ---
+
+OpenClaw keeps one Cool Computers sign-in for its operator, whichever way you connect it. Everyone who chats with that OpenClaw works on the same Cool Computers account.
 
 ## Paste this
 
@@ -13,7 +15,7 @@ Send this sentence to OpenClaw wherever you chat with it:
 Read cool.computer/setup.md and make me a welcome page
 ```
 
-OpenClaw installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first.
+OpenClaw installs `cool` and puts a welcome page online. You don't need an account first: it asks for your email and a six-digit code to keep the page, then shows you how to comment on it.
 
 ## Connect it yourself
 
@@ -23,7 +25,7 @@ To add the MCP server, run this where OpenClaw runs:
 openclaw mcp set cool-computers '{"url":"https://api.cool.computer/mcp","transport":"streamable-http","auth":"oauth"}' && openclaw mcp login cool-computers
 ```
 
-`openclaw mcp login` prints a link. Open it and sign in, or sign up. OpenClaw keeps this sign-in for its operator, so everyone who chats with that OpenClaw works on the same Cool Computers account.
+`openclaw mcp login` prints a link. Open it and sign in, or sign up.
 
 ## Check it works
 
@@ -33,4 +35,4 @@ Ask OpenClaw:
 List my Cool Computers sites and computers. Don't change anything.
 ```
 
-It calls `cool_list_computers` and answers with your list. If it doesn't, run `openclaw mcp doctor cool-computers --probe` to check the connection.
+It answers with your list. If you added the MCP server and it doesn't, run `openclaw mcp doctor cool-computers --probe` to check the connection.

@@ -11,17 +11,22 @@ icon: "/images/agents/claude.svg"
   Opens Claude with Cool Computers filled in. Choose **Add**, then sign in, or sign up.
 </Card>
 
-To add it by hand:
-
-1. Open **Customize**, then **Connectors**.
-2. Choose **Add custom connector**.
-3. Name it Cool Computers and enter `https://api.cool.computer/mcp`.
-4. If Claude asks how people sign in, choose **Sign in now**, and keep **Use Claude's published identity** as the OAuth client.
-5. Choose **Add**, then sign in to Cool Computers, or sign up.
-
 The connector works on claude.ai and in the Claude desktop app. On the Free plan you can add one custom connector.
 
-On Team and Enterprise plans, an Owner adds the connector for the organization from **Organization settings**, **Connectors**, **Add**, **Custom**, **Web**. [This link](https://claude.ai/admin-settings/connectors?modal=add-custom-connector&connectorName=Cool%20Computers&connectorUrl=https%3A%2F%2Fapi.cool.computer%2Fmcp) opens that dialog filled in. Each member then chooses **Connect** in **Customize**, **Connectors** and signs in to Cool Computers for themselves.
+<AccordionGroup>
+  <Accordion title="Add it by hand">
+    1. Open **Customize**, then **Connectors**.
+    2. Choose **Add custom connector**.
+    3. Name it Cool Computers and enter `https://api.cool.computer/mcp`.
+    4. If Claude asks how people sign in, choose **Sign in now**, and keep **Use Claude's published identity** as the OAuth client.
+    5. Choose **Add**, then sign in to Cool Computers, or sign up.
+  </Accordion>
+  <Accordion title="On a Team or Enterprise plan">
+    An Owner adds the connector for the organization from **Organization settings**, **Connectors**, **Add**, **Custom**, **Web**. [This link](https://claude.ai/admin-settings/connectors?modal=add-custom-connector&connectorName=Cool%20Computers&connectorUrl=https%3A%2F%2Fapi.cool.computer%2Fmcp) opens that dialog filled in.
+
+    Each member then chooses **Connect** in **Customize**, **Connectors** and signs in to Cool Computers for themselves.
+  </Accordion>
+</AccordionGroup>
 
 ## Paste this
 
@@ -45,4 +50,4 @@ Ask Claude:
 List my Cool Computers sites and computers. Don't change anything.
 ```
 
-It calls `cool_list_computers` and answers with your list. If it doesn't, open **Customize**, **Connectors** and choose **Connect** on Cool Computers.
+It answers with your list. If it doesn't, open **Customize**, **Connectors** and choose **Connect** on Cool Computers.

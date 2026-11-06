@@ -1,6 +1,6 @@
 ---
 title: "Install the Cool Computers CLI"
-sidebarTitle: "CLI"
+sidebarTitle: "Install the CLI"
 description: "Install the native cool command on macOS, Linux, or Windows, sign in, and teach your local coding agents to use it."
 icon: "terminal"
 ---
@@ -56,7 +56,7 @@ The standalone installer, and standalone updates, write a short versioned block 
 
 It also writes the `cool-computers` skill, which sends the agent to `cool skill` for the full guide: `~/.claude/skills/cool-computers/SKILL.md` for Claude Code, and `~/.agents/skills/cool-computers/SKILL.md` for Codex, Pi and OpenCode. A `cool-computers` skill it did not write, such as one installed from skills.sh, stays as it is.
 
-For Pi it also writes the extension `~/.pi/agent/extensions/cool-computers.ts`. Its one tool, `cool_comments_watch`, listens on a site Pi published and starts a Pi turn when the site's owner sends Pi comments from the page, until that Pi session ends. Call it again for each site after `/new`, `/resume` or a reload.
+For Pi it also writes the extension `~/.pi/agent/extensions/cool-computers.ts`, which [Pi](/agents/pi#the-skill-and-the-comments-extension) describes.
 
 The block starts with `## Cool Computers CLI - cool - v<date>` and ends with the line `<!-- end: Cool Computers CLI -->`. A newer version replaces it in place, and everything outside it stays as it was.
 

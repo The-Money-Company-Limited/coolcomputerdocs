@@ -20,7 +20,7 @@ A computer gets a VM only when the work needs one: a server or bot that stays up
 
 ## Work
 
-On a computer with a VM, use the browser terminal or `cool enter bakery` for an interactive shell, and `cool exec` for one command. Files, installed packages, databases, and system configuration live on the VM's writable disk. `cool create` opens no shell; run `cool enter bakery` when you want one.
+On a computer with a VM, use the browser terminal or `cool enter bakery` for an interactive shell, and `cool exec` for one command. Files, installed packages, databases, and system configuration live on the VM's writable disk.
 
 ## Serve
 
@@ -30,7 +30,7 @@ When a request reaches your service, the public address waits up to 60 seconds f
 
 ## Keep working
 
-Your computer stays running until you delete it. A computer created by `cool publish` without signing in expires, with its site, in 24 hours unless you [claim it](/use/cli#publish-a-site). Leaving the terminal or closing the browser keeps the computer available. Background services and timers can continue while you are away. Requests to the public address reach published files first, then the exposed HTTP port.
+A computer stays on your account until you delete it. One made by `cool publish` without signing in is deleted, with its site, after 24 hours unless you [claim it](/use/cli#publish-a-site). A computer with a VM keeps running when you leave the terminal or close the browser, so its services and timers continue while you are away. Requests to the public address reach published files first, then the exposed HTTP port.
 
 ## Delete
 

@@ -14,26 +14,11 @@ Paste this sentence into Claude Code, Codex, Cursor, Pi, or another agent that r
 Read cool.computer/setup.md and make me a welcome page
 ```
 
-The agent installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first. [Connect your agent](/agents/overview) has a page for each agent, and for Claude and ChatGPT.
+The agent installs `cool` and puts a welcome page online. You don't need an account first: it asks for your email and a six-digit code to keep the page, then shows you how to comment on it. [Connect your agent](/agents/overview) has a page for each agent, and for Claude and ChatGPT.
 
 ## With the CLI
 
-[Install the CLI](/agents/cli):
-
-<Tabs>
-  <Tab title="macOS and Linux">
-    ```sh
-    curl -fsSL https://cool.computer/install.sh | sh
-    ```
-  </Tab>
-  <Tab title="Windows">
-    ```powershell
-    irm https://cool.computer/install.ps1 | iex
-    ```
-  </Tab>
-</Tabs>
-
-Publish a folder that has an `index.html`, or one `.html` file:
+[Install the CLI](/agents/cli), then publish a folder that has an `index.html`, or one `.html` file:
 
 ```sh
 cool publish ./site --name bakery
