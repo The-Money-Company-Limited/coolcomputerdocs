@@ -1,24 +1,24 @@
 ---
 title: "Cool Computers guide"
 sidebarTitle: "Introduction"
-description: "The official Cool Computers guide to the CLI, HTTP API, MCP connector, public addresses, and computer inboxes."
+description: "The official Cool Computers guide to connecting your agent, the CLI, the HTTP API, public addresses, and computer inboxes."
 ---
 
-Cool Computers gives you a persistent Linux computer with a name. A computer named `bakery` has the public address `bakery.cool.computer` and the inbox `bakery@mail.cool.computer`.
+Cool Computers puts what you and your agent make online under a name. A computer named `bakery` has the public address `bakery.cool.computer` and the inbox `bakery@mail.cool.computer`. It starts as a published site with no VM, and gets an always-on VM when the work needs a server, a bot, or a schedule.
 
-Your computer stays running until you delete it. A computer created by `cool publish` without signing in expires, with its site, in 24 hours unless you [claim it](/use/cli#publish-a-site). Its writable disk, name, address, and inbox stay with it. Requests to its public address reach its published files first, then the HTTP port you expose.
+Your computer stays until you delete it. A computer created by `cool publish` without signing in expires, with its site, in 24 hours unless you [claim it](/use/cli#publish-a-site). Its files, name, address, and inbox stay with it. Requests to its public address reach its published files first, then the HTTP port you expose.
 
 ## Start here
 
 <CardGroup cols={2}>
-  <Card title="Create your first computer" icon="power-off" href="/getting-started/quickstart">
-    Start from the website or a terminal.
+  <Card title="Put your first page online" icon="rocket" href="/getting-started/quickstart">
+    Publish with your agent or the CLI.
   </Card>
-  <Card title="Install the CLI" icon="terminal" href="/getting-started/install">
+  <Card title="Connect your agent" icon="plug" href="/agents/overview">
+    Claude Code, Codex, Cursor, Pi, Hermes Agent, OpenClaw, Claude, ChatGPT, or any MCP client.
+  </Card>
+  <Card title="Install the CLI" icon="terminal" href="/agents/cli">
     Add the native `cool` command on macOS, Linux, or Windows.
-  </Card>
-  <Card title="Connect MCP" icon="plug" href="/use/mcp">
-    Connect Codex, Claude, Grok, Cursor, or another MCP client.
   </Card>
   <Card title="Use the HTTP API" icon="code" href="/api-reference/overview">
     Operate computers from your own software.
@@ -27,9 +27,9 @@ Your computer stays running until you delete it. A computer created by `cool pub
 
 ## Other ways to connect
 
-- Run `ssh cool.computer` to open your account without installing the CLI.
+- Run [`ssh cool.computer`](/agents/ssh) to open your account without installing the CLI.
 - [Email a task](/use/email) to the inbox attached to a computer.
 
 ## Current terms
 
-Read the current [pricing](https://www.cool.computer/pricing), [privacy policy](https://www.cool.computer/privacy), and [terms](https://www.cool.computer/terms). Signed-in limits come from `cool capabilities --json` or `GET /api/capabilities`.
+Read the current [pricing](https://www.cool.computer/pricing), [privacy policy](https://www.cool.computer/privacy), and [terms](https://www.cool.computer/terms). Signed-in limits come from `cool usage --json` or `GET /api/usage`.

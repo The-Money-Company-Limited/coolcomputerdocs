@@ -1,0 +1,58 @@
+---
+title: "Use Cool Computers with Claude Code"
+sidebarTitle: "Claude Code"
+description: "Paste one sentence into Claude Code, or install the Cool Computers plugin with its MCP server and skill."
+icon: "/images/agents/claude.svg"
+---
+
+## Paste this
+
+Paste this sentence into Claude Code:
+
+```text wrap
+Read cool.computer/setup.md and make me a welcome page
+```
+
+<Card title="Open Claude Code" icon="/images/agents/claude.svg" href="claude-cli://open?q=Read%20cool.computer%2Fsetup.md%20and%20make%20me%20a%20welcome%20page">
+  Opens Claude Code with the sentence typed in. Nothing runs until you press Enter. The link works once Claude Code has run on this machine.
+</Card>
+
+Claude Code installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first.
+
+## Connect it yourself
+
+Install the [Cool Computers plugin](https://github.com/The-Money-Company-Limited/cool-computers). It adds the MCP server `cool-computers` and the `cool-computers` skill, which teaches Claude when to publish a page, how to answer comments and drawings, and when a site needs a VM. It needs Claude Code 2.1.292 or later:
+
+```sh
+claude plugin install cool-computers --marketplace The-Money-Company-Limited/cool-computers
+```
+
+Then run `/mcp` in Claude Code, choose `cool-computers`, and sign in, or sign up, in the browser that opens.
+
+### MCP server only
+
+To add the server without the skill, for every project:
+
+```sh
+claude mcp add --scope user --transport http cool-computers https://api.cool.computer/mcp
+```
+
+Run `/mcp`, choose `cool-computers`, and sign in.
+
+To use an API key instead of signing in, keep the key in `COOL_API_KEY` and send it as a bearer token:
+
+```sh
+claude mcp add --scope user --transport http cool-computers https://api.cool.computer/mcp --header "Authorization: Bearer $COOL_API_KEY"
+```
+
+Create a key in [Settings](https://www.cool.computer/account) or with `cool api-keys create`. The key is shown once.
+
+## Check it works
+
+Ask Claude Code:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It calls `cool_list_computers` and answers with your list. If it doesn't, run `claude mcp get cool-computers` to see the connection's state.

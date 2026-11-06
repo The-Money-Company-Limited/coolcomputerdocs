@@ -1,0 +1,70 @@
+---
+title: "Use Cool Computers with Codex"
+sidebarTitle: "Codex"
+description: "Paste one sentence into Codex, or install the Cool Computers plugin with its MCP server and skill."
+icon: "/images/agents/openai.svg"
+---
+
+## Paste this
+
+Paste this sentence into Codex:
+
+```text wrap
+Read cool.computer/setup.md and make me a welcome page
+```
+
+<Card title="Open Codex" icon="/images/agents/openai.svg" href="codex://new?prompt=Read%20cool.computer%2Fsetup.md%20and%20make%20me%20a%20welcome%20page">
+  Opens the Codex app with the sentence typed in. Nothing runs until you send it.
+</Card>
+
+Codex installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first.
+
+## Connect it yourself
+
+Install the [Cool Computers plugin](https://github.com/The-Money-Company-Limited/cool-computers). It adds the MCP server `cool-computers` and the `cool-computers` skill, which teaches Codex when to publish a page, how to answer comments and drawings, and when a site needs a VM:
+
+```sh
+codex plugin marketplace add The-Money-Company-Limited/cool-computers && codex plugin add cool-computers@cool-computers
+```
+
+Codex asks you to sign in, or sign up, the first time it uses Cool Computers.
+
+### MCP server only
+
+To add the server without the skill:
+
+```sh
+codex mcp add cool-computers --url https://api.cool.computer/mcp
+codex mcp login cool-computers
+```
+
+`codex mcp login` opens the browser to sign in. Then add `required = true` to the server in `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.cool-computers]
+url = "https://api.cool.computer/mcp"
+required = true
+```
+
+Codex leaves out a server that is still connecting when a task starts, so without this it sometimes runs a task without the Cool Computers tools. With `required = true` it waits for them, and stops with an error if it cannot connect. The Codex CLI and the Codex IDE extension share this file.
+
+To use an API key instead of signing in, keep the key in `COOL_API_KEY` and name that variable in the same table. Codex sends it as `Authorization: Bearer`:
+
+```toml
+[mcp_servers.cool-computers]
+url = "https://api.cool.computer/mcp"
+bearer_token_env_var = "COOL_API_KEY"
+required = true
+```
+
+Create a key in [Settings](https://www.cool.computer/account) or with `cool api-keys create`. The key is shown once.
+
+## Check it works
+
+Ask Codex:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It calls `cool_list_computers` and answers with your list. If it doesn't, run `codex mcp list` to confirm that `cool-computers` is enabled.

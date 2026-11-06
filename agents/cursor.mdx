@@ -1,0 +1,75 @@
+---
+title: "Use Cool Computers with Cursor"
+sidebarTitle: "Cursor"
+description: "Paste one sentence into Cursor, or add the Cool Computers MCP server and skill."
+icon: "/images/agents/cursor.svg"
+---
+
+## Paste this
+
+Paste this sentence into Cursor's agent:
+
+```text wrap
+Read cool.computer/setup.md and make me a welcome page
+```
+
+<Card title="Open Cursor" icon="/images/agents/cursor.svg" href="https://cursor.com/link/prompt?text=Read%20cool.computer%2Fsetup.md%20and%20make%20me%20a%20welcome%20page">
+  Opens Cursor with the sentence typed in. Cursor asks you to confirm before it runs.
+</Card>
+
+Cursor installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first.
+
+## Connect it yourself
+
+<Card title="Add to Cursor" icon="/images/agents/cursor.svg" href="https://cursor.com/en/install-mcp?name=cool-computers&config=eyJ1cmwiOiJodHRwczovL2FwaS5jb29sLmNvbXB1dGVyL21jcCJ9">
+  Cursor asks you to confirm the `cool-computers` server, then signs you in, or up.
+</Card>
+
+Or add the server yourself, to `~/.cursor/mcp.json` for every project or to `.cursor/mcp.json` in one project:
+
+```json
+{
+  "mcpServers": {
+    "cool-computers": {
+      "url": "https://api.cool.computer/mcp"
+    }
+  }
+}
+```
+
+Cursor signs in to Cool Computers with OAuth the first time it connects.
+
+To use an API key instead of signing in, keep the key in `COOL_API_KEY` and send it as a bearer token:
+
+```json
+{
+  "mcpServers": {
+    "cool-computers": {
+      "url": "https://api.cool.computer/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:COOL_API_KEY}"
+      }
+    }
+  }
+}
+```
+
+Create a key in [Settings](https://www.cool.computer/account) or with `cool api-keys create`. The key is shown once.
+
+### Add the skill
+
+The `cool-computers` skill teaches the agent when to publish a page, how to answer comments and drawings, and when a site needs a VM. Install it from the [plugin repository](https://github.com/The-Money-Company-Limited/cool-computers):
+
+```sh
+npx skills add The-Money-Company-Limited/cool-computers
+```
+
+## Check it works
+
+Ask Cursor's agent:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It calls `cool_list_computers` and answers with your list. If it doesn't, check the `cool-computers` server under MCP in Cursor's settings.

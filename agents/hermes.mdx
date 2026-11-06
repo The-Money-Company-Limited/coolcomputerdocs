@@ -1,0 +1,36 @@
+---
+title: "Use Cool Computers with Hermes Agent"
+sidebarTitle: "Hermes Agent"
+description: "Paste one sentence into Hermes Agent, or add the Cool Computers MCP server."
+icon: "/images/agents/hermes.svg"
+---
+
+## Paste this
+
+Paste this sentence into Hermes:
+
+```text wrap
+Read cool.computer/setup.md and make me a welcome page
+```
+
+Hermes installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first.
+
+## Connect it yourself
+
+To add the MCP server:
+
+```sh
+hermes mcp add cool-computers --url https://api.cool.computer/mcp --auth oauth
+```
+
+Hermes opens the sign-in the first time it connects. Sign in, or sign up. `hermes mcp login cool-computers` signs in again.
+
+## Check it works
+
+Ask Hermes:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It calls `cool_list_computers` and answers with your list. If it doesn't, run `hermes mcp test cool-computers` to test the connection.

@@ -1,0 +1,38 @@
+---
+title: "Use Cool Computers with Pi"
+sidebarTitle: "Pi"
+description: "Paste one sentence into Pi, or add the Cool Computers MCP server."
+icon: "/images/agents/pi.svg"
+---
+
+## Paste this
+
+Paste this sentence into Pi:
+
+```text wrap
+Read cool.computer/setup.md and make me a welcome page
+```
+
+Pi installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first.
+
+[`cool agents install`](/agents/cli#agent-instructions) gives Pi the `cool-computers` skill and the `cool_comments_watch` extension. The standalone `cool` installer runs it for you; after a Homebrew install, run it yourself. With the extension, comments the site's owner sends to Pi from the page start a Pi turn while that Pi session lasts.
+
+## Connect it yourself
+
+To add the MCP server, with Pi 1.0 or later:
+
+```sh
+pi mcp add cool-computers --url https://api.cool.computer/mcp && pi mcp login cool-computers
+```
+
+`pi mcp login` opens the browser to sign in, or sign up. In a Pi session that is already open, run `/reload` to load the server.
+
+## Check it works
+
+Ask Pi:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It calls `cool_list_computers` and answers with your list. If it doesn't, run `pi mcp list` to see the server's state and errors.

@@ -1,73 +1,64 @@
 ---
-title: "Create your first computer"
+title: "Put your first page online"
 sidebarTitle: "Quickstart"
-description: "Create a named computer from the website or the cool CLI."
+description: "Publish a page to name.cool.computer with your agent or the cool CLI."
 ---
 
-Create a computer named `bakery`. Pick another available name if you prefer.
+A site named `bakery` is live at `bakery.cool.computer` and has the inbox `bakery@mail.cool.computer`. Pick another available name if you prefer.
 
-Sign up or sign in with your email address. New and existing accounts use an email verification code.
+## With your agent
 
-## Create the computer
+Paste this sentence into Claude Code, Codex, Cursor, Pi, or another agent that runs commands:
+
+```text wrap
+Read cool.computer/setup.md and make me a welcome page
+```
+
+The agent installs `cool`, puts a welcome page online and signs you up to keep it. You don't need an account first. [Connect your agent](/agents/overview) has a page for each agent, and for Claude and ChatGPT.
+
+## With the CLI
+
+[Install the CLI](/agents/cli):
 
 <Tabs>
-  <Tab title="Website">
-    1. Open the [Cool Computers dashboard](https://www.cool.computer/app).
-    2. Sign up or sign in with your email address.
-    3. Create a computer named `bakery`.
-
-    The computer appears in your dashboard.
-  </Tab>
-  <Tab title="CLI">
-    Install the CLI.
-
-    macOS and Linux:
-
+  <Tab title="macOS and Linux">
     ```sh
     curl -fsSL https://cool.computer/install.sh | sh
     ```
-
-    Windows PowerShell:
-
+  </Tab>
+  <Tab title="Windows">
     ```powershell
-    (iwr -UseBasicParsing https://cool.computer/install.ps1).Content | iex
+    irm https://cool.computer/install.ps1 | iex
     ```
-
-    `cool login` sends a code to the email address you provide and signs you up or in. Agents must [ask the owner before sending it](/api-reference/authentication).
-
-    ```sh
-    cool login --email owner@example.com
-    ```
-
-    Create the computer and enter its terminal:
-
-    ```sh
-    cool create bakery
-    ```
-
-    In an interactive terminal, creation opens the computer's shell. Run `exit` to return to your local terminal. Use `cool enter bakery` to reconnect later. With `--json` or redirected input or output, creation returns without entering the computer.
   </Tab>
 </Tabs>
 
-Your computer keeps the public address `bakery.cool.computer` and inbox `bakery@mail.cool.computer` until you delete it.
-
-## Or publish a site
-
-To put files online without a Linux computer, publish them. The site is live at `bakery.cool.computer` at once:
+Publish a folder that has an `index.html`, or one `.html` file:
 
 ```sh
 cool publish ./site --name bakery
 ```
 
-See [Publish a site](/use/cli#publish-a-site) for releases, `cool.json`, and publishing without an account.
+`cool publish` prints the site's URL. The site is live at once, with no VM behind it.
+
+Without an account, the site is public and is deleted after 24 hours unless you claim it. `cool publish` prints a claim link: open it and sign in, or sign up, to keep the site.
+
+To keep every site from the start, sign in first. `cool login` sends a code to your email address and signs you in; `cool signup` makes a new account the same way. Agents must [ask the owner before sending the email](/api-reference/authentication).
+
+```sh
+cool login --email owner@example.com
+cool publish ./site --name bakery --visibility private
+```
+
+Signed in, a new site is public unless you pass `--visibility private`. A private site opens only for you and the people you share it with.
 
 ## Next steps
 
 <CardGroup cols={2}>
   <Card title="Learn the CLI" icon="terminal" href="/use/cli">
-    Run commands, move files, and publish a service.
+    Publish releases, run commands, and keep a server running.
   </Card>
-  <Card title="See what persists" icon="hard-drive" href="/computers/persistence">
-    Check what stays when you disconnect.
+  <Card title="See how a computer works" icon="cpu" href="/computers/how-it-works">
+    Give a site a VM when the work needs a server, a bot, or a schedule.
   </Card>
 </CardGroup>

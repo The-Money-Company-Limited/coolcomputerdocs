@@ -21,7 +21,7 @@ The agent inside the computer works in `/home/runtime` and replies to the thread
 
 ## Who can start a task
 
-Only mail from your verified account address can start work, and only when it carries a DKIM signature from that address's own domain. Other messages reach the inbox but don't run a task. Each email's `intake_outcome` and `intake_detail`, in `runtime-env email inbox --json` and the HTTP API, say why and what to do next.
+Only mail from your verified account address can start work, and only when it carries a DKIM signature from that address's own domain. Other messages reach the inbox but don't run a task. Each email's `intake_outcome` and `intake_detail`, in `cool email read` and the HTTP API, say why and what to do next.
 
 ### Turn on DKIM for your own domain
 
@@ -37,13 +37,15 @@ To check, send a test email to another mailbox and open the received copy's orig
 
 Open [Chats](https://www.cool.computer/app/chats) to follow the conversation started by your email. The reply also arrives in the original email thread. Reply to that thread to continue the task.
 
-## Work with mail inside the computer
+## Read and send mail with the CLI
 
 ```sh
-runtime-env email address
-runtime-env email inbox --json
-runtime-env email read <email-id> --json
-runtime-env email send --to you@example.com --subject "Report" --text "Done."
+cool email bakery
+cool email read bakery <email-id>
+cool email send bakery --to you@example.com --subject "Report" --text "Done."
+cool email reply bakery <email-id> --text "Got it, thanks."
 ```
 
-The HTTP API and [MCP connector](/use/agents) also support reading and sending mail. Obtain approval for the exact recipient and content before sending. The `cool` CLI does not expose inbox operations.
+`cool email bakery` lists the newest mail, received and sent. `reply` answers one email in its thread. Every computer has an inbox, with or without a VM. Inside the computer, leave out its name: `cool email send --to you@example.com --subject "Report" --text "Done."`.
+
+The HTTP API and the [MCP server](/agents/overview#the-mcp-server) also read and send mail. Obtain approval for the exact recipient and content before sending.
