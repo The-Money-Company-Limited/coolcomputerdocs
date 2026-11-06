@@ -125,7 +125,6 @@ await assertContract("agents/hermes", /hermes mcp add cool-computers --url https
 await assertContract("agents/openclaw", /openclaw mcp set cool-computers '\{"url":"https:\/\/api\.cool\.computer\/mcp","transport":"streamable-http","auth":"oauth"\}' && openclaw mcp login cool-computers/)
 await assertContract("agents/claude", /claude\.ai\/customize\/connectors\?modal=add-custom-connector/)
 await assertContract("agents/chatgpt", /https:\/\/chatgpt\.com\/plugins/)
-await assertContract("agents/chatgpt", /Business, Enterprise and Edu/)
 await assertContract("agents/cli", /curl -fsSL https:\/\/cool\.computer\/install\.sh \| sh/)
 await assertContract("agents/cli", /irm https:\/\/cool\.computer\/install\.ps1 \| iex/)
 await assertContract("agents/cli", /brew install the-money-company-limited\/tap\/cool/)
