@@ -1,0 +1,56 @@
+---
+title: "Use Cool Computers with Gemini CLI"
+sidebarTitle: "Gemini CLI"
+description: "Paste 'Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page' into Gemini CLI, or install the Cool Computers extension."
+icon: "/images/agents/gemini.svg"
+---
+
+## Paste this
+
+Paste this sentence into Gemini CLI:
+
+```text wrap
+Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page
+```
+
+Gemini CLI installs `cool` and puts a welcome page online. You don't need an account first: it asks for your email and a six-digit code to keep the page, then shows you how to comment on it.
+
+## Connect it yourself
+
+Install the Cool Computers extension, which adds the MCP server and the `cool-computers` skill:
+
+```sh
+gemini extensions install https://github.com/The-Money-Company-Limited/cool-computers
+```
+
+Then, in Gemini CLI, run `/mcp auth cool-computers` to sign in, or sign up.
+
+### MCP server only
+
+```sh
+gemini mcp add --scope user --transport http cool-computers https://api.cool.computer/mcp
+```
+
+Or add it to `~/.gemini/settings.json`. Streamable HTTP servers take `httpUrl`:
+
+```json
+{
+  "mcpServers": {
+    "cool-computers": {
+      "httpUrl": "https://api.cool.computer/mcp"
+    }
+  }
+}
+```
+
+Then run `/mcp auth cool-computers` to sign in. With an API key, add `"headers": { "Authorization": "Bearer $COOL_API_KEY" }` beside `httpUrl` instead. Gemini CLI fills in the variable from your environment; [Other MCP clients](/agents/other-mcp-clients#with-an-api-key) shows how to create one.
+
+## Check it works
+
+Ask Gemini CLI:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It answers with your list. If you added the MCP server and it doesn't, run `/mcp` to see the server's state.

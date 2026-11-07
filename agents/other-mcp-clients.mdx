@@ -1,7 +1,7 @@
 ---
 title: "Use Cool Computers with other MCP clients"
 sidebarTitle: "Other MCP clients"
-description: "Paste 'Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page' into any agent that runs commands, or connect Gemini CLI, Antigravity, VS Code, Zed, Grok, or another MCP client."
+description: "Paste 'Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page' into any agent that runs commands, or connect Antigravity, VS Code, Zed, or another MCP client."
 icon: "blocks"
 ---
 
@@ -40,26 +40,6 @@ cool api-keys create my-agent
 ```
 
 The key is shown once. Keep it out of shared configuration and source control. The examples on these pages keep it in `COOL_API_KEY`.
-
-### Gemini CLI
-
-```sh
-gemini mcp add --scope user --transport http cool-computers https://api.cool.computer/mcp
-```
-
-Or add it to `~/.gemini/settings.json`. Streamable HTTP servers take `httpUrl`:
-
-```json
-{
-  "mcpServers": {
-    "cool-computers": {
-      "httpUrl": "https://api.cool.computer/mcp"
-    }
-  }
-}
-```
-
-Then run `/mcp auth cool-computers` to sign in. With an API key, add `"headers": { "Authorization": "Bearer $COOL_API_KEY" }` beside `httpUrl` instead. Gemini CLI fills in the variable from your environment.
 
 ### Antigravity CLI
 
