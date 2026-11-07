@@ -1,0 +1,54 @@
+---
+title: "Use Cool Computers with Codex"
+sidebarTitle: "Codex"
+description: "Paste 'Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page' into Codex, or install the Cool Computers plugin."
+icon: "/images/agents/openai.svg"
+---
+
+## Paste this
+
+Paste this sentence into Codex:
+
+```text wrap
+Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page
+```
+
+<Card title="Open Codex" icon="/images/agents/openai.svg" href="codex://new?prompt=Set%20up%20Cool%20for%20me%3A%20follow%20https%3A%2F%2Fcool.computer%2Fsetup.md%20and%20make%20me%20a%20welcome%20page">
+  Opens Codex in the ChatGPT desktop app with the sentence typed in. Nothing runs until you send it.
+</Card>
+
+Codex installs `cool` and puts a welcome page online. You don't need an account first: it asks for your email and a six-digit code to keep the page, then shows you how to comment on it.
+
+## Connect it yourself
+
+Install the [Cool Computers plugin](https://github.com/The-Money-Company-Limited/cool-computers). It adds the MCP server and the [`cool-computers` skill](/agents/overview#teach-your-agent):
+
+```sh
+codex plugin marketplace add The-Money-Company-Limited/cool-computers && codex plugin add cool-computers@cool-computers
+```
+
+Codex asks you to sign in to Cool Computers, or sign up, when it installs the plugin.
+
+The plugin marks its server `required`, so Codex waits for the Cool Computers tools before a task starts instead of running without them.
+
+### MCP server only
+
+```sh
+codex mcp add cool-computers --url https://api.cool.computer/mcp
+```
+
+Codex opens the browser to sign in, or sign up. `codex mcp login cool-computers` signs in again later.
+
+Then add `required = true` under `[mcp_servers.cool-computers]` in `~/.codex/config.toml`. Codex then waits for the Cool Computers tools before a task starts, and stops with an error if it cannot connect. The Codex CLI, the IDE extension, and the ChatGPT desktop app share this file.
+
+To use an API key instead of signing in, keep the key in `COOL_API_KEY` and add the server with `--bearer-token-env-var COOL_API_KEY`. [Other MCP clients](/agents/other-mcp-clients#with-an-api-key) shows how to create one.
+
+## Check it works
+
+Ask Codex:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It answers with your list. If you added the MCP server and it doesn't, run `codex mcp list` to confirm that `cool-computers` is enabled.

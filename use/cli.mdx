@@ -1,26 +1,47 @@
 ---
 title: "Cool Computers CLI"
 sidebarTitle: "Use the CLI"
-description: "Create computers, run commands, manage files, and publish a service with the official Cool Computers CLI."
+description: "Publish sites, give one a VM, run commands, manage files, and keep a server running with the official Cool Computers CLI."
 ---
 
-[Install the native CLI](/getting-started/install), then run `cool` by itself to open the account shell. Run a subcommand when you know the operation you need.
+[Install the native CLI](/agents/cli), then run `cool` by itself to open the account shell. Run a subcommand when you know the operation you need. `cool <command> --help` shows each command's arguments and flags.
 
-## Account and computers
+## Sign in
 
-Replace the email below with your address. `cool login` sends a code and signs you up or in. Enter the code when prompted. Agents must [ask the owner before sending the email](/api-reference/authentication).
+Replace the email below with your address. `cool login` sends a code and signs you in; `cool signup` makes a new account the same way. Enter the code when prompted. Agents must [ask the owner before sending the email](/api-reference/authentication).
 
 ```sh
 cool login --email owner@example.com
 ```
 
-Once signed in:
+`cool whoami` shows the signed-in account. `cool usage` shows the account's limits next to what it uses now; `cool usage --json` returns the `GET /api/usage` response.
+
+## Publish a site
+
+Publish files when you want to show something. `cool publish` is instant and needs no VM:
 
 ```sh
-cool create bakery
+cool publish ./site --name bakery --visibility private
+cool publish ./site --computer bakery
+cool publish notes.html --name mynotes --visibility private
 ```
 
-Interactive creation opens the computer's terminal. Run `exit` before running more commands locally:
+Without `--computer`, `cool publish` creates a new computer. With `--computer`, it publishes a new release to that computer. A single `.html` file is published as `index.html`. A new site is public unless you pass `--visibility private`; `cool share public bakery` opens it to everyone later. `cool releases bakery` lists the releases, and `cool releases promote bakery 2` makes an earlier one live again.
+
+A `cool.json` at the site's root configures the site. `spa: true` serves `index.html` for unknown paths. `functions` names a bundled module that answers `/api/` at the edge, and `secrets` names the secret set its environment comes from. `run` and `port` start a server, which gives the computer a VM on first use.
+
+Without signing in, `cool publish` creates a computer that is deleted after 24 hours. Keep it with `cool claim <claim-link>`, or publish to it again with `--claim <claim-link>`.
+
+## Computers with a VM
+
+A site has no VM until the work needs one: a server or bot that stays up, a scheduled job, or a long task. Give an existing site its VM, in place, or create a new computer that has one:
+
+```sh
+cool vm bakery
+cool create bakery-api --visibility private
+```
+
+A VM is an always-on Ubuntu machine with `sudo`, at the same address. VMs need the Pro plan; see [pricing](https://www.cool.computer/pricing). Giving a site a VM is one-way: afterwards `cool publish` to that site is refused, so change its files with `cool files` or `cool exec`. `cool create` returns once the computer runs and opens no shell.
 
 ```sh
 cool list
@@ -28,45 +49,24 @@ cool info bakery
 cool enter bakery
 ```
 
-Run `exit` to leave the computer's terminal. Creation with `--json` or redirected input or output returns without entering it. `cool capabilities --json` returns the limits and features applied to the signed-in account.
-
-## Publish a site
-
-Publish files when you want to show something. `cool publish` is instant and needs no Linux:
-
-```sh
-cool publish ./site --name bakery
-cool publish ./site --computer bakery
-cool publish notes.html --name mynotes --visibility private
-```
-
-Without `--computer`, `cool publish` creates a new computer. With `--computer`, `cool publish` publishes a new release to that computer. `cool publish` publishes a single `.html` file as `index.html`. `cool releases bakery` lists the releases, and `cool releases promote bakery 2` makes an earlier one live again.
-
-A `cool.json` at the site's root configures the site. `spa: true` serves `index.html` for unknown paths. `functions` names a bundled module that answers `/api/` at the edge, and `secrets` names the secret set its environment comes from. `run` and `port` start a server, which gives the computer Linux on first use.
-
-Without signing in, `cool publish` creates a computer that expires in 24 hours. Keep it with `cool claim <claim-link>`, or publish to it again with `--claim <claim-link>`.
+`cool enter bakery` opens the computer's terminal. Run `exit` to return to your local terminal.
 
 ## Run a command
 
-Use `cool exec` when you want the local process to pass arguments without shell parsing:
+`cool exec` runs a command on a computer with a VM. One word after the computer name is a shell line, run by bash. Two or more words are a program and its arguments, each passed exactly as written:
 
 ```sh
+cool exec bakery 'cd app && npm test'
 cool exec bakery -- npm test
 ```
 
-Use `cool run` when you want to send one shell command string:
-
-```sh
-cool run bakery "uname -a"
-```
-
-Executions continue after a client disconnect or timeout, and wait for background children to finish. Before running, `cool exec` prints its execution ID and an exact reattach command to stderr. Copy that command to reconnect:
+Quote the whole line when it holds `&&` or `|`, or your local shell runs that part. Executions continue after a client disconnect or timeout. To reconnect, use the execution ID that `cool exec` prints:
 
 ```sh
 cool exec --attach <execution-id>
 ```
 
-Use the ID printed by your command in place of `<execution-id>`. `cool run` also returns an execution ID when its wait times out. Use a configured service for a process that must stay available at the computer's public address.
+Use a service for a process that must stay available at the computer's address.
 
 ## Run a service
 
@@ -75,11 +75,15 @@ cool service run bakery --port 3000 -- npm start
 cool service logs bakery --tail 100 --timestamps
 ```
 
-The service is available at `bakery.cool.computer`. On a computer you published files to, the service answers the paths nothing published answers: the site's functions keep `/api/`, and a file in `/home/runtime/app` keeps its path and its clean URL (`about.html` answers `/about`, `index.html` its directory), so delete a published `index.html` for the service to answer `/`. Run `cool service --help` to see status, restart, stop, and clear commands.
+`cool service run` gives a site its VM if it has none, keeps one program running and restarts it when it crashes. With `--port`, the program answers at `bakery.cool.computer`. On a computer you published files to, the service answers the paths nothing published answers: the site's functions keep `/api/`, and a file in `/home/runtime/app` keeps its path and its clean URL (`about.html` answers `/about`, `index.html` its directory), so delete a published `index.html` for the service to answer `/`. Run `cool service --help` to see show, restart, stop, and clear.
 
 ## Work with files
 
-Run `cool files --help` for read, write, list, stat, directory, upload, and download commands. File changes remain on the writable disk when you disconnect.
+Run `cool files --help` for read, write, list, stat, directory, delete, upload, and download commands. `cool files list` and `cool files read` read a site's live release and never give it a VM. File changes on a computer with a VM stay on its disk when you disconnect.
+
+## Email
+
+Every computer has an inbox. `cool email bakery` lists its newest mail. See [Email your computer](/use/email#read-and-send-mail-with-the-cli) for reading, sending, and replying.
 
 ## Machine-readable output
 
