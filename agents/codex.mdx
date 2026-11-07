@@ -1,7 +1,7 @@
 ---
 title: "Use Cool Computers with Codex"
 sidebarTitle: "Codex"
-description: "Paste 'Read cool.computer/setup.md and make me a welcome page' into Codex, or install the Cool Computers plugin."
+description: "Paste 'Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page' into Codex, or install the Cool Computers plugin."
 icon: "/images/agents/openai.svg"
 ---
 
@@ -10,10 +10,10 @@ icon: "/images/agents/openai.svg"
 Paste this sentence into Codex:
 
 ```text wrap
-Read cool.computer/setup.md and make me a welcome page
+Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page
 ```
 
-<Card title="Open Codex" icon="/images/agents/openai.svg" href="codex://new?prompt=Read%20cool.computer%2Fsetup.md%20and%20make%20me%20a%20welcome%20page">
+<Card title="Open Codex" icon="/images/agents/openai.svg" href="codex://new?prompt=Set%20up%20Cool%20for%20me%3A%20follow%20https%3A%2F%2Fcool.computer%2Fsetup.md%20and%20make%20me%20a%20welcome%20page">
   Opens Codex in the ChatGPT desktop app with the sentence typed in. Nothing runs until you send it.
 </Card>
 
@@ -29,7 +29,7 @@ codex plugin marketplace add The-Money-Company-Limited/cool-computers && codex p
 
 Codex asks you to sign in to Cool Computers, or sign up, when it installs the plugin.
 
-Codex leaves out a server that is still connecting when a task starts, so it sometimes runs a task without the Cool Computers tools. A server you add yourself can be marked `required`, so that Codex waits for it; a plugin's server cannot. If this happens to you, add the server on its own instead of the plugin.
+The plugin marks its server `required`, so Codex waits for the Cool Computers tools before a task starts instead of running without them.
 
 ### MCP server only
 

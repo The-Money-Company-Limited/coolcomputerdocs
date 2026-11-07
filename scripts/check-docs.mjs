@@ -17,7 +17,7 @@ const routes = new Map(files.map((file) => [routeFor(file), file]))
 const sourceByFile = new Map(await Promise.all(files.map(async (file) => [file, await readFile(file, "utf8")])))
 const failures = []
 const mcpUrl = "https://api.cool.computer/mcp"
-const setupSentence = "Read cool.computer/setup.md and make me a welcome page"
+const setupSentence = "Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page"
 const chatTask = "make me a welcome page and put it on cool.computer"
 
 const vaguePatterns = [

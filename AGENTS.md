@@ -16,7 +16,7 @@
 - Describe current behavior only. Do not announce planned tools, prices, limits, or security controls.
 - The MCP server's `cool_*` tools read state and make owner-requested changes, including `cool_publish`, `cool_write_files`, and `cool_exec`. Check the server's current tool list before naming tools.
 - Name the MCP server `cool-computers` in every example.
-- The per-agent pages under "Connect your agent" share one shape. A page for an agent that runs commands has **Paste this** (`Read cool.computer/setup.md and make me a welcome page`), **Connect it yourself**, and **Check it works**. A chat app page (Claude, ChatGPT) has **Add the connector**, **Paste this** (only `make me a welcome page and put it on cool.computer`), and **Check it works**.
+- The per-agent pages under "Connect your agent" share one shape. A page for an agent that runs commands has **Paste this** (`Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page`), **Connect it yourself**, and **Check it works**. A chat app page (Claude, ChatGPT) has **Add the connector**, **Paste this** (only `make me a welcome page and put it on cool.computer`), and **Check it works**.
 
 ## Style preferences
 
