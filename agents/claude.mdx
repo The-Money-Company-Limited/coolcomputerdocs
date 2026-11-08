@@ -22,10 +22,10 @@ To use Cool Computers in a chat, choose **+** in the message box, then **Connect
   <Accordion title="Add the plugin">
     The Cool Computers plugin adds the connector and the [`cool-computers` skill](/agents/overview#teach-your-agent). Open **Customize**, then **Plugins**, choose **Discover**, search for Cool Computers and choose **Add**. Then open the plugin's **Connectors** tab and connect Cool Computers.
 
-    The plugin is saved to your account, so Claude Code picks it up too.
+    With plugin sync on, Claude Code 2.1.273 or later loads the plugin when it starts, if you're signed in with the same Claude account.
   </Accordion>
   <Accordion title="On a Team or Enterprise plan">
-    An Owner chooses **Connect for your team** on Cool Computers in the directory. Until then, members see **Request**.
+    An Owner or Primary Owner opens **Organization settings**, **Connectors**, chooses **Browse connectors**, selects Cool Computers and chooses **Add to your team**. Until then, members can choose **Request** on Cool Computers in the directory when connector requests are on.
 
     Each member then chooses **Connect** in **Customize**, **Connectors** and signs in to Cool Computers for themselves.
   </Accordion>
@@ -37,9 +37,9 @@ To use Cool Computers in a chat, choose **+** in the message box, then **Connect
     Or fill it in yourself:
 
     1. Open **Customize**, then **Connectors**.
-    2. Choose **Add custom connector**.
-    3. Name it Cool Computers and enter `https://api.cool.computer/mcp`.
-    4. If Claude asks how people sign in, choose **Sign in now**, and keep **Use Claude's published identity** as the OAuth client.
+    2. Choose **Add**, hover over **Custom**, then choose **Web**.
+    3. Name it Cool Computers, enter `https://api.cool.computer/mcp` and choose **Continue**.
+    4. Review the authentication Claude detected and choose **Continue**. If Claude asks how people sign in, choose **Sign in now**, and keep **Use Claude's published identity** as the OAuth client.
     5. Choose **Add**, then sign in to Cool Computers, or sign up.
 
     On a Team or Enterprise plan, an Owner adds it from **Organization settings**, **Connectors**, **Add**, **Custom**, **Web**. [This link](https://claude.ai/admin-settings/connectors?modal=add-custom-connector&connectorName=Cool%20Computers&connectorUrl=https%3A%2F%2Fapi.cool.computer%2Fmcp) opens that dialog filled in.
