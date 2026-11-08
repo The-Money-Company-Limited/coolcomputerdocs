@@ -1,7 +1,7 @@
 ---
 title: "Use Cool Computers with Cursor"
 sidebarTitle: "Cursor"
-description: "Paste the setup prompt into Cursor, or add the Cool Computers MCP server."
+description: "Paste the setup prompt into Cursor, or install the Cool Computers plugin from the Cursor Marketplace."
 icon: "/images/agents/cursor.svg"
 ---
 
@@ -32,40 +32,56 @@ Cursor installs `cool` and puts a welcome page online. You don't need an account
 
 ## Connect it yourself
 
-<Card title="Add to Cursor" icon="/images/agents/cursor.svg" href="https://cursor.com/en/install-mcp?name=cool-computers&config=eyJ1cmwiOiJodHRwczovL2FwaS5jb29sLmNvbXB1dGVyL21jcCJ9">
-  Cursor asks you to confirm the `cool-computers` server, then signs you in, or up.
+Install the Cool Computers plugin from the Cursor Marketplace. It adds the MCP server and the [`cool-computers` skill](/agents/overview#teach-your-agent).
+
+<Card title="Add to Cursor" icon="/images/agents/cursor.svg" href="https://cursor.com/marketplace/cool-computers">
+  Opens Cool Computers in the Cursor Marketplace.
 </Card>
 
-Or add the server yourself, to `~/.cursor/mcp.json` for every project or to `.cursor/mcp.json` in one project:
+Or type this in Cursor's agent:
 
-```json
-{
-  "mcpServers": {
-    "cool-computers": {
-      "url": "https://api.cool.computer/mcp"
-    }
-  }
-}
+```text
+/add-plugin cool-computers
 ```
 
-Cursor signs in to Cool Computers with OAuth the first time it connects.
+You can also open **Customize** in Cursor's sidebar, find Cool Computers and choose **Install**. Cursor signs in to Cool Computers with OAuth the first time it connects.
 
-To use an API key instead of signing in, keep the key in `COOL_API_KEY` and send it as a bearer token. [Other MCP clients](/agents/other-mcp-clients#with-an-api-key) shows how to create one.
+<AccordionGroup>
+  <Accordion title="Add it by hand">
+    <Card title="Add the MCP server to Cursor" icon="/images/agents/cursor.svg" href="https://cursor.com/en/install-mcp?name=cool-computers&config=eyJ1cmwiOiJodHRwczovL2FwaS5jb29sLmNvbXB1dGVyL21jcCJ9">
+      Cursor asks you to confirm the `cool-computers` server, then signs you in, or up.
+    </Card>
 
-```json
-{
-  "mcpServers": {
-    "cool-computers": {
-      "url": "https://api.cool.computer/mcp",
-      "headers": {
-        "Authorization": "Bearer ${env:COOL_API_KEY}"
+    Or add the server yourself, to `~/.cursor/mcp.json` for every project or to `.cursor/mcp.json` in one project:
+
+    ```json
+    {
+      "mcpServers": {
+        "cool-computers": {
+          "url": "https://api.cool.computer/mcp"
+        }
       }
     }
-  }
-}
-```
+    ```
 
-To add the `cool-computers` skill as well, see [Teach your agent](/agents/overview#teach-your-agent).
+    To use an API key instead of signing in, keep the key in `COOL_API_KEY` and send it as a bearer token. [Other MCP clients](/agents/other-mcp-clients#with-an-api-key) shows how to create one.
+
+    ```json
+    {
+      "mcpServers": {
+        "cool-computers": {
+          "url": "https://api.cool.computer/mcp",
+          "headers": {
+            "Authorization": "Bearer ${env:COOL_API_KEY}"
+          }
+        }
+      }
+    }
+    ```
+
+    To add the `cool-computers` skill as well, see [Teach your agent](/agents/overview#teach-your-agent).
+  </Accordion>
+</AccordionGroup>
 
 ## Check it works
 
@@ -75,4 +91,4 @@ Ask Cursor's agent:
 List my Cool Computers sites and computers. Don't change anything.
 ```
 
-It answers with your list. If you added the MCP server and it doesn't, check `cool-computers` under MCP in Cursor's settings.
+It answers with your list. If it doesn't, check `cool-computers` under MCP in Cursor's settings.

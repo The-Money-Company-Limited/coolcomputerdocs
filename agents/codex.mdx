@@ -1,7 +1,7 @@
 ---
 title: "Use Cool Computers with Codex"
 sidebarTitle: "Codex"
-description: "Paste the setup prompt into Codex, or install the Cool Computers plugin."
+description: "Paste the setup prompt into Codex, or install the Cool Computers plugin from the plugin directory."
 icon: "/images/agents/openai.svg"
 ---
 
@@ -32,15 +32,23 @@ Codex installs `cool` and puts a welcome page online. You don't need an account 
 
 ## Connect it yourself
 
-Install the [Cool Computers plugin](https://github.com/The-Money-Company-Limited/cool-computers). It adds the MCP server and the [`cool-computers` skill](/agents/overview#teach-your-agent):
+Install the Cool Computers plugin from the plugin directory that Codex shares with ChatGPT. It adds the MCP server and the [`cool-computers` skill](/agents/overview#teach-your-agent).
 
-```sh
-codex plugin marketplace add The-Money-Company-Limited/cool-computers && codex plugin add cool-computers@cool-computers
-```
-
-Codex asks you to sign in to Cool Computers, or sign up, when it installs the plugin.
+1. In Codex, run `/plugins` to open the plugin browser.
+2. Search for Cool Computers and install it.
+3. Start a new session. Codex asks you to sign in to Cool Computers, or sign up.
 
 The plugin marks its server `required`, so Codex waits for the Cool Computers tools before a task starts instead of running without them.
+
+<AccordionGroup>
+  <Accordion title="Add it by hand">
+    Install the plugin from its [GitHub marketplace](https://github.com/The-Money-Company-Limited/cool-computers) instead:
+
+    ```sh
+    codex plugin marketplace add The-Money-Company-Limited/cool-computers && codex plugin add cool-computers@cool-computers
+    ```
+  </Accordion>
+</AccordionGroup>
 
 ### MCP server only
 

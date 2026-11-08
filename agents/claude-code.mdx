@@ -1,7 +1,7 @@
 ---
 title: "Use Cool Computers with Claude Code"
 sidebarTitle: "Claude Code"
-description: "Paste the setup prompt into Claude Code, or install the Cool Computers plugin."
+description: "Paste the setup prompt into Claude Code, or install the Cool Computers plugin from the official marketplace."
 icon: "/images/agents/claude.svg"
 ---
 
@@ -32,13 +32,29 @@ Claude Code installs `cool` and puts a welcome page online. You don't need an ac
 
 ## Connect it yourself
 
-Install the [Cool Computers plugin](https://github.com/The-Money-Company-Limited/cool-computers). It adds the MCP server and the [`cool-computers` skill](/agents/overview#teach-your-agent), and needs Claude Code 2.1.292 or later:
+Install the [Cool Computers plugin](https://claude.com/marketplace/plugins/cool-computers) from Anthropic's official marketplace. It adds the MCP server and the [`cool-computers` skill](/agents/overview#teach-your-agent). In Claude Code, run:
+
+```text
+/plugin install cool-computers@claude-plugins-official
+```
+
+Or run `/plugin`, search for Cool Computers on the **Discover** tab, and install it. From your shell:
 
 ```sh
-claude plugin install cool-computers --marketplace The-Money-Company-Limited/cool-computers
+claude plugin install cool-computers@claude-plugins-official
 ```
 
 Then run `/mcp` in Claude Code, choose `plugin:cool-computers:cool-computers`, and sign in, or sign up, in the browser that opens.
+
+<AccordionGroup>
+  <Accordion title="Add it by hand">
+    Install the plugin from its [GitHub marketplace](https://github.com/The-Money-Company-Limited/cool-computers) instead. This needs Claude Code 2.1.292 or later:
+
+    ```sh
+    claude plugin install cool-computers --marketplace The-Money-Company-Limited/cool-computers
+    ```
+  </Accordion>
+</AccordionGroup>
 
 ### MCP server only
 

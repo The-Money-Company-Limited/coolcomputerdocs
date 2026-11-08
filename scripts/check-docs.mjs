@@ -97,6 +97,8 @@ assertContract("/agents/cli", /curl -fsSL https:\/\/cool\.computer\/install\.sh 
 assertContract("/agents/cli", /irm https:\/\/cool\.computer\/install\.ps1 \| iex/)
 assertContract("/agents/cli", /brew install the-money-company-limited\/tap\/cool/)
 assertContract("/api-reference/authentication", /same email-code flow for new and existing/)
+assertContract("/agents/claude-code", /cool-computers@claude-plugins-official/)
+assertContract("/agents/cursor", /\/add-plugin cool-computers/)
 
 const redirects = config.redirects ?? []
 for (const { source, destination } of redirects) {
@@ -293,7 +295,8 @@ function checkMcpServerName(name, source) {
   if (/"cool"\s*:/.test(source)) fail(name, "name the MCP server cool-computers, not cool")
 }
 
-// Every prefilled prompt or install link must decode to the exact prompt, task, or server it promises.
+// Every prefilled prompt or install link must decode to the exact prompt, task, or server it promises, and every store
+// listing link must open Cool Computers' own listing.
 function checkAgentLinks(name, links) {
   for (const href of links) {
     let url
@@ -315,6 +318,8 @@ function checkAgentLinks(name, links) {
       const config = Buffer.from(url.searchParams.get("config") ?? "", "base64").toString("utf8")
       if (url.searchParams.get("name") !== "cool-computers" || config !== JSON.stringify({ url: mcpUrl })) fail(name, `Cursor install link does not add cool-computers: ${href}`)
     }
+    const storeListing = { "claude.com": /^\/marketplace\/plugins\/([^/]+)$/, "cursor.com": /^\/marketplace\/([^/]+)$/ }[url.host]?.exec(url.pathname)
+    if (storeListing && storeListing[1] !== "cool-computers") fail(name, `store listing link must open cool-computers: ${href}`)
     if (url.searchParams.get("modal") === "add-custom-connector" && url.searchParams.get("connectorUrl") !== mcpUrl) {
       fail(name, `Claude connector link does not carry the MCP server: ${href}`)
     }
