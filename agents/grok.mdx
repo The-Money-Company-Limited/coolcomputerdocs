@@ -1,21 +1,31 @@
 ---
 title: "Use Cool Computers with Grok"
 sidebarTitle: "Grok"
-description: "Add Cool Computers to Grok as a custom connector, then ask it for a page."
+description: "Connect Cool Computers from Grok's connector catalog, then ask it for a page."
 icon: "/images/agents/grok.svg"
 ---
 
 ## Add the connector
 
-1. Open [grok.com](https://grok.com), then **Plugins**.
-2. Choose **New Connector**, then **Custom**.
-3. Name it Cool Computers and enter this URL:
+1. Open [Grok Connectors](https://grok.com/connectors).
+2. Choose **New Connector**, then search the catalog for Cool Computers and choose it.
+3. Sign in to Cool Computers, or sign up.
 
-   ```text
-   https://api.cool.computer/mcp
-   ```
+On Grok Business and Enterprise, an admin adds the connector in the xAI console first. Members then connect it at [grok.com/connectors](https://grok.com/connectors).
 
-4. Sign in to Cool Computers, or sign up.
+<AccordionGroup>
+  <Accordion title="Add it by hand">
+    1. Open [Grok Connectors](https://grok.com/connectors).
+    2. Choose **New Connector**, then **Custom**.
+    3. Name it Cool Computers and enter this URL:
+
+       ```text
+       https://api.cool.computer/mcp
+       ```
+
+    4. Sign in to Cool Computers, or sign up.
+  </Accordion>
+</AccordionGroup>
 
 ## Paste this
 
@@ -35,4 +45,4 @@ Ask Grok:
 List my Cool Computers sites and computers. Don't change anything.
 ```
 
-It answers with your list. If it doesn't, open **Plugins** and check that Cool Computers is connected.
+It answers with your list. If it doesn't, open [Grok Connectors](https://grok.com/connectors) and check that Cool Computers is connected.
