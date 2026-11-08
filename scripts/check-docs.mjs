@@ -17,7 +17,8 @@ const routes = new Map(files.map((file) => [routeFor(file), file]))
 const sourceByFile = new Map(await Promise.all(files.map(async (file) => [file, await readFile(file, "utf8")])))
 const failures = []
 const mcpUrl = "https://api.cool.computer/mcp"
-const setupSentence = "Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page"
+// The prompt a reader pastes into an agent that runs commands, in their own words; every page shows it word for word.
+const setupPrompt = (await readFile(join(root, "scripts/setup-prompt.txt"), "utf8")).trimEnd()
 const chatTask = "make me a welcome page and put it on cool.computer"
 
 const vaguePatterns = [
@@ -70,7 +71,7 @@ for (const file of files) {
   checkIcons(name, source)
   checkCommands(name, source)
   checkMcpServerName(name, source)
-  if (name.startsWith("agents/")) checkPromptBlocks(name, source)
+  if (name.startsWith("agents/") || name === "getting-started/quickstart.mdx") checkPromptBlocks(name, source)
 }
 
 const navRoutes = collectNavRoutes(config.navigation?.pages ?? [])
@@ -292,7 +293,7 @@ function checkMcpServerName(name, source) {
   if (/"cool"\s*:/.test(source)) fail(name, "name the MCP server cool-computers, not cool")
 }
 
-// Every prefilled prompt or install link must decode to the exact sentence, task, or server it promises.
+// Every prefilled prompt or install link must decode to the exact prompt, task, or server it promises.
 function checkAgentLinks(name, links) {
   for (const href of links) {
     let url
@@ -302,10 +303,10 @@ function checkAgentLinks(name, links) {
       continue
     }
     const [param, expected] = {
-      "claude-cli:": ["q", setupSentence],
-      "codex:": ["prompt", setupSentence],
+      "claude-cli:": ["q", setupPrompt],
+      "codex:": ["prompt", setupPrompt],
     }[url.protocol] ?? {
-      "cursor.com/link/prompt": ["text", setupSentence],
+      "cursor.com/link/prompt": ["text", setupPrompt],
       "claude.ai/new": ["q", chatTask],
       "chatgpt.com/": ["q", chatTask],
     }[`${url.host}${url.pathname}`] ?? []
@@ -320,10 +321,10 @@ function checkAgentLinks(name, links) {
   }
 }
 
-// A wrapped text block on an agent page is the prompt a reader pastes.
+// A wrapped text block on an agent page or the quickstart is the prompt a reader pastes.
 function checkPromptBlocks(name, source) {
   for (const [, prompt] of source.matchAll(/^[ \t]*```text wrap[ \t]*\n([\s\S]*?)\n[ \t]*```/gm)) {
-    if (prompt !== setupSentence && prompt !== chatTask) fail(name, `a pasted prompt must be the setup sentence or the chat task: ${prompt}`)
+    if (prompt !== setupPrompt && prompt !== chatTask) fail(name, `a pasted prompt must be the setup prompt or the chat task: ${prompt}`)
   }
 }
 
