@@ -1,0 +1,180 @@
+---
+title: "Install the Cool Computers CLI"
+sidebarTitle: "Install the CLI"
+description: "Install the native cool command on macOS, Linux, or Windows, sign in, and teach your local coding agents to use it."
+icon: "terminal"
+---
+
+The `cool` command is a native binary. It does not need Node.js or Python.
+
+## Install
+
+<Tabs>
+  <Tab title="macOS and Linux">
+    ```sh
+    curl -fsSL https://cool.computer/install.sh | sh
+    ```
+  </Tab>
+  <Tab title="Windows">
+    In PowerShell:
+
+    ```powershell
+    irm https://cool.computer/install.ps1 | iex
+    ```
+
+    The installer adds `cool` to the current PowerShell session and your user `PATH`. Restart terminal apps that were already open.
+  </Tab>
+  <Tab title="Homebrew">
+    ```sh
+    brew install the-money-company-limited/tap/cool
+    ```
+
+    The official tap installs the native binary for macOS on Apple Silicon or Intel, or Linux on ARM64 or x64.
+  </Tab>
+</Tabs>
+
+Then run `cool` by itself. It opens the account shell, where you sign in, or sign up, and publish. To sign in from a script, run `cool login --email owner@example.com`, or `cool signup --email owner@example.com` for a new account. Agents must [ask the owner before sending the email](/api-reference/authentication).
+
+Without an account, `cool publish` still works: the site is public, and it is deleted after 24 hours unless you claim it. See [Use the CLI](/use/cli) for every command.
+
+## Check it works
+
+```sh
+cool list
+```
+
+It lists your sites and computers. Run `cool whoami` to see which account is signed in.
+
+## Agent instructions
+
+The standalone installer, and standalone updates, write a short versioned block that tells your local coding agents to use `cool`. It goes into the user-level instruction file of each agent whose configuration directory exists:
+
+- Claude Code: `~/.claude/CLAUDE.md`
+- Codex: `~/.codex/AGENTS.md`
+- Pi: `~/.pi/agent/AGENTS.md`
+- OpenCode: `~/.config/opencode/AGENTS.md`
+
+It also writes the `cool-computers` skill, which sends the agent to `cool skill` for the full guide: `~/.claude/skills/cool-computers/SKILL.md` for Claude Code, and `~/.agents/skills/cool-computers/SKILL.md` for Codex, Pi and OpenCode. A `cool-computers` skill it did not write, such as one installed from skills.sh, stays as it is.
+
+For Pi it also writes the extension `~/.pi/agent/extensions/cool-computers.ts`, which [Pi](/agents/pi#the-skill-and-the-comments-extension) describes.
+
+The block starts with `## Cool Computers CLI - cool - v<date>` and ends with the line `<!-- end: Cool Computers CLI -->`. A newer version replaces it in place, and everything outside it stays as it was.
+
+Homebrew leaves agent instruction files and skills unchanged. To add or refresh them yourself:
+
+```sh
+cool agents install
+```
+
+To remove them from every file:
+
+```sh
+cool agents remove
+```
+
+## Update
+
+For Homebrew installations:
+
+```sh
+brew upgrade the-money-company-limited/tap/cool
+```
+
+`cool update` also directs Homebrew installations to this command.
+
+For standalone installations, run the updater:
+
+```sh
+cool update
+```
+
+Press Enter at the `[Y/n]` prompt to install the update. For scripts, use `cool update --yes`; `cool update --check` checks without installing. The updater verifies the official versioned installer before it runs it. On Windows, it stages the new executable first, then replaces `cool.exe` as soon as the old CLI process exits.
+
+You can also run the installer again.
+
+## Remove
+
+Run `cool agents remove` first to remove the agent instructions, the skill and the Pi extension.
+
+For Homebrew installations:
+
+```sh
+brew uninstall cool
+```
+
+For standalone installations:
+
+<Tabs>
+  <Tab title="macOS and Linux">
+    ```sh
+    rm -f ~/.local/bin/cool
+    ```
+  </Tab>
+  <Tab title="Windows">
+    ```powershell
+    $installDir = "$env:LOCALAPPDATA\Programs\coolcomputer"
+    $executable = "$installDir\cool.exe"
+    if (Test-Path -LiteralPath $executable) {
+      Remove-Item -LiteralPath $executable -ErrorAction Stop
+    }
+    $pathChanged = $false
+    $environmentKey = [Microsoft.Win32.Registry]::CurrentUser.CreateSubKey("Environment")
+    if ($null -eq $environmentKey) {
+      throw "cool could not open the user environment registry key"
+    }
+    try {
+      if ($environmentKey.GetValueNames() -contains "Path") {
+        $pathKind = $environmentKey.GetValueKind("Path")
+        if ($pathKind -ne [Microsoft.Win32.RegistryValueKind]::String -and $pathKind -ne [Microsoft.Win32.RegistryValueKind]::ExpandString) {
+          throw "the user PATH registry value is not a string"
+        }
+        $userPath = [string]$environmentKey.GetValue("Path", "", [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames)
+        $pathEntries = @($userPath -split ";")
+        $newPathEntries = @($pathEntries | Where-Object {
+          $entry = if ($pathKind -eq [Microsoft.Win32.RegistryValueKind]::ExpandString) {
+            [Environment]::ExpandEnvironmentVariables($_)
+          } else {
+            $_
+          }
+          $entry -ne $installDir
+        })
+        if ($newPathEntries.Count -ne $pathEntries.Count) {
+          $newPath = $newPathEntries -join ";"
+          if ($newPath) {
+            $environmentKey.SetValue("Path", $newPath, $pathKind)
+          } else {
+            $environmentKey.DeleteValue("Path")
+          }
+          $pathChanged = $true
+        }
+      }
+    } finally {
+      $environmentKey.Dispose()
+    }
+    $env:Path = (($env:Path -split ";" | Where-Object { $_ -ne $installDir }) -join ";")
+    if ($pathChanged) {
+      try {
+        if (-not ("CoolComputer.NativeEnvironment" -as [type])) {
+          Add-Type -TypeDefinition @"
+    using System;
+    using System.Runtime.InteropServices;
+    namespace CoolComputer {
+      public static class NativeEnvironment {
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern IntPtr SendMessageTimeout(IntPtr window, uint message, UIntPtr wparam, string lparam, uint flags, uint timeout, out UIntPtr result);
+      }
+    }
+    "@
+        }
+        $result = [UIntPtr]::Zero
+        $published = [CoolComputer.NativeEnvironment]::SendMessageTimeout([IntPtr]0xffff, 0x001a, [UIntPtr]::Zero, "Environment", 0x0002, 5000, [ref]$result)
+        if ($published -eq [IntPtr]::Zero) {
+          Write-Warning "cool was removed from your user PATH, but Windows did not notify running apps. Restart them to reload PATH."
+        }
+      } catch {
+        Write-Warning "cool was removed from your user PATH, but Windows could not notify running apps: $_"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>

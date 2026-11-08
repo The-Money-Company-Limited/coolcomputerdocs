@@ -1,0 +1,56 @@
+---
+title: "Use Cool Computers with Claude Code"
+sidebarTitle: "Claude Code"
+description: "Paste 'Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page' into Claude Code, or install the Cool Computers plugin."
+icon: "/images/agents/claude.svg"
+---
+
+## Paste this
+
+Paste this sentence into Claude Code:
+
+```text wrap
+Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page
+```
+
+<Card title="Open Claude Code" icon="/images/agents/claude.svg" href="claude-cli://open?q=Set%20up%20Cool%20for%20me%3A%20follow%20https%3A%2F%2Fcool.computer%2Fsetup.md%20and%20make%20me%20a%20welcome%20page">
+  Opens Claude Code with the sentence typed in. Nothing runs until you press Enter. The link works once Claude Code has run on this machine.
+</Card>
+
+Claude Code installs `cool` and puts a welcome page online. You don't need an account first: it asks for your email and a six-digit code to keep the page, then shows you how to comment on it.
+
+## Connect it yourself
+
+Install the [Cool Computers plugin](https://github.com/The-Money-Company-Limited/cool-computers). It adds the MCP server and the [`cool-computers` skill](/agents/overview#teach-your-agent), and needs Claude Code 2.1.292 or later:
+
+```sh
+claude plugin install cool-computers --marketplace The-Money-Company-Limited/cool-computers
+```
+
+Then run `/mcp` in Claude Code, choose `plugin:cool-computers:cool-computers`, and sign in, or sign up, in the browser that opens.
+
+### MCP server only
+
+To add the server without the skill, for every project:
+
+```sh
+claude mcp add --scope user --transport http cool-computers https://api.cool.computer/mcp
+```
+
+Run `/mcp`, choose `cool-computers`, and sign in.
+
+To use an API key instead of signing in, keep the key in `COOL_API_KEY` and send it as a bearer token. [Other MCP clients](/agents/other-mcp-clients#with-an-api-key) shows how to create one.
+
+```sh
+claude mcp add --scope user --transport http cool-computers https://api.cool.computer/mcp --header "Authorization: Bearer $COOL_API_KEY"
+```
+
+## Check it works
+
+Ask Claude Code:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It answers with your list. If you added the MCP server and it doesn't, run `/mcp` in Claude Code to see the server's state.

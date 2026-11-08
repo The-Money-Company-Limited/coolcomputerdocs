@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Cool Computer Services",
+  "name": "Cool Computers",
   "colors": {
     "primary": "#155DFF",
     "light": "#6AA0FF",
@@ -30,8 +30,26 @@
         "group": "Start here",
         "pages": [
           "index",
-          "getting-started/quickstart",
-          "getting-started/install"
+          "getting-started/quickstart"
+        ]
+      },
+      {
+        "group": "Connect your agent",
+        "pages": [
+          "agents/overview",
+          "agents/claude-code",
+          "agents/codex",
+          "agents/cursor",
+          "agents/pi",
+          "agents/gemini",
+          "agents/hermes",
+          "agents/openclaw",
+          "agents/claude",
+          "agents/chatgpt",
+          "agents/grok",
+          "agents/other-mcp-clients",
+          "agents/cli",
+          "agents/ssh"
         ]
       },
       {
@@ -45,10 +63,7 @@
         "group": "Use it",
         "pages": [
           "use/cli",
-          "use/ssh",
-          "use/email",
-          "use/mcp",
-          "use/agents"
+          "use/email"
         ]
       },
       {
@@ -78,6 +93,24 @@
       ]
     }
   },
+  "redirects": [
+    {
+      "source": "/use/mcp",
+      "destination": "/agents/overview"
+    },
+    {
+      "source": "/use/agents",
+      "destination": "/agents/overview"
+    },
+    {
+      "source": "/use/ssh",
+      "destination": "/agents/ssh"
+    },
+    {
+      "source": "/getting-started/install",
+      "destination": "/agents/cli"
+    }
+  ],
   "navbar": {
     "links": [
       {
@@ -97,11 +130,8 @@
       "view",
       "chatgpt",
       "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
+      "perplexity"
     ]
   },
-  "description": "The official Cool Computers user and developer guide: CLI, HTTP API, authentication, MCP, and persistent computers."
+  "description": "The official Cool Computers user and developer guide: connect your agent, the CLI, the HTTP API, authentication, and computers."
 }

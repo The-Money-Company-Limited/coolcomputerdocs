@@ -1,0 +1,48 @@
+---
+title: "Open Cool Computers with SSH"
+sidebarTitle: "SSH"
+description: "Open your Cool Computers account shell from macOS, Linux, or Windows with OpenSSH. Nothing to install."
+icon: "key"
+---
+
+## Connect
+
+From any terminal with OpenSSH:
+
+```sh
+ssh cool.computer
+```
+
+## Check the host
+
+Compare this Ed25519 fingerprint before accepting the host key:
+
+```text
+SHA256:x/Yv91AEM680Eq8RtKQEPQXoBLMbczOAS6kZX77AwyI
+```
+
+## First connection
+
+`ssh cool.computer` opens your account shell, the same `cool>` prompt as running `cool` by itself. You don't need the Cool Computers CLI.
+
+OpenSSH proves your selected public key. Cool Computers then asks for your email address and a six-digit code, and signs you in or up. After verification, that key is bound to your account and later connections open the shell directly. The SSH username is ignored. While Cool Computers is full, an email with no account and no invitation joins the waitlist, and the shell says so instead of opening.
+
+## Choose a key
+
+OpenSSH offers identities in order. If you have several keys, select the one you want Cool Computers to bind:
+
+```sh
+ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519 cool.computer
+```
+
+Create an Ed25519 key with `ssh-keygen -t ed25519` if you don't have one.
+
+## Windows
+
+On Windows 10 build 1809 or later and Windows 11, run the same commands from PowerShell or Windows Terminal. If `ssh` is missing, install the **OpenSSH Client** optional feature in Windows Settings.
+
+## Limits
+
+`ssh cool.computer` only runs the account shell. It does not accept remote commands, file transfer, or forwarding. To work inside a computer with a VM, use `cool enter bakery` or `cool ssh bakery`.
+
+The `cool.computer` SSH endpoint is IPv4-only.

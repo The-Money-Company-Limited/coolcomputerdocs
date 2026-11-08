@@ -1,0 +1,82 @@
+---
+title: "Connect your agent to Cool Computers"
+sidebarTitle: "Overview"
+description: "Use Cool Computers from Claude Code, Codex, Cursor, Pi, Hermes Agent, OpenClaw, Claude, ChatGPT, any MCP client, the CLI, or SSH."
+icon: "plug"
+---
+
+Your agent makes something, and Cool Computers puts it online at `name.cool.computer`. Pick the way in that matches your agent.
+
+## Paste this
+
+An agent that runs commands needs one sentence:
+
+```text wrap
+Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page
+```
+
+The agent reads the [setup guide](https://cool.computer/setup.md), installs `cool` and puts a welcome page online. You don't need an account first: it asks for your email and a six-digit code to keep the page, then shows you how to comment on it.
+
+Claude, ChatGPT and Grok don't run commands. Add Cool Computers to them as a connector, then ask:
+
+```text wrap
+make me a welcome page and put it on cool.computer
+```
+
+## Coding agents
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" icon="/images/agents/claude.svg" href="/agents/claude-code" />
+  <Card title="Codex" icon="/images/agents/openai.svg" href="/agents/codex" />
+  <Card title="Cursor" icon="/images/agents/cursor.svg" href="/agents/cursor" />
+  <Card title="Pi" icon="/images/agents/pi.svg" href="/agents/pi" />
+  <Card title="Gemini CLI" icon="/images/agents/gemini.svg" href="/agents/gemini" />
+  <Card title="Hermes Agent" icon="/images/agents/hermes.svg" href="/agents/hermes" />
+  <Card title="OpenClaw" icon="/images/agents/openclaw.svg" href="/agents/openclaw" />
+  <Card title="Other MCP clients" icon="blocks" href="/agents/other-mcp-clients">
+    Antigravity, VS Code, Zed, and any other client.
+  </Card>
+</CardGroup>
+
+## Chat apps
+
+<CardGroup cols={2}>
+  <Card title="Claude" icon="/images/agents/claude.svg" href="/agents/claude">
+    Add the connector in one click.
+  </Card>
+  <Card title="ChatGPT" icon="/images/agents/openai.svg" href="/agents/chatgpt">
+    Add the connector as a plugin.
+  </Card>
+  <Card title="Grok" icon="/images/agents/grok.svg" href="/agents/grok">
+    Add a custom connector.
+  </Card>
+</CardGroup>
+
+## By hand
+
+<CardGroup cols={2}>
+  <Card title="Install the CLI" icon="terminal" href="/agents/cli">
+    Install `cool` on macOS, Linux, or Windows.
+  </Card>
+  <Card title="SSH" icon="key" href="/agents/ssh">
+    Run `ssh cool.computer`. Nothing to install.
+  </Card>
+</CardGroup>
+
+## The MCP server
+
+Every MCP client connects to the same server, named `cool-computers`. [Other MCP clients](/agents/other-mcp-clients#connect-it-yourself) has its address, how it signs in, what its tools do, and how to use an API key instead.
+
+## Teach your agent
+
+The `cool-computers` skill teaches an agent when to publish a page, how to answer comments and drawings, and when a site needs a VM.
+
+- The standalone [CLI installer](/agents/cli#agent-instructions) writes it, with a short block of instructions, for Claude Code, Codex, Pi, and OpenCode.
+- The Claude Code and Codex plugins include it.
+- Any other agent that reads skills can install it:
+
+  ```sh
+  npx skills add The-Money-Company-Limited/cool-computers
+  ```
+
+The skill is listed for discovery at [/.well-known/agent-skills/index.json](https://cool.computer/.well-known/agent-skills/index.json). For everything after setup, your agent reads [cool.computer/agents.md](https://cool.computer/agents.md) or runs `cool skill`.

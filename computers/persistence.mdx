@@ -3,11 +3,15 @@ title: "What persists"
 description: "See what stays on your computer when you leave the terminal or close the browser."
 ---
 
-Your computer stays running until you delete it. A computer created by `cool publish` without signing in expires, with its site, in 24 hours unless you [claim it](/use/cli#publish-a-site). Closing a browser tab or leaving a terminal keeps its disk and identity in place.
+A computer stays on your account until you delete it. One made by `cool publish` without signing in is deleted, with its site, after 24 hours unless you [claim it](/use/cli#publish-a-site). Closing a browser tab or leaving a terminal keeps its files and identity in place.
+
+## Published files
+
+A site's releases stay until you delete the computer. `cool releases bakery` lists them, and `cool releases promote bakery 2` makes an earlier one live again.
 
 ## Writable disk
 
-The complete writable disk persists. This includes code, installed packages, databases, configuration, and local state.
+On a computer with a VM, the VM keeps running after you disconnect, and its complete writable disk persists. This includes code, installed packages, databases, configuration, and local state.
 
 ## Identity
 
@@ -15,7 +19,7 @@ The computer keeps its name, `name.cool.computer` address, and `name@mail.cool.c
 
 ## Configured service
 
-The configured service keeps running after you disconnect. Requests to the public address that no published file answers reach its exposed HTTP port. If the process exits, inspect its logs and restart it with `cool service restart bakery`.
+On a computer with a VM, the configured service keeps running after you disconnect. Requests to the public address that no published file answers reach its exposed HTTP port. If the process exits, inspect its logs and restart it with `cool service restart bakery`.
 
 ## Deletion
 

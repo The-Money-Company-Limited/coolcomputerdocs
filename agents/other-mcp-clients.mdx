@@ -1,0 +1,138 @@
+---
+title: "Use Cool Computers with other MCP clients"
+sidebarTitle: "Other MCP clients"
+description: "Paste 'Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page' into any agent that runs commands, or connect Antigravity, VS Code, Zed, or another MCP client."
+icon: "blocks"
+---
+
+## Paste this
+
+Any agent that runs commands can start from one sentence:
+
+```text wrap
+Set up Cool for me: follow https://cool.computer/setup.md and make me a welcome page
+```
+
+The agent installs `cool` and puts a welcome page online. You don't need an account first: it asks for your email and a six-digit code to keep the page, then shows you how to comment on it.
+
+## Connect it yourself
+
+Register the server as a remote Streamable HTTP MCP server named `cool-computers`:
+
+```text
+https://api.cool.computer/mcp
+```
+
+It signs in with OAuth, as its [protected resource metadata](https://api.cool.computer/.well-known/oauth-protected-resource/mcp) describes, and a new user can sign up during the sign-in. Its [server card](https://cool.computer/.well-known/mcp/server-card.json) lists it for discovery.
+
+The server's `cool_*` tools read your sites, computers, files, comments, and email. Its write tools publish a site (`cool_publish`), write files (`cool_write_files`), run a command on a computer with a VM (`cool_exec`), answer comments, and send email. Read tools need your sign-in. Write tools also check that your account holds the `cool-computers:operate` permission at the moment of the call. An MCP sign-in does not work for the [HTTP API](/api-reference/overview).
+
+A tool being available is not permission to use it. Ask your agent for the change you want, and approve email and long-running programs yourself.
+
+Agents that read skills can also add the [`cool-computers` skill](/agents/overview#teach-your-agent).
+
+### With an API key
+
+A client that cannot do OAuth can send a Cool Computers API key as `Authorization: Bearer <api_key>`. Tool calls run on the key's account, and revoking the key ends its MCP access. Create a key in [Settings](https://www.cool.computer/account), or name one with the CLI:
+
+```sh
+cool api-keys create my-agent
+```
+
+The key is shown once. Keep it out of shared configuration and source control. The examples on these pages keep it in `COOL_API_KEY`.
+
+### Antigravity CLI
+
+Add the server to `~/.gemini/config/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "cool-computers": {
+      "serverUrl": "https://api.cool.computer/mcp"
+    }
+  }
+}
+```
+
+### VS Code
+
+Add the server to `.vscode/mcp.json` in your workspace:
+
+```json
+{
+  "servers": {
+    "cool-computers": {
+      "type": "http",
+      "url": "https://api.cool.computer/mcp"
+    }
+  }
+}
+```
+
+VS Code opens the browser to sign in to Cool Computers the first time it connects.
+
+In a local session only, an API key works too: VS Code asks for it once and stores it. VS Code does not forward a server that needs an `${input:...}` value to Copilot harness sessions.
+
+```json
+{
+  "inputs": [
+    { "type": "promptString", "id": "cool-api-key", "description": "Cool Computers API key", "password": true }
+  ],
+  "servers": {
+    "cool-computers": {
+      "type": "http",
+      "url": "https://api.cool.computer/mcp",
+      "headers": { "Authorization": "Bearer ${input:cool-api-key}" }
+    }
+  }
+}
+```
+
+### Zed
+
+Add the server to `context_servers` in Zed's `settings.json`:
+
+```json
+{
+  "context_servers": {
+    "cool-computers": {
+      "url": "https://api.cool.computer/mcp"
+    }
+  }
+}
+```
+
+With no `Authorization` header, Zed signs in with OAuth. With an API key, add a `headers` object beside `url` whose `Authorization` is `Bearer` followed by the key.
+
+### Grok CLI
+
+```sh
+grok mcp add --transport http cool-computers https://api.cool.computer/mcp
+```
+
+OAuth opens on first use. You can also start `grok`, enter `/mcps`, select `cool-computers`, and press `i` to sign in.
+
+### Grok
+
+1. Open [Grok Connectors](https://grok.com/connectors).
+2. Choose **New Connector**, then **Custom**.
+3. Enter `https://api.cool.computer/mcp` and complete the sign-in.
+
+### Claude and ChatGPT
+
+See [Claude](/agents/claude) and [ChatGPT](/agents/chatgpt).
+
+## Check it works
+
+Ask the agent:
+
+```text
+List my Cool Computers sites and computers. Don't change anything.
+```
+
+It answers with your list. If you added the MCP server and it doesn't:
+
+- **Sign-in did not open:** run the client's login command or open its MCP settings and choose to authenticate.
+- **The server is not connected:** use the client's status command, such as `grok mcp doctor cool-computers`, to see its error.
+- **The tools only search this guide:** you connected this guide's documentation server. Remove it and add `https://api.cool.computer/mcp`. The documentation server only searches this guide and cannot reach your sites or computers.
